@@ -16,38 +16,38 @@ public class Logger {
 
     public static void log(String msg) {
         if(isRecording) recordedLogs.add(msg);
-        else    bLogger.log(Level.INFO, Constants.DECORATED_NAME +msg);
+        else bLogger.log(Level.INFO, Constants.DECORATED_NAME +msg);
     }
 
 
     public static void log(String str, Object... args) {
         String msg = String.format(str, args);
         if(isRecording) recordedLogs.add(msg);
-        else    bLogger.log(Level.INFO, Constants.DECORATED_NAME +msg);
+        else bLogger.log(Level.INFO, Constants.DECORATED_NAME +msg);
     }
 
     public static void log(Object obj) {
         String msg = obj.toString();
         if(isRecording) recordedLogs.add(msg);
-        else    bLogger.log(Level.INFO, Constants.DECORATED_NAME +msg);
+        else bLogger.log(Level.INFO, Constants.DECORATED_NAME +msg);
     }
 
     public static void log(Level level, String msg) {
         if(isRecording) recordedLogs.add(msg);
-        else    bLogger.log(level, Constants.DECORATED_NAME +msg);
+        else bLogger.log(level, Constants.DECORATED_NAME +msg);
     }
 
 
     public static void log(Level level, String str, Object... args) {
         String msg = String.format(str, args);
         if(isRecording) recordedLogs.add(msg);
-        else    bLogger.log(level, Constants.DECORATED_NAME +msg);
+        else bLogger.log(level, Constants.DECORATED_NAME +msg);
     }
 
     public static void log(Level level, Object obj) {
         String msg = obj.toString();
         if(isRecording) recordedLogs.add(msg);
-        else    bLogger.log(level, Constants.DECORATED_NAME +msg);
+        else bLogger.log(level, Constants.DECORATED_NAME +msg);
     }
 
     public static void record() {
