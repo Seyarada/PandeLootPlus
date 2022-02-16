@@ -1,0 +1,21 @@
+Settings:
+  Debug: true
+Announcements:
+  ScoreHologram:
+    - '&8&m========================'
+    - '%mob.name% &7- &a%mob.hp%HP'
+    - '&e#1 &7|&b &f%1.name% &7|&b %1.dmg%%'
+    - '&6#2 &7|&b &f%2.name% &7|&b %2.dmg%%'
+    - '&3#3 &7|&b &f%3.name% &7|&b %3.dmg%%'
+    - ''
+    - 'Your rank: &a#%player.rank% | %player.dmg%'
+    - '&8&m========================'
+  ScoreMessage:
+    - '&8&m========================================'
+    - '%mob.name% &7- &a%mob.hp%HP'
+    - '&e#1 &7|&b &f%1.name% &7|&b %1.dmg%%'
+    - '&6#2 &7|&b &f%2.name% &7|&b %2.dmg%%'
+    - '&3#3 &7|&b &f%3.name% &7|&b %3.dmg%%'
+    - ''
+    - 'Your rank: &a#%player.rank%'
+    - '&8&m========================================'

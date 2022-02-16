@@ -1,0 +1,11 @@
+# Only use this file for making *vanilla* mobs drop PandeLoot rewards
+# or mob plugins that haven't been added to the compatibility list yet
+# For MythicMobs and similar, check the compatibility page at the wiki
+ExampleMob:
+  Type: Wither_Skeleton
+  Display: 'Great Skeleton Boss'
+  World: some_world
+  Rewards:
+  - coal
+  Options:
+    ScoreHologram: false

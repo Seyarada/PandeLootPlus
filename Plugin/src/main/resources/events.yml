@@ -1,0 +1,3 @@
+onBlockBreak:
+  Enabled: false
+  Flags: '{glow=true;color=BLUE}'
