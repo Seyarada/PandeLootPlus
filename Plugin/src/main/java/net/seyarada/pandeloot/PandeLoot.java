@@ -22,6 +22,9 @@ public class PandeLoot extends JavaPlugin implements Listener {
 
     public static PandeLoot inst;
     public static boolean papiEnabled = false;
+    public static boolean mythicEnabled = false;
+    public static boolean ecoEnabled = false;
+    public static boolean discordEnabled = false;
 
     @Override
     public void onEnable() {
@@ -44,11 +47,13 @@ public class PandeLoot extends JavaPlugin implements Listener {
         pluginManager.registerEvents(new ContainersGUI(null), this);
 
         if(pluginManager.getPlugin("MythicMobs")!=null) {
+            mythicEnabled = true;
             pluginManager.registerEvents(new MythicMobsListener(), this);
             Logger.log("Loaded MythicMobs support");
         }
 
         if(pluginManager.getPlugin("Vault")!=null) {
+            ecoEnabled = true;
             VaultCompatibility.setupEconomy();
             Logger.log("Loaded Vault support");
         }
@@ -64,7 +69,7 @@ public class PandeLoot extends JavaPlugin implements Listener {
         }
 
         if(pluginManager.getPlugin("DiscordSRV")!=null) {
-            // This does nothing honestly
+            discordEnabled = true;
             Logger.log("Loaded DiscordSRV support");
         }
 

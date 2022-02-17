@@ -13,7 +13,28 @@
     <maven.compiler.target>16</maven.compiler.target>
   </properties>
 
+  <distributionManagement>
+    <repository>
+      <id>nexus</id>
+      <name>Lumine Releases</name>
+      <url>https://mvn.lumine.io/repository/maven-releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>nexus</id>
+      <name>Lumine Snapshots</name>
+      <url>https://mvn.lumine.io/repository/maven-snapshots/</url>
+    </snapshotRepository>
+
+  </distributionManagement>
+
+
   <repositories>
+
+    <!-- MythicMobs -->
+    <repository>
+      <id>nexus</id>
+      <url>https://mvn.lumine.io/repository/maven-public/</url>
+    </repository>
 
     <!-- DiscordSVR -->
     <repository>
@@ -21,16 +42,10 @@
       <url>https://nexus.scarsz.me/content/groups/public/</url>
     </repository>
 
-    <!-- MythicMobs -->
-    <repository>
-      <id>zz_lumine-repo</id>
-      <url>http://mvn.lumine.io/repository/maven-releases/</url>
-    </repository>
-
     <!-- PAPI -->
     <repository>
       <id>placeholderapi</id>
-      <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+      <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
     </repository>
 
     <!-- Vault -->
@@ -47,7 +62,7 @@
     <!-- Citizens -->
     <repository>
       <id>everything</id>
-      <url>http://repo.citizensnpcs.co/</url>
+      <url>https://repo.citizensnpcs.co/</url>
     </repository>
 
   </repositories>
@@ -99,25 +114,34 @@
 
     <!-- MythicLib -->
     <dependency>
-      <groupId>io.lumine.xikage</groupId>
-      <artifactId>MythicMobs</artifactId>
-      <version>4.11.0-BETA</version>
+      <groupId>io.lumine</groupId>
+      <artifactId>MythicLib-dist</artifactId>
+      <version>1.3-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
 
     <!-- MythicMobs -->
     <dependency>
       <groupId>io.lumine</groupId>
-      <artifactId>MythicLib</artifactId>
-      <version>1.0.6</version>
+      <artifactId>Mythic</artifactId>
+      <version>5.0.0-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
+
+    <dependency>
+      <groupId>io.lumine</groupId>
+      <artifactId>LumineUtils</artifactId>
+      <version>1.16.1-20210326.031037-28</version>
+      <scope>provided</scope>
+    </dependency>
+
+
 
     <!-- MMOItems -->
     <dependency>
       <groupId>net.Indyuce</groupId>
       <artifactId>MMOItems</artifactId>
-      <version>6.5.4</version>
+      <version>6.7</version>
       <scope>provided</scope>
     </dependency>
 
@@ -166,14 +190,12 @@
     <finalName>pandeloot</finalName>
     <!-- Define filtering for the inclusion of plugin.yml, so we can utilize the pom.xml version in it -->
     <resources>
+
       <resource>
         <targetPath>.</targetPath>
-        <filtering>true</filtering>
         <directory>src/main/resources</directory>
-        <includes>
-          <include>plugin.yml</include>
-        </includes>
       </resource>
+
     </resources>
     <plugins>
       <plugin>

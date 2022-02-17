@@ -1,6 +1,7 @@
 package net.seyarada.pandeloot.flags;
 
 import net.seyarada.pandeloot.Logger;
+import net.seyarada.pandeloot.PandeLoot;
 import net.seyarada.pandeloot.flags.conditions.*;
 import net.seyarada.pandeloot.flags.effects.*;
 import net.seyarada.pandeloot.flags.types.IFlag;
@@ -40,15 +41,12 @@ public class FlagManager {
         registerFlag(new CommandFlag());
         registerFlag(new ConsumeItemFlag());
         registerFlag(new DelayFlag());
-        registerFlag(new DiscordFlag());
-        registerFlag(new EconomyFlag());
         registerFlag(new ExperienceFlag());
         registerFlag(new ExplodeFlag());
         registerFlag(new FireworkFlag());
         registerFlag(new GlowFlag());
         registerFlag(new HologramFlag());
         registerFlag(new MessageFlag());
-        registerFlag(new MythicSkillFlag());
         registerFlag(new PityFlag());
         registerFlag(new PreventPickupFlag());
         registerFlag(new RemoveFlag());
@@ -60,6 +58,10 @@ public class FlagManager {
         registerFlag(new ToInventoryFlag());
         registerFlag(new ToastFlag());
         registerFlag(new VisibilityFlag());
+
+        if (PandeLoot.discordEnabled) registerFlag(new DiscordFlag());
+        if (PandeLoot.ecoEnabled) registerFlag(new EconomyFlag());
+        if (PandeLoot.mythicEnabled) registerFlag(new MythicSkillFlag());
     }
 
     public void loadConditionFlags() {
@@ -68,9 +70,10 @@ public class FlagManager {
         registerFlag(new FirstHitFlag());
         registerFlag(new HoldingFlag());
         registerFlag(new LastHitFlag());
-        registerFlag(new MythicConditionFlag());
         registerFlag(new PermissionFlag());
         registerFlag(new TopFlag());
+
+        if (PandeLoot.mythicEnabled) registerFlag(new MythicConditionFlag());
     }
 
     void registerFlag(IFlag flag) {
