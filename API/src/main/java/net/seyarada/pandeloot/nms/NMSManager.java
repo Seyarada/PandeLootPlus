@@ -1,14 +1,18 @@
 package net.seyarada.pandeloot.nms;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
 
 public final class NMSManager {
+
+    public static final net.md_5.bungee.api.ChatColor ACCENT = net.md_5.bungee.api.ChatColor.of("#d0bb94");
+    public static final String PLUGIN_NAME = "PandeLoot";
+    public static final String DECORATED_NAME = ACCENT +"["+ PLUGIN_NAME +"] "+ ChatColor.RESET;
 
     static final Map<Integer, List<UUID>> hiddenItems = new ConcurrentHashMap<>();
     static NMSMethods nms;
@@ -21,17 +25,15 @@ public final class NMSManager {
         // Get the last element of the package
 
         try {
-            Bukkit.getLogger().log(Level.WARNING, "Package name: "+"net.seyarada.pandeloot.nms." + version + "." + version.toUpperCase());
             final Class<?> clazz = Class.forName("net.seyarada.pandeloot.nms." + version + "." + version.toUpperCase());
             // Check if we have a NMSHandler class at that location.
             if (NMSMethods.class.isAssignableFrom(clazz)) { // Make sure it actually implements NMS
                 nms = (NMSMethods) clazz.getConstructor().newInstance(); // Set our handler
-                Bukkit.getLogger().info("Loading support for " + version);
+                Bukkit.getLogger().info(DECORATED_NAME + "Loading support for " + version);
             }
         } catch (final Exception e) {
             e.printStackTrace();
-            Bukkit.getLogger().severe("Could not find support for this CraftBukkit version.");
-            Bukkit.getLogger().info("Check for updates at URL HERE");
+            Bukkit.getLogger().severe(DECORATED_NAME + "Could not find support for this CraftBukkit version");
         }
     }
 

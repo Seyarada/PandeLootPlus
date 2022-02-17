@@ -9,7 +9,7 @@ import net.seyarada.pandeloot.drops.containers.IContainer;
 import net.seyarada.pandeloot.flags.FlagManager;
 import net.seyarada.pandeloot.flags.effects.DelayFlag;
 import net.seyarada.pandeloot.nms.NMSManager;
-import net.seyarada.pandeloot.trackers.DamageTracker;
+import net.seyarada.pandeloot.trackers.DamageBoard;
 import net.seyarada.pandeloot.utils.ChatUtils;
 import net.seyarada.pandeloot.utils.MathUtils;
 import org.apache.commons.lang.text.StrSubstitutor;
@@ -29,7 +29,7 @@ public class LootDrop {
     public final Location l;
     public Entity dropEntity;
 
-    public DamageTracker.DamageBoard damageBoard;
+    public DamageBoard damageBoard;
     public Entity sourceEntity;
 
     // Flags things
@@ -64,7 +64,7 @@ public class LootDrop {
         return baseDropList.size();
     }
 
-    public LootDrop setDamageBoard(DamageTracker.DamageBoard dB) {
+    public LootDrop setDamageBoard(DamageBoard dB) {
         this.damageBoard = dB;
         return this;
     }

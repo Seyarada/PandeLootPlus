@@ -65,6 +65,7 @@ public class FlagManager {
     public void loadConditionFlags() {
         registerFlag(new ChanceFlag());
         registerFlag(new DamageFlag());
+        registerFlag(new FirstHitFlag());
         registerFlag(new HoldingFlag());
         registerFlag(new LastHitFlag());
         registerFlag(new MythicConditionFlag());

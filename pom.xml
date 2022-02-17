@@ -10,7 +10,6 @@
   <version>parent</version>
   <!-- I keep my versions of the internal projects static, so I don't have to rename them all the time. -->
   <name>pandeloot Parent</name>
-  <url>http://kitteh.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>16</maven.compiler.source>

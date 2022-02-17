@@ -8,17 +8,17 @@ import net.seyarada.pandeloot.flags.types.ICondition;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-@FlagEffect(id="lasthit", description="Determines the active color of a drop")
-public class LastHitFlag implements ICondition {
+@FlagEffect(id="firsthit", description="Determines the active color of a drop")
+public class FirstHitFlag implements ICondition {
 
     @Override
     public boolean onCheck(FlagPack.FlagModifiers values, LootDrop lootDrop, IDrop itemDrop) {
         if(lootDrop.p==null) return true;
         if(values.getBoolean()) {
-            return lootDrop.damageBoard.lastHit==lootDrop.p.getUniqueId();
+            return lootDrop.damageBoard.firstHit==lootDrop.p.getUniqueId();
         }
         return true;
-    }
+}
 
     @Override
     public boolean onCheckNoLootDrop(FlagPack.FlagModifiers values, Entity entity, Player player) {

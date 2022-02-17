@@ -5,7 +5,7 @@ import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagEffect;
 import net.seyarada.pandeloot.flags.FlagPack;
 import net.seyarada.pandeloot.flags.types.ICondition;
-import net.seyarada.pandeloot.trackers.DamageTracker;
+import net.seyarada.pandeloot.trackers.DamageBoard;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
@@ -19,7 +19,7 @@ public class TopFlag implements ICondition {
         if(lootDrop.p==null) return true;
         if(lootDrop.damageBoard==null) return true;
 
-        DamageTracker.DamageBoard dB = lootDrop.damageBoard;
+        DamageBoard dB = lootDrop.damageBoard;
         UUID uuid = lootDrop.p.getUniqueId();
 
         if(values.getString().contains("to")) {

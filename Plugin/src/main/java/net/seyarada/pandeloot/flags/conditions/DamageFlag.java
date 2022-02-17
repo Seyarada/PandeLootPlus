@@ -5,7 +5,7 @@ import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagEffect;
 import net.seyarada.pandeloot.flags.FlagPack;
 import net.seyarada.pandeloot.flags.types.ICondition;
-import net.seyarada.pandeloot.trackers.DamageTracker;
+import net.seyarada.pandeloot.trackers.DamageBoard;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 public class DamageFlag implements ICondition {
 
     boolean passesCheck(LootDrop drop, Player player, FlagPack.FlagModifiers values) {
-        DamageTracker.DamageBoard dB = drop.damageBoard;
+        DamageBoard dB = drop.damageBoard;
         if(dB==null) return true;
 
         String requiredDamage = values.getString();
