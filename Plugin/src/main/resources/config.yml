@@ -19,3 +19,7 @@ Announcements:
     - ''
     - 'Your rank: &a#%player.rank%'
     - '&8&m========================================'
+DefaultFlag:
+  Glow: true
+  Explode: true
+  Visibility: player

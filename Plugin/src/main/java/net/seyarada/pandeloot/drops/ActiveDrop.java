@@ -106,7 +106,7 @@ public class ActiveDrop {
     public void startLootBagRollRunnable(IContainer bag, LootDrop drop, FlagPack flags) {
         Item i = (Item)e;
         FlagPack droppedFlags = new FlagPack();
-        droppedFlags.addPack(flags);
+        droppedFlags.merge(flags);
         droppedFlags.flags.remove(FlagTrigger.onspawn);
         List<IDrop> drops = bag.getDropList(drop);
         lootbagRollerID = Bukkit.getScheduler().scheduleSyncRepeatingTask(PandeLoot.inst, () -> {
@@ -117,8 +117,8 @@ public class ActiveDrop {
             ItemUtils.writeData(iS, Constants.LOCK_LOOTBAG, "true");
             ItemUtils.writeData(iS, Constants.LOOTBAG_KEY, bag.getConfig().getName());
             FlagPack combinedPack = new FlagPack();
-            combinedPack.addPack(iDrop.getFlagPack());
-            combinedPack.addPack(droppedFlags);
+            combinedPack.merge(iDrop.getFlagPack());
+            combinedPack.merge(droppedFlags);
             ItemUtils.setFlags(iS, combinedPack);
 
             combinedPack.trigger(FlagTrigger.onroll, i, drop.p);

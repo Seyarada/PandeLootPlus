@@ -82,7 +82,7 @@ public class DamageBoard {
         }
     }
 
-    public static boolean existsFor(UUID uuid) {
+    public static boolean contains(UUID uuid) {
         return damageBoards.containsKey(uuid);
     }
 

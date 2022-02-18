@@ -40,7 +40,7 @@ public class MythicMobsListener implements Listener {
     @EventHandler
     public void onDeath(MythicMobDeathEvent e) {
         UUID mob = e.getEntity().getUniqueId();
-        if(!DamageBoard.existsFor(mob)) return;
+        if(!DamageBoard.contains(mob)) return;
 
         MythicConfig config = e.getMobType().getConfig();
         boolean scoreMessage = config.getBoolean("Options.ScoreMessage");

@@ -19,6 +19,7 @@ import java.util.List;
 
 public class Config {
 
+    public static FlagPack defaultFlagPack = new FlagPack();
     public static boolean debug;
     public static boolean ignoreCitizensDamage;
 
@@ -36,8 +37,6 @@ public class Config {
     static File pityFile;
     static YamlConfiguration boosterConfig;
     static YamlConfiguration pityConfig;
-
-
 
     public static List<Storable> storables = new ArrayList<>();
 
@@ -67,6 +66,10 @@ public class Config {
 
         storables.forEach(Storable::load);
 
+        ConfigurationSection flagSection = configFile.getConfigurationSection("DefaultFlag");
+        if(flagSection!=null && flagSection.getKeys(false).size()>0) {
+            defaultFlagPack = FlagPack.fromExtended(flagSection);
+        }
         debug = configFile.getBoolean("Settings.Debug");
         ignoreCitizensDamage = configFile.getBoolean("Settings.IgnoreCitizensDamage");
     }

@@ -105,7 +105,7 @@ public final class LootBag extends LootTable {
     public IDrop getDrop(FlagPack pack) {
         ItemStack iS = ItemUtils.getItemFromSection(config);
         FlagPack droppedFlags = new FlagPack();
-        droppedFlags.addPack(pack);
+        droppedFlags.merge(pack);
         droppedFlags.flags.remove(FlagTrigger.onspawn);
         ItemUtils.setFlags(iS, droppedFlags);
         ItemUtils.writeData(iS, Constants.LOOTBAG_KEY, config.getName());

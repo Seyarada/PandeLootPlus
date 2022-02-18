@@ -25,7 +25,7 @@ public class DamageTracker implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onDamaged(EntityDamageByEntityEvent e) {
         UUID mob = e.getEntity().getUniqueId();
-        if(!DamageBoard.existsFor(mob)) return;
+        if(!DamageBoard.contains(mob)) return;
 
         Player player = null;
         if(e.getDamager() instanceof Player p)
@@ -57,7 +57,7 @@ public class DamageTracker implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onDeath(EntityDeathEvent e) {
         UUID mob = e.getEntity().getUniqueId();
-        if(!DamageBoard.existsFor(mob)) return;
+        if(!DamageBoard.contains(mob)) return;
 
         ConfigurationSection config = Config.getMob(e.getEntity());
         if(config==null) return;

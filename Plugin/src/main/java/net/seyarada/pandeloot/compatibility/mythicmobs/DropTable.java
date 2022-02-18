@@ -52,7 +52,7 @@ public class DropTable implements IContainer {
                 for(Drop type : drops) {
                     if(type instanceof IItemDrop iDrop) {
                         FlagPack itemFlags = FlagPack.fromCompact(type.getLine());
-                        itemFlags.addPack(pack);
+                        itemFlags.merge(pack);
                         dropList.add(new ItemDrop(BukkitAdapter.adapt(iDrop.getDrop(meta)), itemFlags));
                     }
                 }

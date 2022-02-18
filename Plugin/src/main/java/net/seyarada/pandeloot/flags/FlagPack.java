@@ -1,6 +1,7 @@
 package net.seyarada.pandeloot.flags;
 
 import net.seyarada.pandeloot.Logger;
+import net.seyarada.pandeloot.config.Config;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.ItemDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
@@ -83,8 +84,6 @@ public class FlagPack {
 
     }
 
-    // - diamond{onpickup=[message=hello;give=10];explode=true <shape=sphere>;broadcast=hello world!}
-
     public static FlagPack fromCompact(String line) {
         String lineWithoutItem = line.substring(line.indexOf("{")+1).strip();
         if(lineWithoutItem.contains(" ")) {
@@ -95,6 +94,7 @@ public class FlagPack {
         FlagPack pack = new FlagPack();
         pack.stringFlags = lineWithoutItem;
         pack.linealReader(lineWithoutItem);
+        pack.merge(Config.defaultFlagPack);
         cache.put(lineWithoutItem, pack);
         return pack;
     }
@@ -104,6 +104,7 @@ public class FlagPack {
 
         FlagPack pack = new FlagPack();
         pack.configReader(config);
+        pack.merge(Config.defaultFlagPack);
         predefinedPacks.put(config.getName(), pack);
         return pack;
     }
@@ -271,7 +272,7 @@ public class FlagPack {
                     if(!predefinedPacks.containsKey(pack))
                         Logger.log(Level.WARNING, "Predefined pack %s not found", pack);
                     else
-                        addPack(predefinedPacks.get(pack));
+                        merge(predefinedPacks.get(pack));
                     continue;
                 }
 
@@ -322,7 +323,7 @@ public class FlagPack {
         map.put(trigger, innerMap);
     }
 
-    public void addPack(FlagPack pack) {
+    public void merge(FlagPack pack) {
         flags.putAll(pack.flags);
         conditionFlags.putAll(pack.conditionFlags);
     }
