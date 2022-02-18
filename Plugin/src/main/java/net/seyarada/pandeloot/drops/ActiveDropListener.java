@@ -93,11 +93,8 @@ public class ActiveDropListener implements Listener {
     public void onItemMerge(ItemMergeEvent e) {
         ActiveDrop aE = ActiveDrop.get(e.getEntity());
         ActiveDrop aT = ActiveDrop.get(e.getTarget());
-        if(aE!=null && aT!=null) {
-            if(aE.p!=null && aT.p!=null) {
-                if(aE.p!=aT.p)
-                    e.setCancelled(true);
-            }
+        if(aE!=null || aT!=null) {
+            e.setCancelled(true);
         }
     }
 
