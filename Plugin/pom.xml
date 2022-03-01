@@ -87,6 +87,14 @@
     </dependency>
     <dependency>
       <groupId>net.seyarada</groupId>
+      <artifactId>pandeloot-v1_18_2</artifactId>
+      <version>v1_18_2</version>
+      <type>jar</type>
+      <scope>compile</scope>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>net.seyarada</groupId>
       <artifactId>pandeloot-api</artifactId>
       <version>API</version>
       <type>jar</type>
@@ -208,6 +216,16 @@
             <goals>
               <goal>shade</goal>
             </goals>
+            <configuration>
+              <filters>
+                <filter>
+                  <artifact>*:*</artifact>
+                  <excludes>
+                    <exclude>META-INF/**</exclude>
+                  </excludes>
+                </filter>
+              </filters>
+            </configuration>
           </execution>
         </executions>
       </plugin>

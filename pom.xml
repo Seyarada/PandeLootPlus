@@ -20,6 +20,7 @@
     <module>API</module>
     <module>v1_17</module>
     <module>v1_18</module>
+    <module>v1_18_2</module>
     <module>Plugin</module>
   </modules>
 
