@@ -1,5 +1,6 @@
 Settings:
-  Debug: true
+  Debug: false
+  IgnoreCitizensDamage: true
 Announcements:
   ScoreHologram:
     - '&8&m========================'

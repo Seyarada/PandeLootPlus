@@ -1,6 +1,7 @@
 package net.seyarada.pandeloot.drops;
 
 import me.clip.placeholderapi.PlaceholderAPI;
+import net.seyarada.pandeloot.Logger;
 import net.seyarada.pandeloot.PandeLoot;
 import net.seyarada.pandeloot.config.Boosts;
 import net.seyarada.pandeloot.config.Config;
@@ -161,7 +162,14 @@ public class LootDrop {
     public void displayScoreHolograms() {
         if(p==null) return;
         Location loc = (l==null) ? p.getLocation() : l;
-        NMSManager.get().hologram(400, loc, this.p, Config.getScoreHologram(), PandeLoot.inst);
+
+        List<String> lines = new ArrayList<>();
+        Config.getScoreMessage().forEach(msg -> {
+            msg = parse(msg);
+            if(msg!=null) lines.add(msg);
+        });
+
+        NMSManager.get().hologram(400, loc, this.p, lines, PandeLoot.inst);
     }
 
     public void displayScoreMessage() {

@@ -53,6 +53,7 @@ public class DamageBoard {
             String visualDamage = MathUtils.dd.format(entry.getValue());
             placeholders.put(i+".name", p.getDisplayName());
             placeholders.put(i+".damage", visualDamage);
+            placeholders.put(i+".dmg", getPercent(i-1, false));
             placeholders.put(i+".percent", getPercent(i-1, false));
             placeholders.put(i+".ratio", getPercent(i-1, true));
             i++;
