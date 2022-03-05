@@ -117,6 +117,7 @@ public class LootDrop {
     }
 
     public void drop() {
+        Logger.log("Doing drops for %s", p.getName());
         for(IDrop drop : itemDrops) {
             if(!continueDrops) break;
 
@@ -124,11 +125,11 @@ public class LootDrop {
                 totalDelay += drop.getFlagPack().getFlag(delayFlag).getLong();
             }
 
+            Logger.log("Running drop %s with flags %s", drop, drop.getFlagPack());
             if(totalDelay>0)
                 Bukkit.getScheduler().runTaskLater(PandeLoot.inst, () -> drop.run(this), totalDelay);
             else
                 drop.run(this);
-
             }
     }
 
@@ -147,11 +148,18 @@ public class LootDrop {
     public ArrayList<IDrop> collectDrops(List<IDrop> drops) {
         ArrayList<IDrop> toDrop = new ArrayList<>();
 
+        Logger.log("Collecting Drops");
         for(IDrop drop : drops) {
-            if(!drop.passesConditions(this)) continue;
+            Logger.log("Collecting %s", drop);
+            if(!drop.passesConditions(this)) {
+                Logger.log("Drop failed conditions");
+                continue;
+            }
             if(drop instanceof ItemDrop || drop instanceof EntityDrop) {
+                Logger.log("Adding drop");
                 toDrop.add(drop);
             } else if(drop instanceof IContainer itemContainer) {
+                Logger.log("Drop is a container, adding all");
                 toDrop.addAll(itemContainer.getDropList(this));
             }
         }

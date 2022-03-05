@@ -4,6 +4,7 @@ import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMechanicLoadEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobDeathEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobSpawnEvent;
 import io.lumine.xikage.mythicmobs.io.MythicConfig;
+import net.seyarada.pandeloot.Logger;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.trackers.DamageBoard;
@@ -49,6 +50,7 @@ public class MythicMobsListener implements Listener {
         List<String> strings = e.getMobType().getConfig().getStringList("Rewards");
         ArrayList<IDrop> itemsToDrop = IDrop.getAsDrop(strings);
 
+        Logger.record();
         DamageBoard damageBoard = DamageBoard.get(mob);
         damageBoard.compileInformation();
 
@@ -63,6 +65,7 @@ public class MythicMobsListener implements Listener {
 
             lootDrop.drop();
         }
+        Logger.print();
 
         DamageBoard.remove(mob);
     }
