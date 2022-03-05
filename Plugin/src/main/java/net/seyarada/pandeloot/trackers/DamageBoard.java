@@ -1,6 +1,7 @@
 package net.seyarada.pandeloot.trackers;
 
 import net.seyarada.pandeloot.Logger;
+import net.seyarada.pandeloot.config.Config;
 import net.seyarada.pandeloot.utils.MathUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
@@ -60,8 +61,8 @@ public class DamageBoard {
             i++;
         }
 
-        Logger.log("Damage Board Results:");
-        Logger.log("  "+playersAndDamage);
+        if(Config.debug) Logger.log("Damage Board Results:");
+        if(Config.debug) Logger.log("  "+playersAndDamage);
     }
 
     public String getPercent(int rank, boolean isRatio) {

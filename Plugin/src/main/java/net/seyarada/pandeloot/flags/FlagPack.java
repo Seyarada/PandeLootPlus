@@ -97,6 +97,7 @@ public class FlagPack {
         pack.linealReader(lineWithoutItem);
         pack.merge(Config.defaultFlagPack);
         cache.put(lineWithoutItem, pack);
+        if(Config.debug) Logger.log("Generated flag pack %s from %s", pack, line);
         return pack;
     }
 
@@ -107,6 +108,7 @@ public class FlagPack {
         pack.configReader(config);
         pack.merge(Config.defaultFlagPack);
         predefinedPacks.put(config.getName(), pack);
+        if(Config.debug) Logger.log("Generated flag pack %s from %s", pack, config.getName());
         return pack;
     }
 
