@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 
 public class FlagPack {
@@ -324,8 +325,29 @@ public class FlagPack {
     }
 
     public void merge(FlagPack pack) {
-        flags.putAll(pack.flags);
-        conditionFlags.putAll(pack.conditionFlags);
+        for(Map.Entry<FlagTrigger, HashMap<IFlag, FlagModifiers>> entry : pack.flags.entrySet()) {
+            if(!flags.containsKey(entry.getKey())) {
+                flags.put(entry.getKey(), entry.getValue());
+            } else {
+                HashMap<IFlag, FlagModifiers> subMap = flags.get(entry.getKey());
+                for(Map.Entry<IFlag, FlagModifiers> subEntry : entry.getValue().entrySet()) {
+                    subMap.putIfAbsent(subEntry.getKey(), subEntry.getValue());
+                }
+                flags.put(entry.getKey(), subMap);
+            }
+        }
+
+        for(Map.Entry<FlagTrigger, HashMap<ICondition, FlagModifiers>> entry : pack.conditionFlags.entrySet()) {
+            if(!conditionFlags.containsKey(entry.getKey())) {
+                conditionFlags.put(entry.getKey(), entry.getValue());
+            } else {
+                HashMap<ICondition, FlagModifiers> subMap = conditionFlags.get(entry.getKey());
+                for(Map.Entry<ICondition, FlagModifiers> subEntry : entry.getValue().entrySet()) {
+                    subMap.putIfAbsent(subEntry.getKey(), subEntry.getValue());
+                }
+                conditionFlags.put(entry.getKey(), subMap);
+            }
+        }
     }
 
     public boolean passesConditions(FlagTrigger trigger, Entity entity, Player player) {
