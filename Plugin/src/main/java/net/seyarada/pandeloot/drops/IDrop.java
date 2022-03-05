@@ -95,10 +95,10 @@ public interface IDrop {
 
     }
 
-    static ArrayList<IDrop> getAsDrop(List<String> strListDrop) {
+    static ArrayList<IDrop> getAsDrop(List<String> strListDrop, Player player) {
         ArrayList<IDrop> dropList = new ArrayList<>();
         for(String str : strListDrop) {
-            dropList.add(getAsDrop(str, null));
+            dropList.add(getAsDrop(str, player));
         }
         return dropList;
     }

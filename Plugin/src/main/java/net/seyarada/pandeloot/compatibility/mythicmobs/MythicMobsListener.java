@@ -10,6 +10,7 @@ import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.trackers.DamageBoard;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -48,14 +49,15 @@ public class MythicMobsListener implements Listener {
         boolean scoreHologram = config.getBoolean("Options.ScoreHologram");
 
         List<String> strings = e.getMobType().getConfig().getStringList("Rewards");
-        ArrayList<IDrop> itemsToDrop = IDrop.getAsDrop(strings);
 
         Logger.record();
         DamageBoard damageBoard = DamageBoard.get(mob);
         damageBoard.compileInformation();
 
         for(UUID uuid : damageBoard.playersAndDamage.keySet()) {
-            LootDrop lootDrop = new LootDrop(itemsToDrop, Bukkit.getPlayer(uuid), e.getEntity().getLocation())
+            Player player = Bukkit.getPlayer(uuid);
+            ArrayList<IDrop> itemsToDrop = IDrop.getAsDrop(strings, player);
+            LootDrop lootDrop = new LootDrop(itemsToDrop, player, e.getEntity().getLocation())
                     .setDamageBoard(damageBoard)
                     .setSourceEntity(e.getEntity())
                     .build();

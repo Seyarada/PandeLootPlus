@@ -28,7 +28,7 @@ public class LootTable implements IContainer {
 
     public LootTable(ConfigurationSection config) {
         if (config.contains("Rewards")) {
-            dropList = IDrop.getAsDrop(config.getStringList("Rewards"));
+            dropList = IDrop.getAsDrop(config.getStringList("Rewards"), null);
         }
         this.config = config;
         guaranteedItems = Math.min(config.getInt("Guaranteed"), dropList.size());

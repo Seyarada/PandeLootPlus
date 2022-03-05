@@ -62,6 +62,7 @@ public class FlagManager {
         if (PandeLoot.discordEnabled) registerFlag(new DiscordFlag());
         if (PandeLoot.ecoEnabled) registerFlag(new EconomyFlag());
         if (PandeLoot.mythicEnabled) registerFlag(new MythicSkillFlag());
+        if (PandeLoot.mmoItemsEnabled) registerFlag(new TypeFlag());
     }
 
     public void loadConditionFlags() {

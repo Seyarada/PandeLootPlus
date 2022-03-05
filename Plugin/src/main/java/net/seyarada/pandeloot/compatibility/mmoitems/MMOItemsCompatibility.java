@@ -23,7 +23,7 @@ public class MMOItemsCompatibility {
         else
             dropItem = new MMOItemDropItem(type, item, 1.0D, 0d, 1, 1);
 
-        PlayerData playerData = PlayerData.get(player);
+        PlayerData playerData = player != null ? PlayerData.get(player) : null;
         return dropItem.getItem(playerData);
     }
 

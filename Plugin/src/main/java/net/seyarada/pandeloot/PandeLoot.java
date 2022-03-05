@@ -25,11 +25,13 @@ public class PandeLoot extends JavaPlugin implements Listener {
     public static boolean mythicEnabled = false;
     public static boolean ecoEnabled = false;
     public static boolean discordEnabled = false;
+    public static boolean mmoItemsEnabled = false;
 
     @Override
     public void onEnable() {
         inst = this;
 
+        checkCompatibilities();
         new FlagManager();
         new Config();
         new NMSManager();
@@ -46,6 +48,15 @@ public class PandeLoot extends JavaPlugin implements Listener {
         pluginManager.registerEvents(new DropEvents(), this);
         pluginManager.registerEvents(new ContainersGUI(null), this);
 
+    }
+
+    @Override
+    public void onDisable() {
+        Config.storables.forEach(Storable::save);
+    }
+
+    void checkCompatibilities() {
+        PluginManager pluginManager = getServer().getPluginManager();
         if(pluginManager.getPlugin("MythicMobs")!=null) {
             mythicEnabled = true;
             pluginManager.registerEvents(new MythicMobsListener(), this);
@@ -74,16 +85,9 @@ public class PandeLoot extends JavaPlugin implements Listener {
         }
 
         if(pluginManager.getPlugin("MMOItems")!=null) {
-            // This does nothing honestly
+            mmoItemsEnabled = true;
             Logger.log("Loaded MMOItems support");
         }
-
     }
-
-    @Override
-    public void onDisable() {
-        Config.storables.forEach(Storable::save);
-    }
-
 
 }

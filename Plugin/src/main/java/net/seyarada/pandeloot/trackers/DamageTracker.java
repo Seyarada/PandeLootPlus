@@ -65,14 +65,15 @@ public class DamageTracker implements Listener {
         boolean scoreHologram = config.getBoolean("Options.ScoreHologram");
 
         List<String> strings = config.getStringList("Rewards");
-        ArrayList<IDrop> itemsToDrop = IDrop.getAsDrop(strings);
 
         DamageBoard damageBoard = DamageBoard.get(mob);
         damageBoard.compileInformation();
 
 
         for(UUID uuid : damageBoard.playersAndDamage.keySet()) {
-            LootDrop lootDrop = new LootDrop(itemsToDrop, Bukkit.getPlayer(uuid), e.getEntity().getLocation())
+            Player player = Bukkit.getPlayer(uuid);
+            ArrayList<IDrop> itemsToDrop = IDrop.getAsDrop(strings, player);
+            LootDrop lootDrop = new LootDrop(itemsToDrop, player, e.getEntity().getLocation())
                     .setDamageBoard(damageBoard)
                     .setSourceEntity(e.getEntity())
                     .build();
