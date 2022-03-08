@@ -77,13 +77,13 @@ public class ActiveDrop {
 
     public void startBeamRunnable(double height) {
         beamRunnableID = Bukkit.getScheduler().scheduleSyncRepeatingTask(PandeLoot.inst, () -> {
-            if(!e.isValid()) cancel();
+            if(!e.isValid() || lootDrop.p==null ) cancel();
 
             if(e.isOnGround()) {
                 double modHeight = height;
                 while(modHeight>0) {
                     Particle.DustOptions dustOptions = new Particle.DustOptions(org.bukkit.Color.fromRGB(color.getColor().getRed(), color.getColor().getGreen(), color.getColor().getBlue()), 1);
-                    e.getLocation().getWorld().spawnParticle(Particle.REDSTONE, e.getLocation().add(0, 0.15+modHeight, 0), 1, dustOptions);
+                    lootDrop.p.spawnParticle(Particle.REDSTONE, e.getLocation().add(0, 0.15+modHeight, 0), 1, dustOptions);
                     modHeight = modHeight - 0.1;
                 }
             }
@@ -93,11 +93,11 @@ public class ActiveDrop {
 
     public void startFlyingParticleRunnable() {
         flyingParticleRunnable = Bukkit.getScheduler().scheduleSyncRepeatingTask(PandeLoot.inst, () -> {
-            if(!e.isValid()) cancel();
+            if(!e.isValid() || lootDrop.p==null ) cancel();
 
             if(!e.isOnGround()) {
                 Particle.DustOptions dustOptions = new Particle.DustOptions(org.bukkit.Color.fromRGB(color.getColor().getRed(), color.getColor().getGreen(), color.getColor().getBlue()), 1);
-                e.getLocation().getWorld().spawnParticle(Particle.REDSTONE, e.getLocation(), 1, dustOptions);
+                lootDrop.p.spawnParticle(Particle.REDSTONE, e.getLocation(), 1, dustOptions);
             }
 
         }, 0, 2);
