@@ -1,5 +1,6 @@
 package net.seyarada.pandeloot.commands;
 
+import net.seyarada.pandeloot.Logger;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import org.bukkit.Bukkit;
@@ -32,10 +33,12 @@ public class DropCommand {
             sb.append(args[2+i]);
         }
 
+        Logger.record();
         IDrop iDrop = IDrop.getAsDrop(sb.toString(), player);
         new LootDrop(Collections.singletonList(iDrop), player, player.getLocation())
                 .build()
                 .drop();
+        Logger.print();
     }
 
 }

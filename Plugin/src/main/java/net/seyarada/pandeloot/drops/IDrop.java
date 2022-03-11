@@ -1,5 +1,6 @@
 package net.seyarada.pandeloot.drops;
 
+import net.seyarada.pandeloot.Logger;
 import net.seyarada.pandeloot.compatibility.mmoitems.MMOItemsCompatibility;
 import net.seyarada.pandeloot.compatibility.mythicmobs.DropTable;
 import net.seyarada.pandeloot.compatibility.mythicmobs.MythicMobsCompatibility;
@@ -74,8 +75,13 @@ public interface IDrop {
         originDiv = (str.indexOf("=")>0 && str.indexOf("=")<originDiv) ? 0 : originDiv; // Make sure originDiv isn't set from a flag value
         int bracketDiv = Math.min((str.contains("{") ? str.indexOf("{") : 0), (str.contains(" ")) ? str.indexOf(" ") : str.length());
         String origin = str.substring(0, (originDiv>0) ? originDiv-1 : originDiv);
-        String id = str.substring(originDiv, (bracketDiv!=0) ? bracketDiv : str.length());
-        FlagPack pack = FlagPack.fromCompact(str);
+        String id = str.substring(originDiv, (bracketDiv!=0) ? bracketDiv : str.length()).split(" ")[0];
+
+        String flagPart = str.substring(origin.length()+id.length()+1);
+        FlagPack pack = FlagPack.fromCompact(flagPart);
+
+        Logger.log("Getting as drop: origin;%s, id;%s, pack;%s, player;%s", origin, id, pack, player);
+
         return switch (origin) {
             case "container", "loottable", "lt" ->
                     ContainerManager.get(id);

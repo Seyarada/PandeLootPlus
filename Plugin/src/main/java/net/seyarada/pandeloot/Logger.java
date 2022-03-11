@@ -1,6 +1,7 @@
 package net.seyarada.pandeloot;
 
 import net.md_5.bungee.api.ChatColor;
+import net.seyarada.pandeloot.config.Config;
 import org.bukkit.Bukkit;
 
 import java.awt.*;
@@ -56,15 +57,16 @@ public class Logger {
 
     public static void print() {
         isRecording = false;
-        if(recordedLogs.size()==0) return;
-        float degrees = 0;
-        for(String msg : recordedLogs) {
-            ChatColor c = ChatColor.of(Color.getHSBColor(degrees, 0.5f, 1));
-            bLogger.log(Level.INFO, Constants.DECORATED_NAME +c+msg);
-            degrees += 0.05;
+        if(Config.debug) {
+            if(recordedLogs.size()==0) return;
+            float degrees = 0;
+            for(String msg : recordedLogs) {
+                ChatColor c = ChatColor.of(Color.getHSBColor(degrees, 0.5f, 1));
+                bLogger.log(Level.INFO, Constants.DECORATED_NAME +c+msg);
+                degrees += 0.05;
+            }
+            recordedLogs.clear();
         }
-        recordedLogs.clear();
-        isRecording = true;
     }
 
 }

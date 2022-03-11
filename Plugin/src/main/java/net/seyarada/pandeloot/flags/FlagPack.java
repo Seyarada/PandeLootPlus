@@ -87,17 +87,15 @@ public class FlagPack {
 
     public static FlagPack fromCompact(String line) {
         String lineWithoutItem = line.substring(line.indexOf("{")+1).strip();
-        if(lineWithoutItem.contains(" ")) {
-            lineWithoutItem = lineWithoutItem.split(" ")[0];
-        }
         if(cache.containsKey(lineWithoutItem)) return cache.get(lineWithoutItem);
 
-        FlagPack pack = new FlagPack();
+        FlagPack pack = FlagPackFactory.getPack(lineWithoutItem);
         pack.stringFlags = lineWithoutItem;
-        pack.linealReader(lineWithoutItem);
         pack.merge(Config.defaultFlagPack);
         cache.put(lineWithoutItem, pack);
-        if(Config.debug) Logger.log("Generated flag pack %s from %s", pack, line);
+        if(Config.debug) {
+            Logger.log("Generated flag pack %s from %s", pack, line);
+        }
         return pack;
     }
 
@@ -112,110 +110,7 @@ public class FlagPack {
         return pack;
     }
 
-    void linealReader(String line) {
-
-        StringBuilder builder = new StringBuilder();
-        FlagTrigger readingFor = FlagTrigger.onspawn;
-        String flagWaitingForData = null;
-        HashMap<FlagTrigger, HashMap<String, String>> map = new HashMap<>();
-        boolean inModifiers = false;
-
-        long bracketCount = line.chars().filter(ch -> ch == '}').count();
-        long visitedBrackets = 0;
-
-        String amount = null;
-        String chance = null;
-        String damage = null;
-
-        for(int i = 0; i<line.length(); i++) {
-            char c = line.charAt(i);
-
-            if(c == '}') visitedBrackets++;
-
-            // End of the flag part
-            if(visitedBrackets==bracketCount || i==line.length()-1) {
-                writeRawFlagToMap(map, readingFor, flagWaitingForData, builder.toString());
-                visitedBrackets++;
-                builder = new StringBuilder();
-                continue;
-            }
-
-            // Post flag part
-            if( (line.contains(" ") || line.contains("}")) && visitedBrackets>bracketCount) {
-                builder.append(c);
-                if(i==line.length()-1 || c == ' ' && builder.toString().trim().length()>0) {
-                    builder = new StringBuilder(builder.toString().trim());
-                    if(builder.toString().contains(".")) {
-                        chance = builder.toString();
-                        HashMap<String, String> innerMap = map.get(FlagTrigger.onspawn);
-                        innerMap.put("chance", chance);
-                        map.put(FlagTrigger.onspawn, innerMap);
-                    } else if(amount==null) {
-                        amount = builder.toString();
-                        HashMap<String, String> innerMap = map.get(FlagTrigger.onspawn);
-                        innerMap.put("amount", amount);
-                        map.put(FlagTrigger.onspawn, innerMap);
-                    } else if(!builder.toString().isEmpty()) {
-                        damage = builder.toString();
-                        HashMap<String, String> innerMap = map.get(FlagTrigger.onspawn);
-                        innerMap.put("damage", damage);
-                        map.put(FlagTrigger.onspawn, innerMap);
-                    }
-
-                    builder = new StringBuilder();
-                }
-                continue;
-            }
-
-            switch (c) {
-                case '<' -> inModifiers = true;
-                case '>' -> inModifiers = false;
-                case ']' -> {
-                    writeRawFlagToMap(map, readingFor, flagWaitingForData, builder.toString());
-                    builder = new StringBuilder();
-                    flagWaitingForData = null;
-                    readingFor = FlagTrigger.onspawn;
-                    continue;
-                }
-                case ';' -> {
-                    if(inModifiers) break;
-
-                    if(flagWaitingForData!=null)
-                        writeRawFlagToMap(map, readingFor, flagWaitingForData, builder.toString());
-                    builder = new StringBuilder();
-                    continue;
-                }
-                case '=' -> {
-                    if(inModifiers) break;
-
-                    String id = builder.toString().toLowerCase();
-
-                    if(EnumUtils.isATrigger(id)) {
-                        readingFor = FlagTrigger.valueOf(id);
-                        flags.put(readingFor, new HashMap<>());
-                        i++;
-                    } else {
-                        flagWaitingForData = id;
-                    }
-
-                    builder = new StringBuilder();
-                    continue;
-                }
-            }
-
-            builder.append(c);
-        }
-
-        parseRawFlags(map);
-    }
-
-    //{onspawn={net.seyarada.pandeloot.flags.effects.VisibilityFlag@5b2bdb43={value=player},
-    // net.seyarada.pandeloot.flags.effects.GlowFlag@46ca2202={value=true},
-    // net.seyarada.pandeloot.flags.effects.ExplodeFlag@2882d8cb={shape=sphere, value=true},
-    // net.seyarada.pandeloot.flags.effects.ColorFlag@640dced1={value=GREEN}}}
-
     void configReader(ConfigurationSection config) {
-        //HashMap<FlagTrigger, HashMap<IFlag, FlagModifiers>> flags = new HashMap<>();
         flags.put(FlagTrigger.onspawn, new HashMap<>());
         for(String s : config.getKeys(false)) {
             if(EnumUtils.isATrigger(s)) {
@@ -320,7 +215,7 @@ public class FlagPack {
 
 
 
-    void writeRawFlagToMap(HashMap<FlagTrigger, HashMap<String, String>> map, FlagTrigger trigger, String flag, String rawData) {
+    public void writeRawFlagToMap(HashMap<FlagTrigger, HashMap<String, String>> map, FlagTrigger trigger, String flag, String rawData) {
         HashMap<String, String> innerMap = map.getOrDefault(trigger, new HashMap<>());
         innerMap.put(flag, rawData);
         map.put(trigger, innerMap);
