@@ -77,7 +77,7 @@ public interface IDrop {
         String origin = str.substring(0, (originDiv>0) ? originDiv-1 : originDiv);
         String id = str.substring(originDiv, (bracketDiv!=0) ? bracketDiv : str.length()).split(" ")[0];
 
-        String flagPart = str.substring(origin.length()+id.length()+1);
+        String flagPart = str.substring(origin.length()+id.length());
         FlagPack pack = FlagPack.fromCompact(flagPart);
 
         Logger.log("Getting as drop: origin;%s, id;%s, pack;%s, player;%s", origin, id, pack, player);

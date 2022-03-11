@@ -13,7 +13,7 @@ public class FlagPackFactory {
         int brLoc = str.indexOf("{");
         int bfLoc = Math.max(str.lastIndexOf("}"), 0);
         String flagsSection = str.substring(brLoc+1, bfLoc)+"}";
-        String outerSection = str.substring(bfLoc).strip();
+        String outerSection = (str.contains("}") ? str.substring(bfLoc+1) : str.substring(bfLoc)).strip();
 
         Logger.log("Flag Section %s", flagsSection);
         Logger.log("Outer Section %s", outerSection);

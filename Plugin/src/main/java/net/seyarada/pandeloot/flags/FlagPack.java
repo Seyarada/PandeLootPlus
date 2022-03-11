@@ -9,6 +9,7 @@ import net.seyarada.pandeloot.flags.enums.FlagPriority;
 import net.seyarada.pandeloot.flags.enums.FlagTrigger;
 import net.seyarada.pandeloot.flags.types.*;
 import net.seyarada.pandeloot.utils.EnumUtils;
+import net.seyarada.pandeloot.utils.StringUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
@@ -272,7 +273,7 @@ public class FlagPack {
         }
 
         public String getString(String key) {
-            return get(key);
+            return StringUtils.parse(get(key));
         }
 
         public int getInt() {
@@ -282,12 +283,12 @@ public class FlagPack {
         public int getInt(String key) {
             if(!containsKey(key)) return 0;
             String value = getString(key);
-            return Integer.parseInt(value);
+            return (int) StringUtils.parseAndMath(value);
         }
 
         public int getIntOrDefault(String key, int defaultInt) {
             String value = getString(key);
-            return (value!=null) ? Integer.parseInt(value) : defaultInt;
+            return (value!=null) ? (int) StringUtils.parseAndMath(value) : defaultInt;
         }
 
         public double getDouble() {
@@ -297,12 +298,12 @@ public class FlagPack {
         public double getDouble(String key) {
             if(!containsKey(key)) return 0;
             String value = getString(key);
-            return Double.parseDouble(value);
+            return StringUtils.parseAndMath(value);
         }
 
         public double getDoubleOrDefault(String key, double defaultDouble) {
             String value = getString(key);
-            return (value!=null) ? Double.parseDouble(value) : defaultDouble;
+            return (value!=null) ? StringUtils.parseAndMath(value) : defaultDouble;
         }
 
         public long getLong() {
@@ -312,12 +313,12 @@ public class FlagPack {
         public long getLong(String key) {
             if(!containsKey(key)) return 0;
             String value = getString(key);
-            return Long.parseLong(value);
+            return (long) StringUtils.parseAndMath(value);
         }
 
         public long getLongOrDefault(String key, long defaultLong) {
             String value = getString(key);
-            return (value!=null) ? Long.parseLong(value) : defaultLong;
+            return (value!=null) ? (long) StringUtils.parseAndMath(value) : defaultLong;
         }
 
         public boolean getBoolean() {

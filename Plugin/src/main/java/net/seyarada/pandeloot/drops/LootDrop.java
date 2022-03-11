@@ -39,7 +39,7 @@ public class LootDrop {
 
     boolean arePlaceholdersLoaded = false;
     HashMap<String, String> placeholderValues = new HashMap<>();
-    StrSubstitutor sub;
+    public StrSubstitutor sub;
 
     List<IDrop> baseDropList;
 
