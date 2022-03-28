@@ -40,6 +40,7 @@ public class FlagManager {
         registerFlag(new ColorFlag());
         registerFlag(new CommandFlag());
         registerFlag(new ConsumeItemFlag());
+        registerFlag(new CustomModelDataFlag());
         registerFlag(new DelayFlag());
         registerFlag(new ExperienceFlag());
         registerFlag(new ExplodeFlag());
