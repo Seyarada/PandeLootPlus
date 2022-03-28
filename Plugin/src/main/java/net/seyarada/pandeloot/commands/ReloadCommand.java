@@ -1,5 +1,6 @@
 package net.seyarada.pandeloot.commands;
 
+import net.seyarada.pandeloot.Constants;
 import net.seyarada.pandeloot.Logger;
 import net.seyarada.pandeloot.config.Config;
 import org.bukkit.ChatColor;
@@ -15,10 +16,7 @@ public class ReloadCommand {
 
     public static void onCommand(CommandSender sender, Command command, String label, String[] args) {
         Config.reload();
-        Logger.log("Plugin Reloaded!");
-        if(sender instanceof Player player) {
-            player.sendMessage(ChatColor.YELLOW+"Reloaded!");
-        }
+        sender.sendMessage(Constants.DECORATED_NAME + ChatColor.YELLOW +"Reloaded!");
     }
 
 }

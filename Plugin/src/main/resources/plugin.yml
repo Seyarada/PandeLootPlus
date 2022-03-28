@@ -5,6 +5,10 @@ api-version: 1.17
 softdepend: [MythicMobs, MMOItems]
 commands:
   pandeloot:
-    description: Your description
+    description: Base command for PandeLoot
     usage: /pandeloot
+    permission: pandeloot.use
+  ploot:
+    description: Base command for PandeLoot
+    usage: /ploot
     permission: pandeloot.use

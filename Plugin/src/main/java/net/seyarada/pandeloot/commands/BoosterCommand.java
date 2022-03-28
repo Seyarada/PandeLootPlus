@@ -1,6 +1,8 @@
 package net.seyarada.pandeloot.commands;
 
+import net.seyarada.pandeloot.Constants;
 import net.seyarada.pandeloot.config.Boosts;
+import net.seyarada.pandeloot.utils.ChatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -22,6 +24,21 @@ public class BoosterCommand {
     }
 
     public static void onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if(args.length<2) {
+            ChatUtils.sendCenteredMessage(sender, Constants.DECORATED_NAME);
+            String i = ChatColor.YELLOW + "/ploot boost " + ChatColor.WHITE;
+            String div = " - " + ChatColor.GRAY;
+            String[] msgList = new String[] {
+                    "",
+                    i + "list" + div + "Shows a list of active boosts",
+                    i + "stop <Player>" + div + "Stops a certain buff",
+                    i + "set [seconds] [power] <Player>" + div + "Sets a buff",
+                    ""
+            };
+            sender.sendMessage(msgList);
+            ChatUtils.sendCenteredMessage(sender, Constants.DECORATED_NAME);
+            return;
+        }
         switch (args[1]) {
             case "set" -> {
                 if (args.length == 5) { // Player Boost

@@ -1,5 +1,9 @@
 package net.seyarada.pandeloot.commands;
 
+import net.seyarada.pandeloot.Constants;
+import net.seyarada.pandeloot.utils.ChatUtils;
+import net.seyarada.pandeloot.utils.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,6 +29,21 @@ public class CommandManager implements CommandExecutor {
                  case "gui" ->
                          MenuCommand.onCommand(sender, command, s, args);
             }
+        } else {
+            ChatUtils.sendCenteredMessage(sender, Constants.DECORATED_NAME);
+            String i = ChatColor.YELLOW + "/ploot " + ChatColor.WHITE;
+            String div = " - " + ChatColor.GRAY;
+            String[] msgList = new String[] {
+                    "",
+                    i + "boost" + div + "Manage duration and power of loot boost",
+                    i + "give" + div + "Give an item to the inventory of a player",
+                    i + "drop" + div + "Drop an item to a player",
+                    i + "reload" + div + "Reloads the plugin",
+                    i + "gui" + div + "Opens a GUI where you can test loot tables",
+                    ""
+            };
+            sender.sendMessage(msgList);
+            ChatUtils.sendCenteredMessage(sender, Constants.DECORATED_NAME);
         }
         return true;
     }

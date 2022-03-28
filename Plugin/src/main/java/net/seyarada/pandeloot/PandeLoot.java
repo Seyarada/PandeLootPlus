@@ -41,6 +41,9 @@ public class PandeLoot extends JavaPlugin implements Listener {
         getCommand("pandeloot").setExecutor(new CommandManager());
         getCommand("pandeloot").setTabCompleter(new AutoCompletion());
 
+        getCommand("ploot").setExecutor(new CommandManager());
+        getCommand("ploot").setTabCompleter(new AutoCompletion());
+
         pluginManager.registerEvents(this, this);
         pluginManager.registerEvents(new ActiveDropListener(), this);
         pluginManager.registerEvents(new DamageTracker(), this);

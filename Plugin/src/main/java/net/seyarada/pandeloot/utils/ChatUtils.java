@@ -1,6 +1,7 @@
 package net.seyarada.pandeloot.utils;
 
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.regex.Matcher;
@@ -20,7 +21,7 @@ public class ChatUtils {
         return ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
     }
 
-    public static void sendCenteredMessage(Player player, String message){
+    public static void sendCenteredMessage(CommandSender player, String message){
         if(message == null) return;
         if(message.equals("")) {
             player.sendMessage("");
