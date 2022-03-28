@@ -1,7 +1,7 @@
 package net.seyarada.pandeloot.flags.conditions;
 
-import io.lumine.xikage.mythicmobs.MythicMobs;
-import io.lumine.xikage.mythicmobs.util.jnbt.CompoundTag;
+import io.lumine.mythic.bukkit.MythicBukkit;
+import io.lumine.mythic.core.utils.jnbt.CompoundTag;
 import net.seyarada.pandeloot.Constants;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
@@ -30,7 +30,7 @@ public class HoldingFlag implements ICondition {
                 return iS.getType()==Material.valueOf(values.getString().toUpperCase());
             }
             case "mythicmobs", "mm" -> {
-                CompoundTag tag = MythicMobs.inst().getVolatileCodeHandler().getItemHandler().getNBTData(iS);
+                CompoundTag tag = MythicBukkit.inst().getVolatileCodeHandler().getItemHandler().getNBTData(iS);
                 if(tag.containsKey(Constants.MM)) {
                     return tag.getString(Constants.MM).equalsIgnoreCase(values.getString());
                 } else return false;

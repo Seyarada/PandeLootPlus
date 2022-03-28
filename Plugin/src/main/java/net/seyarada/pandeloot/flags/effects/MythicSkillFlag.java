@@ -1,6 +1,6 @@
 package net.seyarada.pandeloot.flags.effects;
 
-import io.lumine.xikage.mythicmobs.MythicMobs;
+import io.lumine.mythic.bukkit.MythicBukkit;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagEffect;
@@ -28,7 +28,7 @@ public class MythicSkillFlag implements IGeneralEvent {
 		ArrayList<Location> locationTargets = new ArrayList<>();
 		locationTargets.add(origin);
 
-		MythicMobs.inst().getAPIHelper().castSkill(caster, skill, caster, origin, targets, locationTargets, 1.0f);
+		MythicBukkit.inst().getAPIHelper().castSkill(caster, skill, caster, origin, targets, locationTargets, 1.0f);
 	}
 	
 }

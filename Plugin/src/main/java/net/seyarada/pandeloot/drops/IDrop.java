@@ -2,7 +2,7 @@ package net.seyarada.pandeloot.drops;
 
 import net.seyarada.pandeloot.Logger;
 import net.seyarada.pandeloot.compatibility.mmoitems.MMOItemsCompatibility;
-import net.seyarada.pandeloot.compatibility.mythicmobs.DropTable;
+import net.seyarada.pandeloot.compatibility.mythicmobs.DropTableCompatibility;
 import net.seyarada.pandeloot.compatibility.mythicmobs.MythicMobsCompatibility;
 import net.seyarada.pandeloot.drops.containers.ContainerManager;
 import net.seyarada.pandeloot.drops.containers.ContainerType;
@@ -88,7 +88,7 @@ public interface IDrop {
             case "lootbag", "lb" ->
                     ((LootBag) ContainerManager.get(id, ContainerType.LOOTBAG)).getDrop(pack);
             case "droptable", "dt" ->
-                    new DropTable(id, pack);
+                    new DropTableCompatibility(id, pack);
             case "entity" ->
                     new EntityDrop(id, EntityDrop.EntityDropType.VANILLA, pack);
             case "mmentity" ->

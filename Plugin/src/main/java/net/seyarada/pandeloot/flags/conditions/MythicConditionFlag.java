@@ -1,12 +1,15 @@
 package net.seyarada.pandeloot.flags.conditions;
 
 import com.google.common.collect.Sets;
-import io.lumine.xikage.mythicmobs.adapters.AbstractEntity;
-import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
-import io.lumine.xikage.mythicmobs.mobs.GenericCaster;
-import io.lumine.xikage.mythicmobs.skills.SkillCondition;
-import io.lumine.xikage.mythicmobs.skills.SkillMetadata;
-import io.lumine.xikage.mythicmobs.skills.SkillTrigger;
+import io.lumine.mythic.api.adapters.AbstractEntity;
+import io.lumine.mythic.api.mobs.GenericCaster;
+import io.lumine.mythic.api.skills.SkillMetadata;
+import io.lumine.mythic.api.skills.SkillTrigger;
+import io.lumine.mythic.bukkit.BukkitAdapter;
+import io.lumine.mythic.bukkit.MythicBukkit;
+import io.lumine.mythic.core.skills.SkillCondition;
+import io.lumine.mythic.core.skills.SkillMetadataImpl;
+import io.lumine.mythic.core.skills.SkillTriggers;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagEffect;
@@ -30,8 +33,8 @@ public class MythicConditionFlag implements ICondition {
                 AbstractEntity playerTarget = BukkitAdapter.adapt(player);
                 HashSet<AbstractEntity> targets = Sets.newHashSet();
                 targets.add(playerTarget);
-                SkillMetadata meta = new SkillMetadata(SkillTrigger.ATTACK, mobCaster, mob, mob.getLocation(), targets, null, 1);
-                return SkillCondition.getCondition(values.getString()).evaluateCaster(meta);
+                SkillMetadata meta = new SkillMetadataImpl(SkillTriggers.API, mobCaster, mob, mob.getLocation(), targets, null, 1);
+                return MythicBukkit.inst().getSkillManager().getCondition(values.getString()).evaluateCaster(meta);
             }
             case "player" -> {
                 AbstractEntity pAbstract = BukkitAdapter.adapt(player);
@@ -39,8 +42,8 @@ public class MythicConditionFlag implements ICondition {
                 AbstractEntity mobTarget = BukkitAdapter.adapt(source);
                 HashSet<AbstractEntity> targets = Sets.newHashSet();
                 targets.add(mobTarget);
-                SkillMetadata meta = new SkillMetadata(SkillTrigger.ATTACK, playerCaster, pAbstract, pAbstract.getLocation(), targets, null, 1);
-                return SkillCondition.getCondition(values.getString()).evaluateCaster(meta);
+                SkillMetadata meta = new SkillMetadataImpl(SkillTriggers.API, playerCaster, pAbstract, pAbstract.getLocation(), targets, null, 1);
+                return MythicBukkit.inst().getSkillManager().getCondition(values.getString()).evaluateCaster(meta);
             }
         }
         return true;

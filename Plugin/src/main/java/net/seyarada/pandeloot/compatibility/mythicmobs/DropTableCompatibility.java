@@ -1,18 +1,24 @@
 package net.seyarada.pandeloot.compatibility.mythicmobs;
 
-import io.lumine.xikage.mythicmobs.MythicMobs;
-import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
-import io.lumine.xikage.mythicmobs.drops.Drop;
-import io.lumine.xikage.mythicmobs.drops.DropMetadata;
-import io.lumine.xikage.mythicmobs.drops.IItemDrop;
-import io.lumine.xikage.mythicmobs.drops.LootBag;
-import io.lumine.xikage.mythicmobs.mobs.GenericCaster;
+import io.lumine.mythic.api.drops.DropMetadata;
+import io.lumine.mythic.api.drops.IItemDrop;
+import io.lumine.mythic.api.mobs.GenericCaster;
+import io.lumine.mythic.bukkit.BukkitAdapter;
+import io.lumine.mythic.bukkit.MythicBukkit;
+import io.lumine.mythic.core.drops.Drop;
+import io.lumine.mythic.core.drops.DropMetadataImpl;
+import io.lumine.mythic.core.drops.DropTable;
+import io.lumine.mythic.core.drops.LootBag;
 import net.seyarada.pandeloot.Logger;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.ItemDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.drops.containers.IContainer;
+import net.seyarada.pandeloot.flags.FlagManager;
 import net.seyarada.pandeloot.flags.FlagPack;
+import net.seyarada.pandeloot.flags.effects.AmountFlag;
+import net.seyarada.pandeloot.flags.types.IFlag;
+import net.seyarada.pandeloot.flags.types.IItemEvent;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
@@ -22,13 +28,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 
-public class DropTable implements IContainer {
+public class DropTableCompatibility implements IContainer {
 
     String id;
     FlagPack pack;
     public ArrayList<IDrop> dropList = new ArrayList<>();
 
-    public DropTable(String id, FlagPack pack) {
+    public DropTableCompatibility(String id, FlagPack pack) {
         this.id = id;
         this.pack = pack;
     }
@@ -40,11 +46,11 @@ public class DropTable implements IContainer {
 
     @Override
     public List<IDrop> getDropList(LootDrop lootDrop) {
-        Optional<io.lumine.xikage.mythicmobs.drops.DropTable> maybeDrops = MythicMobs.inst().getDropManager().getDropTable(id);
-        final DropMetadata meta = new DropMetadata(new GenericCaster(BukkitAdapter.adapt(lootDrop.p)), BukkitAdapter.adapt(lootDrop.p));
+        Optional<DropTable> maybeDrops = MythicBukkit.inst().getDropManager().getDropTable(id);
+        final DropMetadata meta = new DropMetadataImpl(new GenericCaster(BukkitAdapter.adapt(lootDrop.p)), BukkitAdapter.adapt(lootDrop.p));
 
         if(maybeDrops.isPresent())	{
-            final io.lumine.xikage.mythicmobs.drops.DropTable dt = maybeDrops.get();
+            final DropTable dt = maybeDrops.get();
 
             if(dt.hasDrops()) {
                 LootBag loot = dt.generate(meta);
@@ -53,7 +59,14 @@ public class DropTable implements IContainer {
                     if(type instanceof IItemDrop iDrop) {
                         FlagPack itemFlags = FlagPack.fromCompact(type.getLine());
                         itemFlags.merge(pack);
-                        dropList.add(new ItemDrop(BukkitAdapter.adapt(iDrop.getDrop(meta)), itemFlags));
+
+                        int amount = 1;
+                        AmountFlag amountFlag = (AmountFlag) FlagManager.getFromID("amount");
+                        if(itemFlags.hasFlag(amountFlag)) {
+                            amount = AmountFlag.getValueFromRanged(itemFlags.getFlag(amountFlag).getString());
+                        }
+
+                        dropList.add(new ItemDrop(BukkitAdapter.adapt(iDrop.getDrop(meta, amount)), itemFlags));
                     }
                 }
             }

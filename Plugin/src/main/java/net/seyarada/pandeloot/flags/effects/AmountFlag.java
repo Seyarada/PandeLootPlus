@@ -20,8 +20,12 @@ public class AmountFlag implements IItemEvent {
 	@Override
 	public void onCallItem(Item item, FlagPack.FlagModifiers values, @Nullable LootDrop lootDrop, @Nullable ItemDrop itemDrop, FlagTrigger trigger) {
 
-		String strAmount = values.getString();
+		int amount = getValueFromRanged(values.getString());
+		item.getItemStack().setAmount(amount);
 
+	}
+
+	public static int getValueFromRanged(String strAmount) {
 		if(strAmount.contains("to")) {
 			final String[] n = strAmount.split("to");
 			final Random r = new Random();
@@ -33,10 +37,10 @@ public class AmountFlag implements IItemEvent {
 		}
 
 		try {
-			int amount = Integer.parseInt(strAmount);
-			item.getItemStack().setAmount(amount);
+			return Integer.parseInt(strAmount);
 		} catch (NumberFormatException e) {
-			Logger.log(Level.WARNING, "Invalid amount for "+values.getString());
+			Logger.log(Level.WARNING, "Invalid amount for " + strAmount);
+			return 1;
 		}
 	}
 

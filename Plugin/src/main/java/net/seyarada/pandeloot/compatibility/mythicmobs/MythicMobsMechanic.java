@@ -1,13 +1,14 @@
 package net.seyarada.pandeloot.compatibility.mythicmobs;
 
-import io.lumine.xikage.mythicmobs.adapters.AbstractEntity;
-import io.lumine.xikage.mythicmobs.adapters.AbstractLocation;
-import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
-import io.lumine.xikage.mythicmobs.io.MythicLineConfig;
-import io.lumine.xikage.mythicmobs.skills.ITargetedEntitySkill;
-import io.lumine.xikage.mythicmobs.skills.ITargetedLocationSkill;
-import io.lumine.xikage.mythicmobs.skills.SkillMechanic;
-import io.lumine.xikage.mythicmobs.skills.SkillMetadata;
+import io.lumine.mythic.api.adapters.AbstractEntity;
+import io.lumine.mythic.api.adapters.AbstractLocation;
+import io.lumine.mythic.api.config.MythicLineConfig;
+import io.lumine.mythic.api.skills.ITargetedEntitySkill;
+import io.lumine.mythic.api.skills.ITargetedLocationSkill;
+import io.lumine.mythic.api.skills.SkillMetadata;
+import io.lumine.mythic.api.skills.SkillResult;
+import io.lumine.mythic.bukkit.BukkitAdapter;
+import io.lumine.mythic.core.skills.SkillMechanic;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import org.bukkit.entity.Entity;
@@ -15,17 +16,16 @@ import org.bukkit.entity.Player;
 
 import java.util.Collections;
 
-public class MythicMobsMechanic extends SkillMechanic implements ITargetedLocationSkill, ITargetedEntitySkill {
+public class MythicMobsMechanic implements ITargetedLocationSkill, ITargetedEntitySkill {
 
+    final MythicLineConfig config;
 
     public MythicMobsMechanic(MythicLineConfig config) {
-        super(config.getLine(), config);
-        this.setAsyncSafe(false);
-        this.setTargetsCreativePlayers(false);
+        this.config = config;
     }
 
     @Override
-    public boolean castAtLocation(SkillMetadata skillMetadata, AbstractLocation abstractLocation) {
+    public SkillResult castAtLocation(SkillMetadata skillMetadata, AbstractLocation abstractLocation) {
         String i = config.getLine();
         int j = i.indexOf("{")+1;
         int k = i.lastIndexOf("}");
@@ -35,11 +35,11 @@ public class MythicMobsMechanic extends SkillMechanic implements ITargetedLocati
         new LootDrop(Collections.singletonList(iDrop), null, BukkitAdapter.adapt(abstractLocation))
                 .build()
                 .drop();
-        return true;
+        return SkillResult.SUCCESS;
     }
 
     @Override
-    public boolean castAtEntity(SkillMetadata skillMetadata, AbstractEntity abstractEntity) {
+    public SkillResult castAtEntity(SkillMetadata skillMetadata, AbstractEntity abstractEntity) {
         Entity entity = abstractEntity.getBukkitEntity();
         String i = config.getLine();
         int j = i.indexOf("{")+1;
@@ -57,6 +57,6 @@ public class MythicMobsMechanic extends SkillMechanic implements ITargetedLocati
                     .build()
                     .drop();
         }
-        return true;
+        return SkillResult.SUCCESS;
     }
 }
