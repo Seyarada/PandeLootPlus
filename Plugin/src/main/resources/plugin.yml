@@ -1,6 +1,6 @@
 name: PandeLoot
 main: net.seyarada.pandeloot.PandeLoot
-version: 1.11
+version: ${project.version}
 api-version: 1.17
 softdepend: [MythicMobs, MMOItems]
 commands:
