@@ -172,9 +172,11 @@ public class LootDrop {
         Location loc = (l==null) ? p.getLocation() : l;
 
         List<String> lines = new ArrayList<>();
-        Config.getScoreMessage().forEach(msg -> {
+        Config.getScoreHologram().forEach(msg -> {
             msg = parse(msg);
-            if(msg!=null) lines.add(msg);
+            if(msg!=null) {
+                lines.add(msg);
+            }
         });
 
         NMSManager.get().hologram(400, loc, this.p, lines, PandeLoot.inst);

@@ -8,6 +8,7 @@ import io.netty.channel.ChannelPipeline;
 import net.minecraft.advancements.*;
 import net.minecraft.advancements.critereon.SerializationContext;
 import net.minecraft.network.Connection;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.game.*;
 import net.minecraft.resources.ResourceLocation;
@@ -56,10 +57,9 @@ public class V1_18_R2 implements NMSMethods {
 
             final ArmorStand armorStand = new ArmorStand(EntityType.ARMOR_STAND, wS);
             armorStands.add(armorStand);
-            //ArmorStand bArmorStand = (((ArmorStand) armorStand.getBukkitEntity()));
             int id = armorStand.getId();
             armorStand.setPos(lX, lY, lZ);
-            armorStand.setCustomName(new TranslatableComponent(msg));
+            armorStand.setCustomName(new TextComponent(msg));
             armorStand.setCustomNameVisible(true);
             armorStand.setInvisible(true);
             armorStand.setMarker(true);

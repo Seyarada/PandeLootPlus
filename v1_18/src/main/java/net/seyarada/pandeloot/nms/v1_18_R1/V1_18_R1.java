@@ -8,6 +8,7 @@ import io.netty.channel.ChannelPipeline;
 import net.minecraft.advancements.*;
 import net.minecraft.advancements.critereon.SerializationContext;
 import net.minecraft.network.Connection;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.game.*;
 import net.minecraft.resources.ResourceLocation;
@@ -30,6 +31,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 public class V1_18_R1 implements NMSMethods {
@@ -40,6 +42,8 @@ public class V1_18_R1 implements NMSMethods {
         double lX = location.getX();
         double lY = location.getY() + 1.2;
         double lZ = location.getZ();
+
+
 
         List<ArmorStand> armorStands = new ArrayList<>();
 
@@ -56,10 +60,9 @@ public class V1_18_R1 implements NMSMethods {
 
             final ArmorStand armorStand = new ArmorStand(EntityType.ARMOR_STAND, wS);
             armorStands.add(armorStand);
-            //ArmorStand bArmorStand = (((ArmorStand) armorStand.getBukkitEntity()));
             int id = armorStand.getId();
             armorStand.setPos(lX, lY, lZ);
-            armorStand.setCustomName(new TranslatableComponent(msg));
+            armorStand.setCustomName(new TextComponent(msg));
             armorStand.setCustomNameVisible(true);
             armorStand.setInvisible(true);
             armorStand.setMarker(true);
