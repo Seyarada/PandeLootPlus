@@ -7,7 +7,7 @@
        At least, it doesn't matter externally to this setup -->
   <packaging>pom</packaging>
   <!-- Packaging? POM -->
-  <version>1.12</version>
+  <version>1.13</version>
   <!-- I keep my versions of the internal projects static, so I don't have to rename them all the time. -->
   <name>pandeloot Parent</name>
   <properties>

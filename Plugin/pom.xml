@@ -5,7 +5,7 @@
   <artifactId>pandeloot</artifactId>
   <packaging>jar</packaging>
   <name>pandeloot</name>
-   <!-- This is where I track the version -->
+  <version>1.13</version> <!-- This is where I track the version -->
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
