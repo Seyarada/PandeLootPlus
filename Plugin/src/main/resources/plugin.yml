@@ -1,6 +1,6 @@
 name: PandeLoot
 main: net.seyarada.pandeloot.PandeLoot
-version: 1.14
+version: 1.15
 api-version: 1.17
 softdepend: [MythicMobs, MMOItems]
 commands:
@@ -8,7 +8,5 @@ commands:
     description: Base command for PandeLoot
     usage: /pandeloot
     permission: pandeloot.use
-  ploot:
-    description: Base command for PandeLoot
-    usage: /ploot
-    permission: pandeloot.use
+    aliases:
+      - ploot

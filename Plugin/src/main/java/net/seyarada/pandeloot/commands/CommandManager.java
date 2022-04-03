@@ -15,7 +15,9 @@ public class CommandManager implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        if(!sender.isOp()) return true;
+        Logger.log(sender + "trying to use PandeLoot command!");
+
+        if(!sender.isOp() && !sender.hasPermission("pandeloot.use")) return true;
 
         if(args.length>0) {
             Logger.log(sender + "using command "+args[0]);
