@@ -5,7 +5,7 @@
   <artifactId>pandeloot</artifactId>
   <packaging>jar</packaging>
   <name>pandeloot</name>
-  <version>1.13</version> <!-- This is where I track the version -->
+  <version>1</version> <!-- This is where I track the version -->
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -214,7 +214,7 @@
     <plugins>
 
       <!-- -->
-      <!--
+      <!-- -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -223,7 +223,7 @@
           <outputDirectory>C:\Users\PC\Desktop\devServer\plugins</outputDirectory>
         </configuration>
       </plugin>
-      -->
+      <!---->
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
