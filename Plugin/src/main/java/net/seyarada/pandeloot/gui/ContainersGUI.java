@@ -1,6 +1,7 @@
 package net.seyarada.pandeloot.gui;
 
 import net.seyarada.pandeloot.Constants;
+import net.seyarada.pandeloot.Logger;
 import net.seyarada.pandeloot.config.Config;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.drops.containers.ContainerManager;
@@ -32,9 +33,12 @@ public class ContainersGUI implements Listener, InventoryHolder {
     IContainer viewing;
 
     public ContainersGUI(Player player) {
+        Logger.log("Opening GUI for "+player);
         if(player==null) return;
         this.player = player;
+        Logger.log("Creating main page");
         mainPage();
+        Logger.log("Opening inventory "+inventory+" for "+player);
         player.openInventory(inventory);
     }
 

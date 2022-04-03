@@ -1,6 +1,7 @@
 package net.seyarada.pandeloot.commands;
 
 import net.seyarada.pandeloot.Constants;
+import net.seyarada.pandeloot.Logger;
 import net.seyarada.pandeloot.gui.ContainersGUI;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -14,6 +15,7 @@ public class MenuCommand {
     }
 
     public static void onCommand(CommandSender sender, Command command, String label, String[] args) {
+        Logger.log("Checking sender "+sender+ " is player? "+ (sender instanceof Player) );
         if(sender instanceof Player player) {
             new ContainersGUI(player);
         } else {

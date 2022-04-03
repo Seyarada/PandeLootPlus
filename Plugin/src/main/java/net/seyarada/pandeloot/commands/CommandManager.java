@@ -1,6 +1,7 @@
 package net.seyarada.pandeloot.commands;
 
 import net.seyarada.pandeloot.Constants;
+import net.seyarada.pandeloot.Logger;
 import net.seyarada.pandeloot.utils.ChatUtils;
 import net.seyarada.pandeloot.utils.StringUtils;
 import org.bukkit.ChatColor;
@@ -17,6 +18,7 @@ public class CommandManager implements CommandExecutor {
         if(!sender.isOp()) return true;
 
         if(args.length>0) {
+            Logger.log(sender + "using command "+args[0]);
              switch(args[0]) {
                  case "boost" ->
                          BoosterCommand.onCommand(sender, command, s, args);
