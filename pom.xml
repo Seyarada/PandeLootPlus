@@ -8,7 +8,6 @@
   <packaging>pom</packaging>
   <!-- Packaging? POM -->
   <version>parent</version>
-  <!-- I keep my versions of the internal projects static, so I don't have to rename them all the time. -->
   <name>pandeloot Parent</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
