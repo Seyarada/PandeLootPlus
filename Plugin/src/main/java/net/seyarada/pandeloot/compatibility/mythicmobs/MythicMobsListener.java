@@ -24,7 +24,7 @@ public class MythicMobsListener implements Listener {
     @EventHandler
     public void onMythicMechanicLoad(MythicMechanicLoadEvent event)	{
         switch (event.getMechanicName().toLowerCase()) {
-            case "pandeloot", "ploot" -> event.register(new MythicMobsMechanic(MythicBukkit.inst().getSkillManager(), event.getMechanicName(), event.getConfig()));
+            case "pandeloot", "ploot" -> event.register(new MythicMobsMechanic(event.getConfig()));
         }
     }
 

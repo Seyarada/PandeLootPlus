@@ -14,14 +14,16 @@ import org.bukkit.entity.Player;
 
 import java.util.Collections;
 
-public class MythicMobsMechanic extends SkillMechanic implements ITargetedLocationSkill, ITargetedEntitySkill {
+public class MythicMobsMechanic implements ITargetedLocationSkill, ITargetedEntitySkill {
 
     final MythicLineConfig config;
 
-    public MythicMobsMechanic(SkillExecutor manager, String line, MythicLineConfig mlc) {
-        super(manager, line, mlc);
-        this.setAsyncSafe(false);
-        this.threadSafetyLevel = ThreadSafetyLevel.SYNC_ONLY;
+    @Override
+    public ThreadSafetyLevel getThreadSafetyLevel() {
+        return ThreadSafetyLevel.SYNC_ONLY;
+    }
+
+    public MythicMobsMechanic( MythicLineConfig mlc) {
         this.config = mlc;
     }
 
