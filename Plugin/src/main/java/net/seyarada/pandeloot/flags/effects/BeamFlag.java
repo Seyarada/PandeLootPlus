@@ -1,6 +1,7 @@
 package net.seyarada.pandeloot.flags.effects;
 
 import net.seyarada.pandeloot.drops.ActiveDrop;
+import net.seyarada.pandeloot.drops.DropMeta;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagEffect;
@@ -11,12 +12,12 @@ import org.bukkit.entity.Entity;
 
 import javax.annotation.Nullable;
 
-@FlagEffect(id="beam", description="Determines the active color of a drop")
+@FlagEffect(id="beam", description="Creates a beam when an item is on the ground")
 public class BeamFlag implements IEntityEvent {
 
 	@Override
-	public void onCallEntity(Entity item, FlagPack.FlagModifiers values, @Nullable LootDrop lootDrop, @Nullable IDrop iDrop, FlagTrigger trigger) {
-		ActiveDrop.get(item).startBeamRunnable(values.getDouble());
+	public void onCallEntity(Entity item, DropMeta meta) {
+		ActiveDrop.get(item).startBeamRunnable(meta.getDouble());
 	}
 
 }

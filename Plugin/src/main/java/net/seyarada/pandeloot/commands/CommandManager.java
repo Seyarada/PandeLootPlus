@@ -3,7 +3,6 @@ package net.seyarada.pandeloot.commands;
 import net.seyarada.pandeloot.Constants;
 import net.seyarada.pandeloot.Logger;
 import net.seyarada.pandeloot.utils.ChatUtils;
-import net.seyarada.pandeloot.utils.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

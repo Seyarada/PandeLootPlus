@@ -1,6 +1,7 @@
 package net.seyarada.pandeloot.flags.effects;
 
 import io.lumine.mythic.bukkit.MythicBukkit;
+import net.seyarada.pandeloot.drops.DropMeta;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagEffect;
@@ -13,16 +14,16 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
-@FlagEffect(id="skill", description="Broadcast a message")
+@FlagEffect(id="skill", description="Casts a MythicMobs skill")
 public class MythicSkillFlag implements IGeneralEvent {
 	
 	@Override
-	public void onCallGeneral(FlagPack.FlagModifiers values, @Nullable LootDrop lootDrop, @Nullable IDrop iDrop, FlagTrigger trigger) {
-		if(lootDrop==null) return;
+	public void onCallGeneral(DropMeta meta) {
+		if(meta.lootDrop()==null) return;
 
-		Location origin = lootDrop.getLocation();
-		String skill = values.getString();
-		Entity caster = (lootDrop.p!=null) ? lootDrop.p : lootDrop.sourceEntity;
+		Location origin = meta.lootDrop().getLocation();
+		String skill = meta.getString();
+		Entity caster = (meta.lootDrop().p!=null) ? meta.lootDrop().p : meta.lootDrop().sourceEntity;
 		ArrayList<Entity> targets = new ArrayList<>();
 		targets.add(caster);
 		ArrayList<Location> locationTargets = new ArrayList<>();

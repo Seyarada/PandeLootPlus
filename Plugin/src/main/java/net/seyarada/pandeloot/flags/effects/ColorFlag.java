@@ -2,6 +2,7 @@ package net.seyarada.pandeloot.flags.effects;
 
 import net.md_5.bungee.api.ChatColor;
 import net.seyarada.pandeloot.drops.ActiveDrop;
+import net.seyarada.pandeloot.drops.DropMeta;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagEffect;
@@ -17,11 +18,11 @@ import javax.annotation.Nullable;
 public class ColorFlag implements IEntityEvent {
 
 	@Override
-	public void onCallEntity(Entity item, FlagPack.FlagModifiers values, @Nullable LootDrop lootDrop, @Nullable IDrop iDrop, FlagTrigger trigger) {
+	public void onCallEntity(Entity item, DropMeta meta) {
 		ActiveDrop activeDrop = ActiveDrop.get(item);
 
-		String colorString = values.getString();
-		switch (values.getString().toUpperCase()) {
+		String colorString = meta.getString();
+		switch (colorString.toUpperCase()) {
 			case "RANDOM" -> colorString = ColorUtils.getRandomColorString();
 			case "RAINBOW" -> {
 				activeDrop.startRainbowRunnable();

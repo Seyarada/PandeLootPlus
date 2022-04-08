@@ -1,6 +1,7 @@
 package net.seyarada.pandeloot.flags.effects;
 
 import net.seyarada.pandeloot.Logger;
+import net.seyarada.pandeloot.drops.DropMeta;
 import net.seyarada.pandeloot.drops.ItemDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagEffect;
@@ -14,12 +15,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Random;
 import java.util.logging.Level;
 
-@FlagEffect(id="amount", description="Broadcast a message", priority = FlagPriority.LOW)
+@FlagEffect(id="amount", description="Changes the amount of a drop", priority = FlagPriority.LOW)
 public class AmountFlag implements IItemEvent {
 
 	@Override
-	public void onCallItem(Item item, FlagPack.FlagModifiers values, @Nullable LootDrop lootDrop, @Nullable ItemDrop itemDrop, FlagTrigger trigger) {
-		int amount = getValueFromRanged(values.getString());
+	public void onCallItem(Item item, DropMeta meta) {
+		int amount = getValueFromRanged(meta.getString());
 		item.getItemStack().setAmount(amount);
 	}
 

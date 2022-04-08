@@ -1,5 +1,6 @@
 package net.seyarada.pandeloot.flags.effects;
 
+import net.seyarada.pandeloot.drops.DropMeta;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagEffect;
@@ -12,8 +13,8 @@ import org.bukkit.Bukkit;
 public class BroadcastFlag implements IGeneralEvent {
 
 	@Override
-	public void onCallGeneral(FlagPack.FlagModifiers values, LootDrop lootDrop, IDrop iDrop, FlagTrigger trigger) {
-		Bukkit.broadcastMessage(values.getString());
+	public void onCallGeneral(DropMeta meta) {
+		Bukkit.broadcastMessage(meta.getString());
 	}
 
 }

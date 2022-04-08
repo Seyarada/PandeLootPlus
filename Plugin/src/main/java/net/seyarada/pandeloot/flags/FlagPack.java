@@ -2,6 +2,7 @@ package net.seyarada.pandeloot.flags;
 
 import net.seyarada.pandeloot.Logger;
 import net.seyarada.pandeloot.config.Config;
+import net.seyarada.pandeloot.drops.DropMeta;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.ItemDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
@@ -9,7 +10,7 @@ import net.seyarada.pandeloot.flags.enums.FlagPriority;
 import net.seyarada.pandeloot.flags.enums.FlagTrigger;
 import net.seyarada.pandeloot.flags.types.*;
 import net.seyarada.pandeloot.utils.EnumUtils;
-import net.seyarada.pandeloot.utils.StringUtils;
+import net.seyarada.pandeloot.utils.StringParser;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
@@ -17,7 +18,6 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 
 public class FlagPack {
@@ -41,17 +41,19 @@ public class FlagPack {
                 if(flagClass.getClass().getAnnotation(FlagEffect.class).priority()!=priority)
                     continue;
 
+                DropMeta meta = new DropMeta(flagData, lootDrop, iDrop, trigger);
+
                 if(flagClass instanceof IGeneralEvent e) {
-                    e.onCallGeneral(flagData, lootDrop, iDrop, trigger);
+                    e.onCallGeneral(meta);
                 }
-                if(flagClass instanceof IItemEvent e && iDrop instanceof ItemDrop d && d.item!=null && lootDrop.dropEntity!=null) {
-                    e.onCallItem((Item)entity, flagData, lootDrop, d, trigger);
+                if(flagClass instanceof IItemEvent e && iDrop instanceof ItemDrop d && d.item!=null && lootDrop!=null && lootDrop.dropEntity!=null) {
+                    e.onCallItem((Item)entity, meta);
                 }
                 if(flagClass instanceof IEntityEvent e && entity!=null) {
-                    e.onCallEntity(entity, flagData, lootDrop, iDrop, trigger);
+                    e.onCallEntity(entity, meta);
                 }
-                if(flagClass instanceof IPlayerEvent e && lootDrop.p!=null) {
-                    e.onCallPlayer(lootDrop.p, flagData, lootDrop, iDrop, trigger);
+                if(flagClass instanceof IPlayerEvent e && lootDrop!=null && lootDrop.p!=null) {
+                    e.onCallPlayer(lootDrop.p, meta);
                 }
             }
         }
@@ -69,17 +71,19 @@ public class FlagPack {
                 if(flagClass.getClass().getAnnotation(FlagEffect.class).priority()!=priority)
                     continue;
 
+                DropMeta meta = new DropMeta(flagData, null, null, trigger);
+
                 if(flagClass instanceof IGeneralEvent e) {
-                    e.onCallGeneral(flagData, null, null, trigger);
+                    e.onCallGeneral(meta);
                 }
                 if(flagClass instanceof IItemEvent e) {
-                    e.onCallItem((Item)entity, flagData, null, null, trigger);
+                    e.onCallItem((Item)entity, meta);
                 }
                 if(flagClass instanceof IEntityEvent e && entity!=null) {
-                    e.onCallEntity(entity, flagData, null, null, trigger);
+                    e.onCallEntity(entity, meta);
                 }
                 if(flagClass instanceof IPlayerEvent e) {
-                    e.onCallPlayer(player, flagData, null, null, trigger);
+                    e.onCallPlayer(player, meta);
                 }
             }
         }
@@ -273,7 +277,7 @@ public class FlagPack {
         }
 
         public String getString(String key) {
-            return StringUtils.parse(get(key));
+            return get(key);
         }
 
         public int getInt() {
@@ -283,12 +287,12 @@ public class FlagPack {
         public int getInt(String key) {
             if(!containsKey(key)) return 0;
             String value = getString(key);
-            return (int) StringUtils.parseAndMath(value);
+            return (int) StringParser.parseAndMath(value);
         }
 
         public int getIntOrDefault(String key, int defaultInt) {
             String value = getString(key);
-            return (value!=null) ? (int) StringUtils.parseAndMath(value) : defaultInt;
+            return (value!=null) ? (int) StringParser.parseAndMath(value) : defaultInt;
         }
 
         public double getDouble() {
@@ -298,12 +302,12 @@ public class FlagPack {
         public double getDouble(String key) {
             if(!containsKey(key)) return 0;
             String value = getString(key);
-            return StringUtils.parseAndMath(value);
+            return StringParser.parseAndMath(value);
         }
 
         public double getDoubleOrDefault(String key, double defaultDouble) {
             String value = getString(key);
-            return (value!=null) ? StringUtils.parseAndMath(value) : defaultDouble;
+            return (value!=null) ? StringParser.parseAndMath(value) : defaultDouble;
         }
 
         public long getLong() {
@@ -313,12 +317,12 @@ public class FlagPack {
         public long getLong(String key) {
             if(!containsKey(key)) return 0;
             String value = getString(key);
-            return (long) StringUtils.parseAndMath(value);
+            return (long) StringParser.parseAndMath(value);
         }
 
         public long getLongOrDefault(String key, long defaultLong) {
             String value = getString(key);
-            return (value!=null) ? (long) StringUtils.parseAndMath(value) : defaultLong;
+            return (value!=null) ? (long) StringParser.parseAndMath(value) : defaultLong;
         }
 
         public boolean getBoolean() {
@@ -357,21 +361,21 @@ public class FlagPack {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         flags.forEach((trigger, value) -> {
-            builder.append(trigger.toString() + "=[");
+            builder.append(trigger.toString()).append("=[");
             value.forEach((flag, flagValue) -> {
-                builder.append(FlagManager.getFromClass(flag) + "=");
+                builder.append(FlagManager.getFromClass(flag)).append("=");
                 builder.append("<");
                 flagValue.forEach((mod, modValue) -> {
-                    builder.append(mod + "=" + modValue + ";");
+                    builder.append(mod).append("=").append(modValue).append(";");
                 });
                 builder.append(">;");
             });
             if(conditionFlags.containsKey(trigger)) {
                 conditionFlags.get(trigger).forEach((condition, condValue) -> {
-                    builder.append(FlagManager.getFromClass(condition) + "=");
+                    builder.append(FlagManager.getFromClass(condition)).append("=");
                     builder.append("<");
                     condValue.forEach((mod, modValue) -> {
-                        builder.append(mod + "=" + modValue + ";");
+                        builder.append(mod).append("=").append(modValue).append(";");
                     });
                     builder.append(">;");
                 });

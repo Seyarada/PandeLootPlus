@@ -1,5 +1,6 @@
 package net.seyarada.pandeloot.flags.effects;
 
+import net.seyarada.pandeloot.drops.DropMeta;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagEffect;
@@ -19,9 +20,9 @@ import javax.annotation.Nullable;
 public class RemoveFlag implements IServerEvent, IEntityEvent {
 
 	@Override
-	public void onCallEntity(Entity item, FlagPack.FlagModifiers values, @Nullable LootDrop lootDrop, @Nullable IDrop iDrop, FlagTrigger trigger) {
-		if(!values.getBoolean()) return;
-		if(trigger==FlagTrigger.onpickup) return;
+	public void onCallEntity(Entity item, DropMeta meta) {
+		if(!meta.getBoolean()) return;
+		if(meta.trigger()==FlagTrigger.onpickup) return;
 		item.remove();
 	}
 

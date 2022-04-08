@@ -2,6 +2,7 @@ package net.seyarada.pandeloot.flags.effects;
 
 import net.seyarada.pandeloot.PandeLoot;
 import net.seyarada.pandeloot.drops.ActiveDrop;
+import net.seyarada.pandeloot.drops.DropMeta;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagEffect;
@@ -19,13 +20,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-@FlagEffect(id="hologram", description="Gives an item to the player")
+@FlagEffect(id="hologram", description="Creates an hologram for an item")
 public class HologramFlag implements IEntityEvent {
 
 	@Override
-	public void onCallEntity(Entity entity, FlagPack.FlagModifiers values, LootDrop lootDrop, IDrop itemDrop, FlagTrigger trigger) {
+	public void onCallEntity(Entity entity, DropMeta meta) {
 
-		switch (values.getString().toLowerCase()) {
+		switch (meta.getString().toLowerCase()) {
 			case "displaycustom" -> {
 				if(entity instanceof Item item) {
 					ItemStack iS = item.getItemStack();
@@ -49,7 +50,7 @@ public class HologramFlag implements IEntityEvent {
 				if(entity instanceof Item item) {
 					ItemStack iS = item.getItemStack();
 					if(iS.hasItemMeta()) {
-						attachedHologram(entity, lootDrop, iS.getItemMeta().getLore());
+						attachedHologram(entity, meta.lootDrop(), iS.getItemMeta().getLore());
 					}
 				}
 			}
@@ -62,16 +63,16 @@ public class HologramFlag implements IEntityEvent {
 						fullText.add(0, (iS.hasItemMeta())
 								? iS.getItemMeta().getDisplayName()
 								: WordUtils.capitalizeFully(iS.getType().toString().replaceAll("_", " ")));
-						if(lootDrop!=null) {
+						if(meta.lootDrop()!=null) {
 							for (int i = 0, fullTextSize = fullText.size(); i < fullTextSize; i++) {
-								fullText.set(i, lootDrop.parse(fullText.get(i)));
+								fullText.set(i, meta.lootDrop().parse(fullText.get(i)));
 							}
 						}
-						attachedHologram(entity, lootDrop, fullText);
+						attachedHologram(entity, meta.lootDrop(), fullText);
 					}
 				}
 			}
-			default -> attachedHologram(entity, lootDrop, Arrays.asList(values.getString().split(",")));
+			default -> attachedHologram(entity, meta.lootDrop(), Arrays.asList(meta.getString().split(",")));
 		}
 
 	}

@@ -2,14 +2,21 @@ package net.seyarada.pandeloot.utils;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.seyarada.pandeloot.PandeLoot;
+import net.seyarada.pandeloot.drops.DropMeta;
 
-public class StringUtils {
+public class StringParser {
 
-    public static String parse(String text) {
+    public static String parse(String text, DropMeta meta) {
         if(text==null) return null;
 
         try {
-            return ChatUtils.translateHexCodes(text);
+            text = ChatUtils.translateHexCodes(text);
+
+            if(meta!=null) {
+                if(meta.lootDrop()!=null) text = meta.lootDrop().parse(text);
+            }
+
+            return text;
         } catch (Exception e) {
             e.printStackTrace();
             return text;

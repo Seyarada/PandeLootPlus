@@ -1,5 +1,6 @@
 package net.seyarada.pandeloot.flags.effects;
 
+import net.seyarada.pandeloot.drops.DropMeta;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagEffect;
@@ -12,14 +13,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
-@FlagEffect(id="toast", description="Gives an item to the player")
+@FlagEffect(id="toast", description="Sends a toast")
 public class ToastFlag implements IPlayerEvent {
 
 	@Override
-	public void onCallPlayer(Player player, FlagPack.FlagModifiers values, @Nullable LootDrop lootDrop, @Nullable IDrop iDrop, FlagTrigger trigger) {
+	public void onCallPlayer(Player player, DropMeta meta) {
 		NMSManager.get().
-				displayToast(player, values.getString(), values.getString("frame"),
-						new ItemStack(Material.valueOf(values.getString("icon"))));
+				displayToast(player, meta.getString(), meta.getString("frame"),
+						new ItemStack(Material.valueOf(meta.getString("icon"))));
 	}
 
 }

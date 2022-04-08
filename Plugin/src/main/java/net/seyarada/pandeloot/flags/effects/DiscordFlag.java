@@ -5,6 +5,7 @@ import github.scarsz.discordsrv.dependencies.jda.api.entities.MessageEmbed;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import github.scarsz.discordsrv.util.DiscordUtil;
 import net.seyarada.pandeloot.Logger;
+import net.seyarada.pandeloot.drops.DropMeta;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagEffect;
@@ -15,25 +16,25 @@ import net.seyarada.pandeloot.flags.types.IGeneralEvent;
 import java.awt.*;
 import java.util.logging.Level;
 
-@FlagEffect(id="discord", description="Broadcast a message")
+@FlagEffect(id="discord", description="Link for DiscordSRV")
 public class DiscordFlag implements IGeneralEvent {
 
 	static final String URL = "https://crafatar.com/avatars/";
 
 	@Override
-	public void onCallGeneral(FlagPack.FlagModifiers values, LootDrop lootDrop, IDrop iDrop, FlagTrigger trigger) {
-		String msg = (lootDrop!=null) ? lootDrop.parse(values.getString()) : values.getString();
+	public void onCallGeneral(DropMeta meta) {
+		String msg = meta.getString();
 
-		boolean isEmbed = values.getBooleanOrDefault("embed", true);
+		boolean isEmbed = meta.getBooleanOrDefault("embed", true);
 
-		String title = values.getString("title");
-		String color = values.getString("color");
-		String thumbnail = values.getString("thumbnail");
-		String author = values.getString("author");
-		String footer = values.getString("footer");
-		String image = values.getString("image");
-		boolean useAvatar = values.getBoolean("avatar");
-		long channel = values.getLong("channel");
+		String title = meta.getString("title");
+		String color = meta.getString("color");
+		String thumbnail = meta.getString("thumbnail");
+		String author = meta.getString("author");
+		String footer = meta.getString("footer");
+		String image = meta.getString("image");
+		boolean useAvatar = meta.getBoolean("avatar");
+		long channel = meta.getLong("channel");
 
 		TextChannel discordChannel = DiscordUtil.getJda().getTextChannelById(channel);
 		if(discordChannel==null) {
@@ -51,7 +52,7 @@ public class DiscordFlag implements IGeneralEvent {
 			if(footer!=null) builder.setFooter(footer);
 			if(image!=null) builder.setImage(image);
 
-			if(useAvatar && lootDrop!=null && lootDrop.p!=null) builder.setThumbnail(URL+lootDrop.p.getUniqueId());
+			if(useAvatar && meta.lootDrop()!=null && meta.lootDrop().p!=null) builder.setThumbnail(URL+meta.lootDrop().p.getUniqueId());
 			if(thumbnail!=null) builder.setThumbnail(thumbnail);
 
 			builder.setDescription(msg);

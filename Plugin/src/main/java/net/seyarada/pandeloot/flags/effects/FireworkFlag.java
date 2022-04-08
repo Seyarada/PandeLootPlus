@@ -1,5 +1,6 @@
 package net.seyarada.pandeloot.flags.effects;
 
+import net.seyarada.pandeloot.drops.DropMeta;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagEffect;
@@ -16,22 +17,22 @@ import org.bukkit.entity.Firework;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.jetbrains.annotations.Nullable;
 
-@FlagEffect(id="firework", description="Broadcast a message")
+@FlagEffect(id="firework", description="Spawns a firework rocket")
 public class FireworkFlag implements IEntityEvent {
 
 	@Override
-	public void onCallEntity(Entity entity, FlagPack.FlagModifiers values, @Nullable LootDrop lootDrop, @Nullable IDrop iDrop, FlagTrigger trigger) {
+	public void onCallEntity(Entity entity, DropMeta meta) {
 		Location loc = entity.getLocation();
 
 		Firework fw = (Firework) loc.getWorld().spawnEntity(loc, EntityType.FIREWORK);
 		FireworkMeta fwm = fw.getFireworkMeta();
 
-		int power = values.getInt("power");
-		Color color = ColorUtils.getRGB(values.getOrDefault("value", "WHITE"));
-		boolean flicker = values.getBoolean("flicker");
-		boolean trail = values.getBoolean("trail");
-		boolean instant = values.getBoolean("instant");
-		FireworkEffect.Type type = FireworkEffect.Type.valueOf(values.getOrDefault("type", "BALL").toUpperCase());
+		int power = meta.getInt("power");
+		Color color = ColorUtils.getRGB(meta.getOrDefault("value", "WHITE"));
+		boolean flicker = meta.getBoolean("flicker");
+		boolean trail = meta.getBoolean("trail");
+		boolean instant = meta.getBoolean("instant");
+		FireworkEffect.Type type = FireworkEffect.Type.valueOf(meta.getOrDefault("type", "BALL").toUpperCase());
 
 		if(power!=0) fwm.setPower(power);
 		fwm.addEffect(FireworkEffect.builder()

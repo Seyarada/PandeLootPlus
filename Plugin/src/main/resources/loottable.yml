@@ -1,5 +1,5 @@
 MyExampleTable:
-  Drops:
+  Rewards:
     - diamond{explode=true;glow=true}
     - diamond{explode=true;glow=true;color=RED}
     - diamond{explode=true;glow=true;color=YELLOW}

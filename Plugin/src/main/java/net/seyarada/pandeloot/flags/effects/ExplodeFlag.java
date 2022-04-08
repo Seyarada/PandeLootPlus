@@ -1,5 +1,6 @@
 package net.seyarada.pandeloot.flags.effects;
 
+import net.seyarada.pandeloot.drops.DropMeta;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagEffect;
@@ -18,38 +19,38 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ExplodeFlag implements IEntityEvent {
 
 	@Override
-	public void onCallEntity(Entity item, FlagPack.FlagModifiers values, @Nullable LootDrop lootDrop, @Nullable IDrop iDrop, FlagTrigger trigger) {
-		if(!values.getBoolean()) return;
+	public void onCallEntity(Entity item, DropMeta meta) {
+		if(!meta.getBoolean()) return;
 
-		String explosionType = values.getOrDefault("type", "spread");
+		String explosionType = meta.getOrDefault("type", "spread");
 
 		switch (explosionType) {
-			case "radial" -> doRadialDrop(item, values, lootDrop);
-			case "circular" -> doCircularDrop(item, values);
-			default -> doSpreadDrop(item, values);
+			case "radial" -> doRadialDrop(item, meta.values(), meta.lootDrop());
+			case "circular" -> doCircularDrop(item, meta.values());
+			default -> doSpreadDrop(item, meta.values());
 		}
 
 	}
 
 
-	void doSpreadDrop(Entity item, FlagPack.FlagModifiers values) {
-		final double offset = Double.parseDouble(values.getOrDefault("offset", "0.2"));
-		final double height = Double.parseDouble(values.getOrDefault("height", "0.6"));
+	void doSpreadDrop(Entity item, FlagPack.FlagModifiers meta) {
+		final double offset = Double.parseDouble(meta.getOrDefault("offset", "0.2"));
+		final double height = Double.parseDouble(meta.getOrDefault("height", "0.6"));
 		Vector velocity = MathUtils.getVelocity(offset, height);
 
 		item.setVelocity(velocity);
 	}
 
-	void doCircularDrop(Entity item, FlagPack.FlagModifiers values) {
+	void doCircularDrop(Entity item, FlagPack.FlagModifiers meta) {
 		ThreadLocalRandom rand = ThreadLocalRandom.current();
-		double radius = Double.parseDouble(values.getOrDefault("radius", "3"));
+		double radius = Double.parseDouble(meta.getOrDefault("radius", "3"));
 
 		Vector destination = new Vector(Math.cos(rand.nextDouble() * 360) * radius, 0, Math.sin(rand.nextDouble() * 360) * radius);
 		item.setVelocity(MathUtils.calculateVelocity(item.getLocation().toVector(), destination, 0.115, 3));
 	}
 
-	void doRadialDrop(Entity item, FlagPack.FlagModifiers values, LootDrop drop) {
-		double radius = Double.parseDouble(values.getOrDefault("radius", "3"));
+	void doRadialDrop(Entity item, FlagPack.FlagModifiers meta, LootDrop drop) {
+		double radius = Double.parseDouble(meta.getOrDefault("radius", "3"));
 
 		int numberOfTotalDrops = 1;
 		int numberOfThisDrop = 1;
@@ -61,7 +62,7 @@ public class ExplodeFlag implements IEntityEvent {
 		}
 
 		if(numberOfTotalDrops==1) {
-			doSpreadDrop(item, values);
+			doSpreadDrop(item, meta);
 			return;
 		}
 

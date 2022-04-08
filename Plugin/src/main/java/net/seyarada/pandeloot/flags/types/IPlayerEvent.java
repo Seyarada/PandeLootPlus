@@ -1,5 +1,6 @@
 package net.seyarada.pandeloot.flags.types;
 
+import net.seyarada.pandeloot.drops.DropMeta;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagPack;
@@ -10,6 +11,6 @@ import javax.annotation.Nullable;
 
 public interface IPlayerEvent extends IFlag {
 
-	void onCallPlayer(Player player, FlagPack.FlagModifiers values, @Nullable LootDrop lootDrop, @Nullable IDrop iDrop, FlagTrigger trigger);
+	void onCallPlayer(Player player, DropMeta meta);
 
 }

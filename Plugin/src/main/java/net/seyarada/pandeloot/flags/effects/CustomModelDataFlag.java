@@ -1,5 +1,6 @@
 package net.seyarada.pandeloot.flags.effects;
 
+import net.seyarada.pandeloot.drops.DropMeta;
 import net.seyarada.pandeloot.drops.ItemDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagEffect;
@@ -14,12 +15,12 @@ import org.jetbrains.annotations.Nullable;
 public class CustomModelDataFlag implements IItemEvent {
 
 	@Override
-	public void onCallItem(Item item, FlagPack.FlagModifiers values, @Nullable LootDrop lootDrop, @Nullable ItemDrop itemDrop, FlagTrigger trigger) {
-		if(values.getInt()>0) {
-			ItemMeta meta = item.getItemStack().getItemMeta();
-			if(meta!=null) {
-				meta.setCustomModelData(values.getInt());
-				item.getItemStack().setItemMeta(meta);
+	public void onCallItem(Item item, DropMeta meta) {
+		if(meta.getInt()>0) {
+			ItemMeta itemMeta = item.getItemStack().getItemMeta();
+			if(itemMeta!=null) {
+				itemMeta.setCustomModelData(meta.getInt());
+				item.getItemStack().setItemMeta(itemMeta);
 			}
 		}
 	}

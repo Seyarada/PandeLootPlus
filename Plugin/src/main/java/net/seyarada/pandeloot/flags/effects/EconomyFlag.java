@@ -2,6 +2,7 @@ package net.seyarada.pandeloot.flags.effects;
 
 import net.milkbowl.vault.economy.Economy;
 import net.seyarada.pandeloot.compatibility.VaultCompatibility;
+import net.seyarada.pandeloot.drops.DropMeta;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagEffect;
@@ -13,19 +14,19 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
-@FlagEffect(id="economy", description="Broadcast a message")
+@FlagEffect(id="economy", description="Manages economy operations")
 public class EconomyFlag implements IPlayerEvent, ICondition {
 
 	@Override
-	public void onCallPlayer(Player player, FlagPack.FlagModifiers values, @Nullable LootDrop lootDrop, @Nullable IDrop iDrop, FlagTrigger trigger) {
+	public void onCallPlayer(Player player, DropMeta meta) {
 		Economy economy = VaultCompatibility.getEconomy();
 
-		if(values.getIntOrDefault("give", 0)!=0) {
-			economy.depositPlayer(player, values.getInt("give"));
+		if(meta.getIntOrDefault("give", 0)!=0) {
+			economy.depositPlayer(player, meta.getInt("give"));
 		}
 
-		if(values.getIntOrDefault("take", 0)!=0) {
-			economy.withdrawPlayer(player, values.getInt("take"));
+		if(meta.getIntOrDefault("take", 0)!=0) {
+			economy.withdrawPlayer(player, meta.getInt("take"));
 		}
 
 	}
