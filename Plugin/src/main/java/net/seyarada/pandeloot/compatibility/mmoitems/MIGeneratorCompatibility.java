@@ -30,10 +30,10 @@ public class MIGeneratorCompatibility {
         FlagPack.FlagModifiers miData = pack.getFlag(TypeFlag.class);
         String type = miData.getString();
 
-        if(player==null || type==null || type.isBlank())
+        if(type==null || type.isBlank())
             return MMOItemsCompatibility.getItem(item, pack, player);
 
-        RPGPlayer rpgPlayer = PlayerData.get(player).getRPG();
+        RPGPlayer rpgPlayer = player != null ? PlayerData.get(player).getRPG() : null;
 
         int itemLevel;
         ItemTier itemTier;
@@ -41,7 +41,7 @@ public class MIGeneratorCompatibility {
 
         if(miData.containsKey("level")) {
             itemLevel = (int) StringParser.parseAndMath(miData.getString("level"), drop);
-        } else if(miData.containsKey("matchlevel")) {
+        } else if(miData.containsKey("matchlevel") && rpgPlayer!=null) {
             itemLevel = MMOItems.plugin.getTemplates().rollLevel(rpgPlayer.getLevel());
         } else itemLevel = (1 + random.nextInt(100));
 
@@ -50,7 +50,7 @@ public class MIGeneratorCompatibility {
             itemTier = MMOItems.plugin.getTiers().getOrThrow(tier);
         } else itemTier = MMOItems.plugin.getTemplates().rollTier();
 
-        if (miData.containsKey("matchclass"))
+        if (miData.containsKey("matchclass") && rpgPlayer!=null)
             builder.applyFilter(new ClassFilter(rpgPlayer));
 
         if (miData.containsKey("class")) {
