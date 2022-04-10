@@ -36,7 +36,7 @@ public class MIGeneratorCompatibility {
         RPGPlayer rpgPlayer = player != null ? PlayerData.get(player).getRPG() : null;
 
         int itemLevel;
-        ItemTier itemTier;
+        ItemTier itemTier = null;
         TemplateExplorer builder = new TemplateExplorer();
 
         if(miData.containsKey("level")) {
@@ -48,7 +48,7 @@ public class MIGeneratorCompatibility {
         if(miData.containsKey("tier")) {
             String tier = miData.getString("tier").toUpperCase().replace("-", "_");
             itemTier = MMOItems.plugin.getTiers().getOrThrow(tier);
-        } else itemTier = MMOItems.plugin.getTemplates().rollTier();
+        };
 
         if (miData.containsKey("matchclass") && rpgPlayer!=null)
             builder.applyFilter(new ClassFilter(rpgPlayer));
