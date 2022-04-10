@@ -1,6 +1,5 @@
 package net.seyarada.pandeloot.drops;
 
-import me.clip.placeholderapi.PlaceholderAPI;
 import net.seyarada.pandeloot.Logger;
 import net.seyarada.pandeloot.PandeLoot;
 import net.seyarada.pandeloot.config.Boosts;
@@ -13,6 +12,7 @@ import net.seyarada.pandeloot.nms.NMSManager;
 import net.seyarada.pandeloot.trackers.DamageBoard;
 import net.seyarada.pandeloot.utils.ChatUtils;
 import net.seyarada.pandeloot.utils.MathUtils;
+import net.seyarada.pandeloot.utils.StringParser;
 import org.apache.commons.lang.text.StrSubstitutor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -20,12 +20,14 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 public class LootDrop {
 
     ArrayList<IDrop> itemDrops;
+    List<String> dropStrings;
     public final Player p;
     public final Location l;
     public Entity dropEntity;
@@ -49,15 +51,36 @@ public class LootDrop {
     // For example, radial exploding knowing the order of the drop
     public final HashMap<String, String> data = new HashMap<>();
 
-    public LootDrop(List<IDrop> dropList, Player p, Location l) {
+    public LootDrop(ArrayList<IDrop> dropList, Player p, Location l) {
         this.p = p;
         this.l = l;
         this.baseDropList = dropList;
     }
 
+    public LootDrop(List<String> stringList, Player player, Location l) {
+        this.p = player;
+        this.l = l;
+        this.dropStrings = stringList;
+    }
+
+    public LootDrop(String str, Player player, Location l) {
+        this.p = player;
+        this.l = l;
+        this.dropStrings = Collections.singletonList(str);
+    }
+
+    public LootDrop(IDrop drop, Player player, Location l) {
+        this.p = player;
+        this.l = l;
+        this.baseDropList = Collections.singletonList(drop);
+    }
+
     public LootDrop build() {
-        itemDrops = collectDrops(baseDropList);
         loadPlaceholders();
+        if(baseDropList!=null && baseDropList.size()>0)
+            itemDrops = collectDrops(baseDropList);
+        else
+            itemDrops = collectDrops(IDrop.getAsDrop(dropStrings, p, this));
         return this;
     }
 
@@ -97,7 +120,6 @@ public class LootDrop {
             boost = Math.max(Boosts.getBoost(sUUID), globalBoost);
         }
 
-        placeholderValues.put("drop.size", String.valueOf(size()));
         placeholderValues.put("global.boost", String.valueOf(globalBoost));
         placeholderValues.put("boost", String.valueOf(boost));
 
@@ -133,16 +155,9 @@ public class LootDrop {
             }
     }
 
-    public String parse(String text) {
+    public String substitor(String text) {
         loadPlaceholders();
-        if(p!=null && PandeLoot.papiEnabled)
-            text = PlaceholderAPI.setPlaceholders(p, text);
-        if(sub==null)
-            return ChatUtils.translateHexCodes(text);
-        String result = ChatUtils.translateHexCodes(sub.replace(text));
-        if(result.chars().filter(ch -> ch == '%').count() >= 2)
-            return null;
-        return result;
+        return StringParser.parseText(text, this);
     }
 
     public ArrayList<IDrop> collectDrops(List<IDrop> drops) {
@@ -173,7 +188,7 @@ public class LootDrop {
 
         List<String> lines = new ArrayList<>();
         Config.getScoreHologram().forEach(msg -> {
-            msg = parse(msg);
+            msg = substitor(msg);
             if(msg!=null) {
                 lines.add(msg);
             }
@@ -185,19 +200,16 @@ public class LootDrop {
     public void displayScoreMessage() {
         if(p==null) return;
         Config.getScoreMessage().forEach(msg -> {
-            msg = parse(msg);
+            msg = substitor(msg);
             if(msg!=null) ChatUtils.sendCenteredMessage(p, msg);
         });
     }
 
     public Location getLocation() {
-        if (p != null && l != null) {
+        if (l != null)
             return l;
-        } else if (l != null) {
-            return l;
-        } else if (p != null) {
+         if (p != null)
             return p.getLocation();
-        }
         return null;
     }
 

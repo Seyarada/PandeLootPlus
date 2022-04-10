@@ -1,8 +1,6 @@
 package net.seyarada.pandeloot.flags.effects;
 
-import net.seyarada.pandeloot.drops.DropMeta;
-import net.seyarada.pandeloot.drops.IDrop;
-import net.seyarada.pandeloot.drops.LootDrop;
+import net.seyarada.pandeloot.drops.ItemDropMeta;
 import net.seyarada.pandeloot.flags.FlagEffect;
 import net.seyarada.pandeloot.flags.FlagPack;
 import net.seyarada.pandeloot.flags.enums.FlagTrigger;
@@ -14,13 +12,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 
-import javax.annotation.Nullable;
-
 @FlagEffect(id="remove", description="Removes the item")
 public class RemoveFlag implements IServerEvent, IEntityEvent {
 
 	@Override
-	public void onCallEntity(Entity item, DropMeta meta) {
+	public void onCallEntity(Entity item, ItemDropMeta meta) {
 		if(!meta.getBoolean()) return;
 		if(meta.trigger()==FlagTrigger.onpickup) return;
 		item.remove();

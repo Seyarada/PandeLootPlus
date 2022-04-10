@@ -1,12 +1,10 @@
 package net.seyarada.pandeloot.compatibility.mythicmobs;
 
 import io.lumine.mythic.api.config.MythicConfig;
-import io.lumine.mythic.bukkit.MythicBukkit;
 import io.lumine.mythic.bukkit.events.MythicMechanicLoadEvent;
 import io.lumine.mythic.bukkit.events.MythicMobDeathEvent;
 import io.lumine.mythic.bukkit.events.MythicMobSpawnEvent;
 import net.seyarada.pandeloot.Logger;
-import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.trackers.DamageBoard;
 import org.bukkit.Bukkit;
@@ -15,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -57,8 +54,7 @@ public class MythicMobsListener implements Listener {
 
         for(UUID uuid : damageBoard.playersAndDamage.keySet()) {
             Player player = Bukkit.getPlayer(uuid);
-            ArrayList<IDrop> itemsToDrop = IDrop.getAsDrop(strings, player);
-            LootDrop lootDrop = new LootDrop(itemsToDrop, player, e.getEntity().getLocation())
+            LootDrop lootDrop = new LootDrop(strings, player, e.getEntity().getLocation())
                     .setDamageBoard(damageBoard)
                     .setSourceEntity(e.getEntity())
                     .build();

@@ -1,16 +1,11 @@
 package net.seyarada.pandeloot.flags.effects;
 
 import net.seyarada.pandeloot.Logger;
-import net.seyarada.pandeloot.drops.DropMeta;
-import net.seyarada.pandeloot.drops.ItemDrop;
-import net.seyarada.pandeloot.drops.LootDrop;
+import net.seyarada.pandeloot.drops.ItemDropMeta;
 import net.seyarada.pandeloot.flags.FlagEffect;
-import net.seyarada.pandeloot.flags.FlagPack;
 import net.seyarada.pandeloot.flags.enums.FlagPriority;
-import net.seyarada.pandeloot.flags.enums.FlagTrigger;
 import net.seyarada.pandeloot.flags.types.IItemEvent;
 import org.bukkit.entity.Item;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 import java.util.logging.Level;
@@ -19,7 +14,7 @@ import java.util.logging.Level;
 public class AmountFlag implements IItemEvent {
 
 	@Override
-	public void onCallItem(Item item, DropMeta meta) {
+	public void onCallItem(Item item, ItemDropMeta meta) {
 		int amount = getValueFromRanged(meta.getString());
 		item.getItemStack().setAmount(amount);
 	}

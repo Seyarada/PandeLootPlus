@@ -9,8 +9,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 
-import java.util.Collections;
-
 public class DropEvents implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -20,7 +18,7 @@ public class DropEvents implements Listener {
             FlagPack pack = FlagPack.fromCompact(Config.blockBreakFlags());
             e.getBlock().getDrops(e.getPlayer().getItemInHand(), e.getPlayer()).forEach(iS -> {
                 ItemDrop itemDrop = new ItemDrop(iS, pack);
-                new LootDrop(Collections.singletonList(itemDrop), e.getPlayer(), e.getBlock().getLocation())
+                new LootDrop(itemDrop, e.getPlayer(), e.getBlock().getLocation())
                         .build()
                         .drop();
             });
@@ -32,7 +30,7 @@ public class DropEvents implements Listener {
         if(Config.playerDrop()) {
             FlagPack pack = FlagPack.fromCompact(Config.playerDropFlags());
             EntityDrop eDrop = new EntityDrop(e.getItemDrop(), pack);
-            new LootDrop(Collections.singletonList(eDrop), e.getPlayer(), e.getPlayer().getLocation())
+            new LootDrop(eDrop, e.getPlayer(), e.getPlayer().getLocation())
                     .build()
                     .drop();
         }

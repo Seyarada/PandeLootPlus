@@ -1,6 +1,7 @@
 package net.seyarada.pandeloot.commands;
 
 import net.seyarada.pandeloot.Constants;
+import net.seyarada.pandeloot.Logger;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.utils.ChatUtils;
 import org.bukkit.Bukkit;
@@ -51,13 +52,15 @@ public class GiveCommand {
             sb.append(args[2+i]);
         }
 
-        ItemStack iS = IDrop.getAsDrop(sb.toString(), player).getItemStack();
+        Logger.record();
+        ItemStack iS = IDrop.getAsDrop(sb.toString(), player, null).getItemStack();
         if(iS==null) {
             player.sendMessage("Couldn't find an item for that drop");
             return;
         }
 
         player.getInventory().addItem(iS);
+        Logger.print();
     }
 
 }

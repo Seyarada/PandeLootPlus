@@ -5,12 +5,8 @@ import github.scarsz.discordsrv.dependencies.jda.api.entities.MessageEmbed;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import github.scarsz.discordsrv.util.DiscordUtil;
 import net.seyarada.pandeloot.Logger;
-import net.seyarada.pandeloot.drops.DropMeta;
-import net.seyarada.pandeloot.drops.IDrop;
-import net.seyarada.pandeloot.drops.LootDrop;
+import net.seyarada.pandeloot.drops.ItemDropMeta;
 import net.seyarada.pandeloot.flags.FlagEffect;
-import net.seyarada.pandeloot.flags.FlagPack;
-import net.seyarada.pandeloot.flags.enums.FlagTrigger;
 import net.seyarada.pandeloot.flags.types.IGeneralEvent;
 
 import java.awt.*;
@@ -22,7 +18,7 @@ public class DiscordFlag implements IGeneralEvent {
 	static final String URL = "https://crafatar.com/avatars/";
 
 	@Override
-	public void onCallGeneral(DropMeta meta) {
+	public void onCallGeneral(ItemDropMeta meta) {
 		String msg = meta.getString();
 
 		boolean isEmbed = meta.getBooleanOrDefault("embed", true);

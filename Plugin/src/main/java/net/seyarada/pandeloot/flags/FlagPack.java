@@ -2,9 +2,9 @@ package net.seyarada.pandeloot.flags;
 
 import net.seyarada.pandeloot.Logger;
 import net.seyarada.pandeloot.config.Config;
-import net.seyarada.pandeloot.drops.DropMeta;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.ItemDrop;
+import net.seyarada.pandeloot.drops.ItemDropMeta;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.enums.FlagPriority;
 import net.seyarada.pandeloot.flags.enums.FlagTrigger;
@@ -41,7 +41,7 @@ public class FlagPack {
                 if(flagClass.getClass().getAnnotation(FlagEffect.class).priority()!=priority)
                     continue;
 
-                DropMeta meta = new DropMeta(flagData, lootDrop, iDrop, trigger);
+                ItemDropMeta meta = new ItemDropMeta(flagData, lootDrop, iDrop, trigger);
 
                 if(flagClass instanceof IGeneralEvent e) {
                     e.onCallGeneral(meta);
@@ -71,7 +71,7 @@ public class FlagPack {
                 if(flagClass.getClass().getAnnotation(FlagEffect.class).priority()!=priority)
                     continue;
 
-                DropMeta meta = new DropMeta(flagData, null, null, trigger);
+                ItemDropMeta meta = new ItemDropMeta(flagData, null, null, trigger);
 
                 if(flagClass instanceof IGeneralEvent e) {
                     e.onCallGeneral(meta);
@@ -287,12 +287,12 @@ public class FlagPack {
         public int getInt(String key) {
             if(!containsKey(key)) return 0;
             String value = getString(key);
-            return (int) StringParser.parseAndMath(value);
+            return (int) StringParser.parseAndMath(value, null);
         }
 
         public int getIntOrDefault(String key, int defaultInt) {
             String value = getString(key);
-            return (value!=null) ? (int) StringParser.parseAndMath(value) : defaultInt;
+            return (value!=null) ? (int) StringParser.parseAndMath(value, null) : defaultInt;
         }
 
         public double getDouble() {
@@ -302,12 +302,12 @@ public class FlagPack {
         public double getDouble(String key) {
             if(!containsKey(key)) return 0;
             String value = getString(key);
-            return StringParser.parseAndMath(value);
+            return StringParser.parseAndMath(value, null);
         }
 
         public double getDoubleOrDefault(String key, double defaultDouble) {
             String value = getString(key);
-            return (value!=null) ? StringParser.parseAndMath(value) : defaultDouble;
+            return (value!=null) ? StringParser.parseAndMath(value, null) : defaultDouble;
         }
 
         public long getLong() {
@@ -317,12 +317,12 @@ public class FlagPack {
         public long getLong(String key) {
             if(!containsKey(key)) return 0;
             String value = getString(key);
-            return (long) StringParser.parseAndMath(value);
+            return (long) StringParser.parseAndMath(value, null);
         }
 
         public long getLongOrDefault(String key, long defaultLong) {
             String value = getString(key);
-            return (value!=null) ? (long) StringParser.parseAndMath(value) : defaultLong;
+            return (value!=null) ? (long) StringParser.parseAndMath(value, null) : defaultLong;
         }
 
         public boolean getBoolean() {

@@ -19,8 +19,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.Collections;
-
 public final class LootBag extends LootTable {
 
     public LootBag(ConfigurationSection config) {
@@ -48,7 +46,7 @@ public final class LootBag extends LootTable {
                 }
 
                 iS.setAmount(iS.getAmount()-1);
-                new LootDrop(Collections.singletonList(ContainerManager.get(id)), e.getPlayer(), e.getPlayer().getLocation())
+                new LootDrop(ContainerManager.get(id), e.getPlayer(), e.getPlayer().getLocation())
                         .build()
                         .drop();
                 return;
@@ -95,7 +93,7 @@ public final class LootBag extends LootTable {
             iS.setAmount(iS.getAmount()-1);
             if(iS.getAmount()<=0) item.remove();
 
-            new LootDrop(Collections.singletonList(ContainerManager.get(id)), e.getPlayer(), item.getLocation())
+            new LootDrop(ContainerManager.get(id), e.getPlayer(), item.getLocation())
                     .build()
                     .drop();
             return;

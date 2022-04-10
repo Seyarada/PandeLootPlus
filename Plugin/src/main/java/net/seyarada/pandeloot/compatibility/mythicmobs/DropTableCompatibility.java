@@ -17,8 +17,6 @@ import net.seyarada.pandeloot.drops.containers.IContainer;
 import net.seyarada.pandeloot.flags.FlagManager;
 import net.seyarada.pandeloot.flags.FlagPack;
 import net.seyarada.pandeloot.flags.effects.AmountFlag;
-import net.seyarada.pandeloot.flags.types.IFlag;
-import net.seyarada.pandeloot.flags.types.IItemEvent;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 

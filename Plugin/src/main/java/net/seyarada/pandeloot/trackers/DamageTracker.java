@@ -2,7 +2,6 @@ package net.seyarada.pandeloot.trackers;
 
 import net.seyarada.pandeloot.compatibility.citizens.CitizensCompatibility;
 import net.seyarada.pandeloot.config.Config;
-import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -16,7 +15,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -72,8 +70,7 @@ public class DamageTracker implements Listener {
 
         for(UUID uuid : damageBoard.playersAndDamage.keySet()) {
             Player player = Bukkit.getPlayer(uuid);
-            ArrayList<IDrop> itemsToDrop = IDrop.getAsDrop(strings, player);
-            LootDrop lootDrop = new LootDrop(itemsToDrop, player, e.getEntity().getLocation())
+            LootDrop lootDrop = new LootDrop(strings, player, e.getEntity().getLocation())
                     .setDamageBoard(damageBoard)
                     .setSourceEntity(e.getEntity())
                     .build();

@@ -1,16 +1,11 @@
 package net.seyarada.pandeloot.flags.effects;
 
-import net.seyarada.pandeloot.drops.DropMeta;
-import net.seyarada.pandeloot.drops.IDrop;
-import net.seyarada.pandeloot.drops.LootDrop;
+import net.seyarada.pandeloot.drops.ItemDropMeta;
 import net.seyarada.pandeloot.flags.FlagEffect;
-import net.seyarada.pandeloot.flags.FlagPack;
-import net.seyarada.pandeloot.flags.enums.FlagTrigger;
 import net.seyarada.pandeloot.flags.types.IEntityEvent;
 import net.seyarada.pandeloot.nms.NMSManager;
 import org.bukkit.entity.Entity;
 
-import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -19,7 +14,7 @@ import java.util.UUID;
 public class VisibilityFlag implements IEntityEvent {
 
 	@Override
-	public void onCallEntity(Entity item, DropMeta meta) {
+	public void onCallEntity(Entity item, ItemDropMeta meta) {
 		if(meta.lootDrop()==null) return;
 
 		switch (meta.getString().toLowerCase()) {

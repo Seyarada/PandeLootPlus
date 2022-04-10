@@ -2,12 +2,9 @@ package net.seyarada.pandeloot.flags.effects;
 
 import net.seyarada.pandeloot.PandeLoot;
 import net.seyarada.pandeloot.drops.ActiveDrop;
-import net.seyarada.pandeloot.drops.DropMeta;
-import net.seyarada.pandeloot.drops.IDrop;
+import net.seyarada.pandeloot.drops.ItemDropMeta;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagEffect;
-import net.seyarada.pandeloot.flags.FlagPack;
-import net.seyarada.pandeloot.flags.enums.FlagTrigger;
 import net.seyarada.pandeloot.flags.types.IEntityEvent;
 import net.seyarada.pandeloot.nms.NMSManager;
 import org.apache.commons.lang.WordUtils;
@@ -24,7 +21,7 @@ import java.util.List;
 public class HologramFlag implements IEntityEvent {
 
 	@Override
-	public void onCallEntity(Entity entity, DropMeta meta) {
+	public void onCallEntity(Entity entity, ItemDropMeta meta) {
 
 		switch (meta.getString().toLowerCase()) {
 			case "displaycustom" -> {
@@ -65,7 +62,7 @@ public class HologramFlag implements IEntityEvent {
 								: WordUtils.capitalizeFully(iS.getType().toString().replaceAll("_", " ")));
 						if(meta.lootDrop()!=null) {
 							for (int i = 0, fullTextSize = fullText.size(); i < fullTextSize; i++) {
-								fullText.set(i, meta.lootDrop().parse(fullText.get(i)));
+								fullText.set(i, meta.lootDrop().substitor(fullText.get(i)));
 							}
 						}
 						attachedHologram(entity, meta.lootDrop(), fullText);
@@ -78,7 +75,7 @@ public class HologramFlag implements IEntityEvent {
 	}
 
 	public void attachedHologram(Entity e, LootDrop drop, List<String> text) {
-		text.forEach(t -> t = drop.parse(t));
+		text.forEach(t -> t = drop.substitor(t));
 		List<Entity> bukkitArmorStands = NMSManager.get().hologram(0, e.getLocation(), drop.p, text, PandeLoot.inst);
 		ActiveDrop.get(e).startHologramRunnable(e, bukkitArmorStands, Collections.singletonList(drop.p));
 	}

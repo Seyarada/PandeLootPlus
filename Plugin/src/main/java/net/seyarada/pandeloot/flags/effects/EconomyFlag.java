@@ -2,23 +2,21 @@ package net.seyarada.pandeloot.flags.effects;
 
 import net.milkbowl.vault.economy.Economy;
 import net.seyarada.pandeloot.compatibility.VaultCompatibility;
-import net.seyarada.pandeloot.drops.DropMeta;
 import net.seyarada.pandeloot.drops.IDrop;
+import net.seyarada.pandeloot.drops.ItemDropMeta;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagEffect;
 import net.seyarada.pandeloot.flags.FlagPack;
-import net.seyarada.pandeloot.flags.enums.FlagTrigger;
 import net.seyarada.pandeloot.flags.types.ICondition;
 import net.seyarada.pandeloot.flags.types.IPlayerEvent;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.Nullable;
 
 @FlagEffect(id="economy", description="Manages economy operations")
 public class EconomyFlag implements IPlayerEvent, ICondition {
 
 	@Override
-	public void onCallPlayer(Player player, DropMeta meta) {
+	public void onCallPlayer(Player player, ItemDropMeta meta) {
 		Economy economy = VaultCompatibility.getEconomy();
 
 		if(meta.getIntOrDefault("give", 0)!=0) {

@@ -1,7 +1,7 @@
 package net.seyarada.pandeloot.drops;
 
 import net.seyarada.pandeloot.Logger;
-import net.seyarada.pandeloot.compatibility.mmoitems.MMOItemsCompatibility;
+import net.seyarada.pandeloot.compatibility.mmoitems.MIGeneratorCompatibility;
 import net.seyarada.pandeloot.compatibility.mythicmobs.DropTableCompatibility;
 import net.seyarada.pandeloot.compatibility.mythicmobs.MythicMobsCompatibility;
 import net.seyarada.pandeloot.drops.containers.ContainerManager;
@@ -70,7 +70,7 @@ public interface IDrop {
 
     ItemStack getItemStack();
 
-    static IDrop getAsDrop(String str, Player player) {
+    static IDrop getAsDrop(String str, Player player, LootDrop drop) {
         int originDiv = Math.max(str.indexOf(":")+1, 0);
         originDiv = (str.indexOf("=")>0 && str.indexOf("=")<originDiv) ? 0 : originDiv; // Make sure originDiv isn't set from a flag value
         int bracketDiv = Math.min((str.contains("{") ? str.indexOf("{") : 0), (str.contains(" ")) ? str.indexOf(" ") : str.length());
@@ -96,26 +96,26 @@ public interface IDrop {
             case "i" ->
                     PredefinedDropsManager.get(id);
             default ->
-                    new ItemDrop(getItem(origin, id, pack, player), pack);
+                    new ItemDrop(getItem(origin, id, pack, player, drop), pack);
         };
 
     }
 
-    static ArrayList<IDrop> getAsDrop(List<String> strListDrop, Player player) {
+    static ArrayList<IDrop> getAsDrop(List<String> strListDrop, Player player, LootDrop drop) {
         ArrayList<IDrop> dropList = new ArrayList<>();
         for(String str : strListDrop) {
-            dropList.add(getAsDrop(str, player));
+            dropList.add(getAsDrop(str, player, drop));
         }
         return dropList;
     }
 
-    static ItemStack getItem(String origin, String item, FlagPack pack, Player player) {
+    static ItemStack getItem(String origin, String item, FlagPack pack, Player player, LootDrop drop) {
         ItemStack iS = null;
         switch (origin) {
             case "mythicmobs", "mm" ->
                     iS = MythicMobsCompatibility.getItem(item);
             case "mmoitems", "mi" ->
-                    iS = MMOItemsCompatibility.getItem(item, pack, player);
+                    iS = MIGeneratorCompatibility.getItem(item, pack, player, drop);
             default -> {
                 Material mat = Material.getMaterial(item.toUpperCase());
                 if (mat == null) break;

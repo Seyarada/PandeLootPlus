@@ -5,13 +5,12 @@ import io.lumine.mythic.api.adapters.AbstractLocation;
 import io.lumine.mythic.api.config.MythicLineConfig;
 import io.lumine.mythic.api.skills.*;
 import io.lumine.mythic.bukkit.BukkitAdapter;
-import io.lumine.mythic.core.skills.SkillExecutor;
-import io.lumine.mythic.core.skills.SkillMechanic;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 public class MythicMobsMechanic implements ITargetedLocationSkill, ITargetedEntitySkill {
@@ -34,8 +33,8 @@ public class MythicMobsMechanic implements ITargetedLocationSkill, ITargetedEnti
         int k = i.lastIndexOf("}");
         String dropString = i.substring(j, k);
 
-        IDrop iDrop = IDrop.getAsDrop(dropString, null);
-        new LootDrop(Collections.singletonList(iDrop), null, BukkitAdapter.adapt(abstractLocation))
+        IDrop iDrop = IDrop.getAsDrop(dropString, null, null);
+        new LootDrop(new ArrayList<>(Collections.singletonList(iDrop)), null, BukkitAdapter.adapt(abstractLocation))
                 .build()
                 .drop();
         return SkillResult.SUCCESS;
@@ -50,13 +49,11 @@ public class MythicMobsMechanic implements ITargetedLocationSkill, ITargetedEnti
         String dropString = i.substring(j, k);
 
         if(entity instanceof Player player) {
-            IDrop iDrop = IDrop.getAsDrop(dropString, player);
-            new LootDrop(Collections.singletonList(iDrop), player, BukkitAdapter.adapt(skillMetadata.getOrigin()))
+            new LootDrop(dropString, player, BukkitAdapter.adapt(skillMetadata.getOrigin()))
                     .build()
                     .drop();
         } else {
-            IDrop iDrop = IDrop.getAsDrop(dropString, null);
-            new LootDrop(Collections.singletonList(iDrop), null, BukkitAdapter.adapt(skillMetadata.getOrigin()))
+            new LootDrop(dropString, null, BukkitAdapter.adapt(skillMetadata.getOrigin()))
                     .build()
                     .drop();
         }

@@ -11,8 +11,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Collections;
-
 public class DropCommand {
 
     public static void loadCompletions() {
@@ -55,8 +53,8 @@ public class DropCommand {
         }
 
         Logger.record();
-        IDrop iDrop = IDrop.getAsDrop(sb.toString(), player);
-        new LootDrop(Collections.singletonList(iDrop), player, player.getLocation())
+        IDrop iDrop = IDrop.getAsDrop(sb.toString(), player, null);
+        new LootDrop(iDrop, player, player.getLocation())
                 .build()
                 .drop();
         Logger.print();

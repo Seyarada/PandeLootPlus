@@ -1,25 +1,22 @@
 package net.seyarada.pandeloot.flags.effects;
 
-import net.seyarada.pandeloot.drops.DropMeta;
-import net.seyarada.pandeloot.drops.IDrop;
+import net.seyarada.pandeloot.drops.ItemDropMeta;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagEffect;
 import net.seyarada.pandeloot.flags.FlagPack;
-import net.seyarada.pandeloot.flags.enums.FlagTrigger;
 import net.seyarada.pandeloot.flags.types.IEntityEvent;
 import net.seyarada.pandeloot.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
 
-import javax.annotation.Nullable;
 import java.util.concurrent.ThreadLocalRandom;
 
 @FlagEffect(id="explode", description="Applies an explosion-like velocity to the item")
 public class ExplodeFlag implements IEntityEvent {
 
 	@Override
-	public void onCallEntity(Entity item, DropMeta meta) {
+	public void onCallEntity(Entity item, ItemDropMeta meta) {
 		if(!meta.getBoolean()) return;
 
 		String explosionType = meta.getOrDefault("type", "spread");

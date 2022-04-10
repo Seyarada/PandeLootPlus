@@ -1,16 +1,14 @@
 package net.seyarada.pandeloot.flags.effects;
 
 import net.seyarada.pandeloot.Constants;
-import net.seyarada.pandeloot.drops.*;
+import net.seyarada.pandeloot.drops.ActiveDrop;
+import net.seyarada.pandeloot.drops.ItemDrop;
+import net.seyarada.pandeloot.drops.ItemDropMeta;
 import net.seyarada.pandeloot.drops.containers.ContainerManager;
 import net.seyarada.pandeloot.drops.containers.IContainer;
 import net.seyarada.pandeloot.flags.FlagEffect;
-import net.seyarada.pandeloot.flags.FlagPack;
-import net.seyarada.pandeloot.flags.enums.FlagTrigger;
 import net.seyarada.pandeloot.flags.types.IEntityEvent;
 import org.bukkit.entity.Entity;
-
-import javax.annotation.Nullable;
 
 @FlagEffect(id="rollbag", description="Rolls through the items of a lootbag")
 public class RollBagFlag implements IEntityEvent {
@@ -18,7 +16,7 @@ public class RollBagFlag implements IEntityEvent {
 	// The prevent drop form lootbag won't work if the lootbag item is a tile entity!
 
 	@Override
-	public void onCallEntity(Entity item, DropMeta meta) {
+	public void onCallEntity(Entity item, ItemDropMeta meta) {
 		ActiveDrop activeDrop = ActiveDrop.get(item);
 
 		if(meta.getBoolean()) {

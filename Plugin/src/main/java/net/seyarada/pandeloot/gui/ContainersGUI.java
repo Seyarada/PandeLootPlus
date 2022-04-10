@@ -22,7 +22,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ContainersGUI implements Listener, InventoryHolder {
@@ -82,7 +81,7 @@ public class ContainersGUI implements Listener, InventoryHolder {
 
     void rollTable() {
         InventoryUtils.fillArea(2,1, 5,9, inventory, new ItemStack(Material.AIR));
-        LootDrop lootDrop = new LootDrop(Collections.singletonList(viewing), player, null);
+        LootDrop lootDrop = new LootDrop(viewing, player, null);
         viewing.getDropList(lootDrop).forEach(d -> inventory.addItem(d.getItemStack()));
     }
 
