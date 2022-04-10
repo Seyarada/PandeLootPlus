@@ -52,8 +52,9 @@ public class DamageBoard {
             playerRanks.add(entry.getKey());
             playerDamages.add(entry.getValue());
             Player p = Bukkit.getPlayer(entry.getKey());
+            if(p!=null)
+                placeholders.put(i+".name", p.getDisplayName());
             String visualDamage = MathUtils.dd.format(entry.getValue());
-            placeholders.put(i+".name", p.getDisplayName());
             placeholders.put(i+".damage", visualDamage);
             placeholders.put(i+".dmg", getPercent(i-1, false));
             placeholders.put(i+".percent", getPercent(i-1, false));

@@ -48,7 +48,7 @@ public class MIGeneratorCompatibility {
         if(miData.containsKey("tier")) {
             String tier = miData.getString("tier").toUpperCase().replace("-", "_");
             itemTier = MMOItems.plugin.getTiers().getOrThrow(tier);
-        };
+        }
 
         if (miData.containsKey("matchclass") && rpgPlayer!=null)
             builder.applyFilter(new ClassFilter(rpgPlayer));
