@@ -3,7 +3,6 @@ package net.seyarada.pandeloot.compatibility.mmoitems;
 import net.Indyuce.mmoitems.MMOItems;
 import net.Indyuce.mmoitems.api.ItemTier;
 import net.Indyuce.mmoitems.api.Type;
-import net.Indyuce.mmoitems.api.item.mmoitem.MMOItem;
 import net.Indyuce.mmoitems.api.item.template.MMOItemTemplate;
 import net.Indyuce.mmoitems.api.item.template.explorer.ClassFilter;
 import net.Indyuce.mmoitems.api.item.template.explorer.IDFilter;
@@ -49,9 +48,6 @@ public class MIGeneratorCompatibility {
         if(miData.containsKey("tier")) {
             String tier = miData.getString("tier").toUpperCase().replace("-", "_");
             itemTier = MMOItems.plugin.getTiers().getOrThrow(tier);
-        } else {
-            MMOItem miItem = MMOItems.plugin.getMMOItem(Type.get(type), item);
-            if(miItem!=null) itemTier = miItem.getTier();
         }
 
         if (miData.containsKey("matchclass") && rpgPlayer!=null)
