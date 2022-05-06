@@ -1,5 +1,6 @@
 package net.seyarada.pandeloot.compatibility.mythicmobs;
 
+import io.lumine.mythic.api.adapters.AbstractItemStack;
 import io.lumine.mythic.api.drops.DropMetadata;
 import io.lumine.mythic.api.drops.IItemDrop;
 import io.lumine.mythic.api.mobs.GenericCaster;
@@ -9,6 +10,7 @@ import io.lumine.mythic.core.drops.Drop;
 import io.lumine.mythic.core.drops.DropMetadataImpl;
 import io.lumine.mythic.core.drops.DropTable;
 import io.lumine.mythic.core.drops.LootBag;
+import io.lumine.mythic.core.drops.droppables.CustomDrop;
 import net.seyarada.pandeloot.Logger;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.ItemDrop;
@@ -53,18 +55,24 @@ public class DropTableCompatibility implements IContainer {
             if(dt.hasDrops()) {
                 LootBag loot = dt.generate(meta);
                 Collection<Drop> drops = loot.getDrops();
+
+
                 for(Drop type : drops) {
+                    FlagPack itemFlags = FlagPack.fromCompact(type.getLine());
+                    itemFlags.merge(pack);
+                    int amount = 1;
+                    AmountFlag amountFlag = (AmountFlag) FlagManager.getFromID("amount");
+                    if(itemFlags.hasFlag(amountFlag))
+                        amount = AmountFlag.getValueFromRanged(itemFlags.getFlag(amountFlag).getString());
+
                     if(type instanceof IItemDrop iDrop) {
-                        FlagPack itemFlags = FlagPack.fromCompact(type.getLine());
-                        itemFlags.merge(pack);
-
-                        int amount = 1;
-                        AmountFlag amountFlag = (AmountFlag) FlagManager.getFromID("amount");
-                        if(itemFlags.hasFlag(amountFlag)) {
-                            amount = AmountFlag.getValueFromRanged(itemFlags.getFlag(amountFlag).getString());
-                        }
-
                         dropList.add(new ItemDrop(BukkitAdapter.adapt(iDrop.getDrop(meta, amount)), itemFlags));
+                    }
+
+                    else if (type instanceof CustomDrop customDrop) {
+                        if(customDrop.getDrop().isPresent() && customDrop.getDrop().get() instanceof IItemDrop itemDrop) {
+                            dropList.add(new ItemDrop(BukkitAdapter.adapt(itemDrop.getDrop(meta, amount)), itemFlags));
+                        }
                     }
                 }
             }
