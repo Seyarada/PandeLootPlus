@@ -27,15 +27,19 @@ public class LootTable implements IContainer {
     int goalAmount;
 
     public LootTable(ConfigurationSection config) {
-        if (config.contains("Rewards")) {
-            dropList = IDrop.getAsDrop(config.getStringList("Rewards"), null, null);
-        }
         this.config = config;
         guaranteedItems = Math.min(config.getInt("Guaranteed"), dropList.size());
         totalItems = Math.min(config.getInt("TotalItems"), dropList.size());
         minItems = Math.min(config.getInt("MinItems"), dropList.size());
         maxItems = Math.min(config.getInt("MaxItems"), dropList.size());
         goalAmount = Math.max(totalItems, Math.max(minItems, maxItems));
+    }
+
+    @Override
+    public void load() {
+        if (config.contains("Rewards")) {
+            dropList = IDrop.getAsDrop(config.getStringList("Rewards"), null, null);
+        }
     }
 
     @Override

@@ -33,6 +33,7 @@ public class ContainerManager implements Storable {
                 loadContainer(configSection, key);
             }
         }
+        containersGeneric.values().forEach(IContainer::load);
         Logger.log("Loaded %o containers", loadedContainers);
     }
 
