@@ -24,7 +24,7 @@ public class MathUtils {
     public static Vector calculateVelocity(Vector from, Vector to, double gravity, double heightGain) {
         // I have no idea who is the original author of this but thank you
 
-        int endGain = to.getBlockY() - from.getBlockY();
+        double endGain = to.getZ() - from.getZ();
         double horizDist = Math.sqrt(distanceSquared(from, to));
         double maxGain = Math.max(heightGain, (endGain + heightGain));
 
@@ -36,8 +36,8 @@ public class MathUtils {
         double vy = Math.sqrt(maxGain * (gravity + 0.0013675090252708 * heightGain));
         double vh = vy / slope;
 
-        int dx = to.getBlockX() - from.getBlockX();
-        int dz = to.getBlockZ() - from.getBlockZ();
+        double dx = to.getX() - from.getX();
+        double dz = to.getZ() - from.getZ();
         double mag = Math.sqrt(dx * dx + dz * dz);
         double dirx = dx / mag;
         double dirz = dz / mag;

@@ -1,5 +1,6 @@
 package net.seyarada.pandeloot.flags.effects;
 
+import net.seyarada.pandeloot.Logger;
 import net.seyarada.pandeloot.drops.ItemDropMeta;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagEffect;
@@ -10,6 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
 
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 @FlagEffect(id="explode", description="Applies an explosion-like velocity to the item")
@@ -31,23 +33,26 @@ public class ExplodeFlag implements IEntityEvent {
 
 
 	void doSpreadDrop(Entity item, FlagPack.FlagModifiers meta) {
-		final double offset = Double.parseDouble(meta.getOrDefault("offset", "0.2"));
-		final double height = Double.parseDouble(meta.getOrDefault("height", "0.6"));
+		final double offset = meta.getDoubleOrDefault("offset", 0.2);
+		final double height = meta.getDoubleOrDefault("height", 0.6);
 		Vector velocity = MathUtils.getVelocity(offset, height);
 
 		item.setVelocity(velocity);
 	}
 
 	void doCircularDrop(Entity item, FlagPack.FlagModifiers meta) {
-		ThreadLocalRandom rand = ThreadLocalRandom.current();
-		double radius = Double.parseDouble(meta.getOrDefault("radius", "3"));
+		double radius = meta.getDoubleOrDefault("radius", 3);
 
-		Vector destination = new Vector(Math.cos(rand.nextDouble() * 360) * radius, 0, Math.sin(rand.nextDouble() * 360) * radius);
-		item.setVelocity(MathUtils.calculateVelocity(item.getLocation().toVector(), destination, 0.115, 3));
+		Random rand = ThreadLocalRandom.current();
+		double angle = rand.nextFloat() * 2 * Math.PI;
+		double x = radius * Math.cos(angle);
+		double z = radius * Math.sin(angle);
+
+		item.setVelocity(MathUtils.calculateVelocity(item.getLocation().toVector(), item.getLocation().toVector().add(new Vector(x, 0, z)), 0.115, 3));
 	}
 
 	void doRadialDrop(Entity item, FlagPack.FlagModifiers meta, LootDrop drop) {
-		double radius = Double.parseDouble(meta.getOrDefault("radius", "3"));
+		double radius = meta.getDoubleOrDefault("radius", 3);
 
 		int numberOfTotalDrops = 1;
 		int numberOfThisDrop = 1;
