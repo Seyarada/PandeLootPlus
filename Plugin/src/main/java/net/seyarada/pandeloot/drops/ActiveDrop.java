@@ -63,6 +63,10 @@ public class ActiveDrop {
             new ActiveDropListener().checkForLandings(e, pack);
     }
 
+    public void trigger(FlagTrigger trigger) {
+        flags.trigger(trigger, e, lootDrop, iDrop);
+    }
+
     public void startRainbowRunnable() {
         rainbowRunnableID = Bukkit.getScheduler().scheduleSyncRepeatingTask(PandeLoot.inst, () -> {
             if(!e.isValid()) cancel();
@@ -103,7 +107,14 @@ public class ActiveDrop {
         }, 0, 2);
     }
 
-    public void startLootBagRollRunnable(IContainer bag, LootDrop drop, FlagPack flags) {
+
+    FlagPack rollBagPack;
+    boolean triggerOnSpawn;
+    public void triggerRollBag(FlagTrigger trigger) {
+        if(triggerOnSpawn) rollBagPack.trigger(trigger, e, lootDrop, iDrop);
+    }
+    public void startLootBagRollRunnable(IContainer bag, LootDrop drop, FlagPack flags, boolean triggerOnSpawn) {
+        this.triggerOnSpawn = triggerOnSpawn;
         Item i = (Item)e;
         FlagPack droppedFlags = new FlagPack();
         droppedFlags.merge(flags);
@@ -115,11 +126,11 @@ public class ActiveDrop {
             IDrop iDrop = drops.get((int) (Math.random() * drops.size()));
             ItemStack iS = iDrop.getItemStack();
             ItemUtils.writeData(iS, Constants.LOCK_LOOTBAG, "true");
-            ItemUtils.writeData(iS, Constants.LOOTBAG_KEY, bag.getConfig().getName());
             FlagPack combinedPack = new FlagPack();
-            combinedPack.merge(iDrop.getFlagPack());
+            rollBagPack = iDrop.getFlagPack();
+            combinedPack.merge(rollBagPack);
             combinedPack.merge(droppedFlags);
-            ItemUtils.setFlags(iS, combinedPack);
+            //ItemUtils.setFlags(iS, combinedPack);
 
             combinedPack.trigger(FlagTrigger.onroll, i, drop.p);
 

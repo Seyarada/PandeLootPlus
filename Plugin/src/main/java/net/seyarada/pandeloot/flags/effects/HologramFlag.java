@@ -62,7 +62,7 @@ public class HologramFlag implements IEntityEvent {
 								: WordUtils.capitalizeFully(iS.getType().toString().replaceAll("_", " ")));
 						if(meta.lootDrop()!=null) {
 							for (int i = 0, fullTextSize = fullText.size(); i < fullTextSize; i++) {
-								fullText.set(i, meta.lootDrop().substitor(fullText.get(i)));
+								fullText.set(i, meta.lootDrop().substitutor(fullText.get(i)));
 							}
 						}
 						attachedHologram(entity, meta.lootDrop(), fullText);
@@ -75,7 +75,7 @@ public class HologramFlag implements IEntityEvent {
 	}
 
 	public void attachedHologram(Entity e, LootDrop drop, List<String> text) {
-		text.forEach(t -> t = drop.substitor(t));
+		text.forEach(t -> t = drop.substitutor(t));
 		List<Entity> bukkitArmorStands = NMSManager.get().hologram(0, e.getLocation(), drop.p, text, PandeLoot.inst);
 		ActiveDrop.get(e).startHologramRunnable(e, bukkitArmorStands, Collections.singletonList(drop.p));
 	}

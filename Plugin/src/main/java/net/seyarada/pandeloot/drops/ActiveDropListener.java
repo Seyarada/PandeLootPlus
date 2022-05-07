@@ -1,5 +1,6 @@
 package net.seyarada.pandeloot.drops;
 
+import net.seyarada.pandeloot.Constants;
 import net.seyarada.pandeloot.PandeLoot;
 import net.seyarada.pandeloot.drops.containers.LootBag;
 import net.seyarada.pandeloot.flags.FlagPack;
@@ -7,6 +8,7 @@ import net.seyarada.pandeloot.flags.enums.FlagTrigger;
 import net.seyarada.pandeloot.flags.types.IFlag;
 import net.seyarada.pandeloot.flags.types.IServerEvent;
 import net.seyarada.pandeloot.nms.NMSManager;
+import net.seyarada.pandeloot.utils.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
@@ -18,6 +20,8 @@ import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.ItemMergeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -62,6 +66,15 @@ public class ActiveDropListener implements Listener {
         if(NMSManager.isHiddenFor(i.getEntityId(), player.getUniqueId())) {
             e.setCancelled(true);
             return;
+        }
+
+        PersistentDataContainer data = i.getItemStack().getItemMeta().getPersistentDataContainer();
+        boolean isLocked = data.has(Constants.LOCK_LOOTBAG, PersistentDataType.STRING);
+
+        if(isLocked) {
+            activeDrop.triggerRollBag(FlagTrigger.onspawn);
+            activeDrop.stopLootBagRunnable();
+            ItemUtils.removeData(i.getItemStack(), Constants.LOCK_LOOTBAG);
         }
 
         FlagPack pack = activeDrop.flags;

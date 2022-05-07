@@ -67,6 +67,12 @@ public final class LootBag extends LootTable {
             boolean isLocked = data.has(Constants.LOCK_LOOTBAG, PersistentDataType.STRING);
             String id = null;
 
+            if(isLocked) {
+                aDrop.triggerRollBag(FlagTrigger.onspawn);
+                aDrop.stopLootBagRunnable();
+                ItemUtils.removeData(iS, Constants.LOCK_LOOTBAG);
+            }
+
             if(!isLocked) {
                 if(!data.has(Constants.LOOTBAG_KEY, PersistentDataType.STRING))
                     continue;

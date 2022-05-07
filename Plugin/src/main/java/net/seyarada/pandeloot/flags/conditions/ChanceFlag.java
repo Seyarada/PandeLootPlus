@@ -14,11 +14,11 @@ public class ChanceFlag implements ICondition {
 
     @Override
     public boolean onCheck(FlagPack.FlagModifiers values, LootDrop lootDrop, IDrop itemDrop) {
-        return Math.random()<=MathUtils.eval(lootDrop.substitor(values.getString()));
+        return Math.random()<=MathUtils.eval(lootDrop.substitutor(values.getString()));
     }
 
     public static double getChance(FlagPack.FlagModifiers values, LootDrop lootDrop) {
-        return MathUtils.eval(lootDrop.substitor(values.getString()));
+        return MathUtils.eval(lootDrop.substitutor(values.getString()));
     }
 
     @Override

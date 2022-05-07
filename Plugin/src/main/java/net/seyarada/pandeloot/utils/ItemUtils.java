@@ -54,6 +54,13 @@ public class ItemUtils {
         iS.setItemMeta(meta);
     }
 
+    public static void removeData(ItemStack iS, NamespacedKey key) {
+        ItemMeta meta = iS.getItemMeta();
+        if(meta==null) return;
+        meta.getPersistentDataContainer().remove(key);
+        iS.setItemMeta(meta);
+    }
+
     public static void setFlags(ItemStack iS, FlagPack pack) {
         ItemMeta meta = iS.getItemMeta();
         if (meta != null) {

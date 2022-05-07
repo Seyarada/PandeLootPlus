@@ -22,7 +22,7 @@ public class RollBagFlag implements IEntityEvent {
 		if(meta.getBoolean()) {
 			if(meta.iDrop()==null) return;
 			IContainer lootBag = ContainerManager.get(((ItemDrop) meta.iDrop()).data.get(Constants.LOOTBAG_KEY));
-			activeDrop.startLootBagRollRunnable(lootBag, meta.lootDrop(), meta.iDrop().getFlagPack());
+			activeDrop.startLootBagRollRunnable(lootBag, meta.lootDrop(), meta.iDrop().getFlagPack(), meta.getBooleanOrDefault("trigger", false));
 		} else {
 			activeDrop.stopLootBagRunnable();
 		}

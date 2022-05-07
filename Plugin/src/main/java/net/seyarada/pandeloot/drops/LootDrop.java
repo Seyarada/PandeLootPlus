@@ -155,7 +155,7 @@ public class LootDrop {
             }
     }
 
-    public String substitor(String text) {
+    public String substitutor(String text) {
         loadPlaceholders();
         return StringParser.parseText(text, this);
     }
@@ -188,7 +188,7 @@ public class LootDrop {
 
         List<String> lines = new ArrayList<>();
         Config.getScoreHologram().forEach(msg -> {
-            msg = substitor(msg);
+            msg = substitutor(msg);
             if(msg!=null) {
                 lines.add(msg);
             }
@@ -200,7 +200,7 @@ public class LootDrop {
     public void displayScoreMessage() {
         if(p==null) return;
         Config.getScoreMessage().forEach(msg -> {
-            msg = substitor(msg);
+            msg = substitutor(msg);
             if(msg!=null) ChatUtils.sendCenteredMessage(p, msg);
         });
     }
