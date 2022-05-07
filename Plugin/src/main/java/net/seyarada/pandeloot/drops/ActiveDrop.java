@@ -17,6 +17,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -31,6 +32,7 @@ public class ActiveDrop {
     int beamRunnableID = -1;
     int lootbagRollerID = -1;
     int hologramRunnableID = -1;
+    int voidProtectionID = -1;
     int flyingParticleRunnable = -1;
     List<Entity> holograms;
     List<Player> hologramsPlayers;
@@ -49,12 +51,16 @@ public class ActiveDrop {
     LootDrop lootDrop;
     IDrop iDrop;
 
+    Location origin;
+
     public ActiveDrop(IDrop drop, Entity e, Player p, FlagPack pack, LootDrop lootDrop) {
         this.e = e;
         this.p = p;
         this.flags = drop.getFlagPack();
         this.lootDrop = lootDrop;
         this.iDrop = drop;
+
+        origin = e.getLocation();
 
         activeDropItem.put(e, this);
         pack.trigger(FlagTrigger.onspawn, e, lootDrop, drop);
@@ -167,6 +173,20 @@ public class ActiveDrop {
         }, 0, 3);
     }
 
+    static final Vector noVelocity = new Vector(0,0,0);
+    public void startVoidProtectionRunnable(double limit) {
+        voidProtectionID = Bukkit.getScheduler().scheduleSyncRepeatingTask(PandeLoot.inst, () -> {
+            if(!e.isValid()) cancel();
+
+            if(e.getFallDistance() > limit) {
+                e.setGravity(false);
+                e.teleport(origin);
+                e.setVelocity(noVelocity);
+            }
+
+        }, 0, 20);
+    }
+
     public void setColor(ChatColor color) {
         this.color = color;
         updateColors();
@@ -188,6 +208,7 @@ public class ActiveDrop {
         if(beamRunnableID>0) Bukkit.getScheduler().cancelTask(beamRunnableID);
         if(flyingParticleRunnable>0) Bukkit.getScheduler().cancelTask(flyingParticleRunnable);
         if(lootbagRollerID>0) Bukkit.getScheduler().cancelTask(lootbagRollerID);
+        if(voidProtectionID>0) Bukkit.getScheduler().cancelTask(voidProtectionID);
         if(hologramRunnableID>0) {
             Bukkit.getScheduler().cancelTask(hologramRunnableID);
             for (Player player : hologramsPlayers) {

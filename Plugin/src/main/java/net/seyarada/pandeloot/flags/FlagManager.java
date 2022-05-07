@@ -59,6 +59,7 @@ public class FlagManager {
         registerFlag(new ToInventoryFlag());
         registerFlag(new ToastFlag());
         registerFlag(new VisibilityFlag());
+        registerFlag(new VoidProtectionFlag());
 
         if (PandeLoot.discordEnabled) registerFlag(new DiscordFlag());
         if (PandeLoot.ecoEnabled) registerFlag(new EconomyFlag());
