@@ -11,6 +11,8 @@ import net.seyarada.pandeloot.drops.ActiveDropListener;
 import net.seyarada.pandeloot.drops.DropEvents;
 import net.seyarada.pandeloot.flags.FlagManager;
 import net.seyarada.pandeloot.gui.ContainersGUI;
+import net.seyarada.pandeloot.loot.ItemProviderManager;
+import net.seyarada.pandeloot.loot.LootProviderManager;
 import net.seyarada.pandeloot.nms.NMSManager;
 import net.seyarada.pandeloot.nms.PlayerPacketListener;
 import net.seyarada.pandeloot.trackers.DamageTracker;
@@ -30,8 +32,11 @@ public class PandeLoot extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         inst = this;
-
         checkCompatibilities();
+
+        ItemProviderManager.init();
+        LootProviderManager.init();
+
         new FlagManager();
         new Config();
         new NMSManager();
@@ -50,7 +55,6 @@ public class PandeLoot extends JavaPlugin implements Listener {
         pluginManager.registerEvents(new PlayerPacketListener(), this);
         pluginManager.registerEvents(new DropEvents(), this);
         pluginManager.registerEvents(new ContainersGUI(null), this);
-
     }
 
     @Override

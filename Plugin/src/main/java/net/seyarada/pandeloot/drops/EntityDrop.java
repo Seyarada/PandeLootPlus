@@ -56,7 +56,7 @@ public final class EntityDrop implements IDrop {
         return pack;
     }
 
-    enum EntityDropType {
+    public enum EntityDropType {
         VANILLA,
         MYTHICMOBS
     }

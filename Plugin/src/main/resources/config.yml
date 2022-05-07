@@ -24,3 +24,4 @@ DefaultFlag:
   Glow: true
   Explode: true
   Visibility: player
+  VoidProtection: 50
