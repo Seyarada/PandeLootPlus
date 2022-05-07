@@ -36,8 +36,6 @@ public class MMOItemsCompatibility {
         Logger.log(playerData);
         Logger.log(dropItem.getId());
 
-        System.err.println(MMOItems.plugin.getItem(type, item));
-
         return dropItem.getItem(playerData);
     }
 

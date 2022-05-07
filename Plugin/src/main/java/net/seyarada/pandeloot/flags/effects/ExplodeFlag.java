@@ -1,6 +1,5 @@
 package net.seyarada.pandeloot.flags.effects;
 
-import net.seyarada.pandeloot.Logger;
 import net.seyarada.pandeloot.drops.ItemDropMeta;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagEffect;

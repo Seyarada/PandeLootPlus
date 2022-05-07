@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class MythicMobsListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onSpawn(MythicMobSpawnEvent e) {
         if(e.getEntity() instanceof LivingEntity entity) {
             MythicConfig config = e.getMobType().getConfig();
@@ -37,7 +38,7 @@ public class MythicMobsListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onDeath(MythicMobDeathEvent e) {
         UUID mob = e.getEntity().getUniqueId();
         if(!DamageBoard.contains(mob)) return;

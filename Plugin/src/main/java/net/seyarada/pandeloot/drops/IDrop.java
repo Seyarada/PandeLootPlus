@@ -1,19 +1,13 @@
 package net.seyarada.pandeloot.drops;
 
 import net.seyarada.pandeloot.Logger;
-import net.seyarada.pandeloot.compatibility.mmoitems.MIGeneratorCompatibility;
-import net.seyarada.pandeloot.compatibility.mythicmobs.DropTableCompatibility;
-import net.seyarada.pandeloot.compatibility.mythicmobs.MythicMobsCompatibility;
-import net.seyarada.pandeloot.drops.containers.ContainerManager;
-import net.seyarada.pandeloot.drops.containers.ContainerType;
-import net.seyarada.pandeloot.drops.containers.LootBag;
-import net.seyarada.pandeloot.drops.containers.PredefinedDropsManager;
 import net.seyarada.pandeloot.flags.FlagManager;
 import net.seyarada.pandeloot.flags.FlagPack;
 import net.seyarada.pandeloot.flags.conditions.ChanceFlag;
 import net.seyarada.pandeloot.flags.enums.FlagTrigger;
 import net.seyarada.pandeloot.flags.types.ICondition;
-import org.bukkit.Material;
+import net.seyarada.pandeloot.loot.ItemProviderManager;
+import net.seyarada.pandeloot.loot.LootProviderManager;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -82,22 +76,7 @@ public interface IDrop {
 
         Logger.log("Getting as drop: origin;%s, id;%s, pack;%s, player;%s", origin, id, pack, player);
 
-        return switch (origin) {
-            case "container", "loottable", "lt" ->
-                    ContainerManager.get(id);
-            case "lootbag", "lb" ->
-                    ((LootBag) ContainerManager.get(id, ContainerType.LOOTBAG)).getDrop(pack);
-            case "droptable", "dt" ->
-                    new DropTableCompatibility(id, pack);
-            case "entity" ->
-                    new EntityDrop(id, EntityDrop.EntityDropType.VANILLA, pack);
-            case "mmentity" ->
-                    new EntityDrop(id, EntityDrop.EntityDropType.MYTHICMOBS, pack);
-            case "i" ->
-                    PredefinedDropsManager.get(id);
-            default ->
-                    new ItemDrop(getItem(origin, id, pack, player, drop), pack);
-        };
+        return LootProviderManager.get(origin, id, pack, player, drop);
 
     }
 
@@ -110,20 +89,7 @@ public interface IDrop {
     }
 
     static ItemStack getItem(String origin, String item, FlagPack pack, Player player, LootDrop drop) {
-        ItemStack iS = null;
-        switch (origin) {
-            case "mythicmobs", "mm" ->
-                    iS = MythicMobsCompatibility.getItem(item);
-            case "mmoitems", "mi" ->
-                    iS = MIGeneratorCompatibility.getItem(item, pack, player, drop);
-            default -> {
-                Material mat = Material.getMaterial(item.toUpperCase());
-                if (mat == null) break;
-                iS = new ItemStack(mat);
-            }
-        }
-        if(iS==null) iS = new ItemStack(Material.STONE);
-        return iS;
+        return ItemProviderManager.get(origin, item, pack, player, drop);
     }
 
 }

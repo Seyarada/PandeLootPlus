@@ -34,11 +34,11 @@ public class DamageBoard {
     public DamageBoard(LivingEntity mob) {
         this.mobUUID = mob.getUniqueId();
         this.mobLiving = mob;
-        this.baseHealth = mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
         damageBoards.put(mobUUID, this);
     }
 
     public void compileInformation() {
+        baseHealth = mobLiving.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
         damageReceived = playersAndDamage.values().stream().mapToDouble(Double::valueOf).sum();
         sort(playersAndDamage);
 

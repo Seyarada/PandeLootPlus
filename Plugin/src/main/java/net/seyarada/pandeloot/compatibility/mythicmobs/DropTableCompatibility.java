@@ -1,6 +1,5 @@
 package net.seyarada.pandeloot.compatibility.mythicmobs;
 
-import io.lumine.mythic.api.adapters.AbstractItemStack;
 import io.lumine.mythic.api.drops.DropMetadata;
 import io.lumine.mythic.api.drops.IItemDrop;
 import io.lumine.mythic.api.mobs.GenericCaster;
