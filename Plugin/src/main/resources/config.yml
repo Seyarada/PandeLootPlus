@@ -25,3 +25,12 @@ DefaultFlag:
   Explode: true
   Visibility: player
   VoidProtection: 50
+onBlockBreak:
+  Enabled: false
+  Flags: '{glow=true;color=AQUA;visibility=player}'
+onBlockBreakMMO:
+  Enabled: false
+  Flags: '{glow=true;color=AQUA;visibility=player}'
+onPlayerItemDrop:
+  Enabled: false
+  Flags: '{glow=true;color=GREEN;visibility=player}'

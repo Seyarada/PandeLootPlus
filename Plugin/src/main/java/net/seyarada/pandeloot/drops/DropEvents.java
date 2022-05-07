@@ -1,5 +1,6 @@
 package net.seyarada.pandeloot.drops;
 
+import net.Indyuce.mmocore.api.event.CustomBlockMineEvent;
 import net.seyarada.pandeloot.config.Config;
 import net.seyarada.pandeloot.flags.FlagPack;
 import org.bukkit.GameMode;
@@ -33,6 +34,19 @@ public class DropEvents implements Listener {
             new LootDrop(eDrop, e.getPlayer(), e.getPlayer().getLocation())
                     .build()
                     .drop();
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onPlayerDrop(CustomBlockMineEvent e) {
+        if(Config.blockBreakMMO()) {
+            FlagPack pack = FlagPack.fromCompact(Config.blockBreakMMOFlags());
+            e.getDrops().forEach(iS -> {
+                ItemDrop itemDrop = new ItemDrop(iS, pack);
+                new LootDrop(itemDrop, e.getPlayer(), e.getBlock().getLocation())
+                        .build()
+                        .drop();
+            });
         }
     }
 

@@ -153,6 +153,12 @@ public class Config {
     public static String blockBreakFlags() {
         return eventsFile.getString("onBlockBreak.Flags");
     }
+    public static boolean blockBreakMMO() {
+        return eventsFile.getBoolean("onBlockBreakMMO.Enabled");
+    }
+    public static String blockBreakMMOFlags() {
+        return eventsFile.getString("onBlockBreakMMO.Flags");
+    }
     public static boolean playerDrop() {
         return eventsFile.getBoolean("onPlayerItemDrop.Enabled");
     }
