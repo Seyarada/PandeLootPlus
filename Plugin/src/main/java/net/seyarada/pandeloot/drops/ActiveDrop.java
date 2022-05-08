@@ -60,7 +60,9 @@ public class ActiveDrop {
         this.lootDrop = lootDrop;
         this.iDrop = drop;
 
-        origin = e.getLocation();
+        if(e!=null) {
+            origin = e.getLocation();
+        }
 
         activeDropItem.put(e, this);
         pack.trigger(FlagTrigger.onspawn, e, lootDrop, drop);
