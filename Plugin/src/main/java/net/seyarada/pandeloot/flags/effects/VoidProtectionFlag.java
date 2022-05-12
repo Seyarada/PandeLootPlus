@@ -14,7 +14,8 @@ public class VoidProtectionFlag implements IEntityEvent {
 	@Override
 	public void onCallEntity(Entity item, ItemDropMeta meta) {
 		ActiveDrop activeDrop = ActiveDrop.get(item);
-		activeDrop.startVoidProtectionRunnable(meta.getDouble());
+		int frequency = meta.getIntOrDefault("frequency", 20);
+		activeDrop.startVoidProtectionRunnable(meta.getDouble(), frequency);
 	}
 
 }

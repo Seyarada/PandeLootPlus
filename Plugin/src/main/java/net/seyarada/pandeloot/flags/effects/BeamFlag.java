@@ -11,7 +11,7 @@ public class BeamFlag implements IEntityEvent {
 
 	@Override
 	public void onCallEntity(Entity item, ItemDropMeta meta) {
-		ActiveDrop.get(item).startBeamRunnable(meta.getDouble());
+		ActiveDrop.get(item).startBeamRunnable(meta.getDouble(), meta.getIntOrDefault("frequency", 3));
 	}
 
 }

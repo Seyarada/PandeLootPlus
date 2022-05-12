@@ -19,7 +19,7 @@ public class ColorFlag implements IEntityEvent {
 		switch (colorString.toUpperCase()) {
 			case "RANDOM" -> colorString = ColorUtils.getRandomColorString();
 			case "RAINBOW" -> {
-				activeDrop.startRainbowRunnable();
+				activeDrop.startRainbowRunnable(meta.getIntOrDefault("frequency", 3));
 				return;
 			}
 		}

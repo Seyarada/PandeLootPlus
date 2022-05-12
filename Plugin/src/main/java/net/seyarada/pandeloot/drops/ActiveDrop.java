@@ -75,7 +75,7 @@ public class ActiveDrop {
         flags.trigger(trigger, e, lootDrop, iDrop);
     }
 
-    public void startRainbowRunnable() {
+    public void startRainbowRunnable(int frequency) {
         rainbowRunnableID = Bukkit.getScheduler().scheduleSyncRepeatingTask(PandeLoot.inst, () -> {
             if(!e.isValid()) cancel();
 
@@ -84,10 +84,10 @@ public class ActiveDrop {
 
             updateColors();
 
-        }, 0, 3);
+        }, 0, frequency);
     }
 
-    public void startBeamRunnable(double height) {
+    public void startBeamRunnable(double height, int frequency) {
         beamRunnableID = Bukkit.getScheduler().scheduleSyncRepeatingTask(PandeLoot.inst, () -> {
             if(!e.isValid() || lootDrop.p==null ) cancel();
 
@@ -100,10 +100,10 @@ public class ActiveDrop {
                 }
             }
 
-        }, 0, 3);
+        }, 0, frequency);
     }
 
-    public void startFlyingParticleRunnable() {
+    public void startFlyingParticleRunnable(int frequency) {
         flyingParticleRunnable = Bukkit.getScheduler().scheduleSyncRepeatingTask(PandeLoot.inst, () -> {
             if(!e.isValid() || lootDrop.p==null ) cancel();
 
@@ -112,7 +112,7 @@ public class ActiveDrop {
                 lootDrop.p.spawnParticle(Particle.REDSTONE, e.getLocation(), 1, dustOptions);
             }
 
-        }, 0, 2);
+        }, 0, frequency);
     }
 
 
@@ -176,7 +176,7 @@ public class ActiveDrop {
     }
 
     static final Vector noVelocity = new Vector(0,0,0);
-    public void startVoidProtectionRunnable(double limit) {
+    public void startVoidProtectionRunnable(double limit, int frequency) {
         voidProtectionID = Bukkit.getScheduler().scheduleSyncRepeatingTask(PandeLoot.inst, () -> {
             if(!e.isValid()) cancel();
 
@@ -186,7 +186,7 @@ public class ActiveDrop {
                 e.setVelocity(noVelocity);
             }
 
-        }, 0, 20);
+        }, 0, frequency);
     }
 
     public void setColor(ChatColor color) {
@@ -199,7 +199,10 @@ public class ActiveDrop {
 
     public void updateColors() {
         if(e.isGlowing()) {
-            if(flyingParticleRunnable==-1) startFlyingParticleRunnable();
+            if(flyingParticleRunnable==-1) {
+                int frequency = flags.getFlag(GlowFlag.class).getIntOrDefault("frequency", 2);
+                startFlyingParticleRunnable(frequency);
+            }
             ((GlowFlag) FlagManager.getFromID("glow")).updateColor(e, color, p);
         }
     }
