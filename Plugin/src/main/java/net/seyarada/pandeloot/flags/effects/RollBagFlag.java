@@ -18,11 +18,12 @@ public class RollBagFlag implements IEntityEvent {
 	@Override
 	public void onCallEntity(Entity item, ItemDropMeta meta) {
 		ActiveDrop activeDrop = ActiveDrop.get(item);
+		int frequency = meta.getIntOrDefault("frequency", 10);
 
 		if(meta.getBoolean()) {
 			if(meta.iDrop()==null) return;
 			IContainer lootBag = ContainerManager.get(((ItemDrop) meta.iDrop()).data.get(Constants.LOOTBAG_KEY));
-			activeDrop.startLootBagRollRunnable(lootBag, meta.lootDrop(), meta.iDrop().getFlagPack(), meta.getBooleanOrDefault("trigger", false));
+			activeDrop.startLootBagRollRunnable(lootBag, meta.lootDrop(), meta.iDrop().getFlagPack(), meta.getBooleanOrDefault("trigger", false), frequency);
 		} else {
 			activeDrop.stopLootBagRunnable();
 		}

@@ -121,7 +121,7 @@ public class ActiveDrop {
     public void triggerRollBag(FlagTrigger trigger) {
         if(triggerOnSpawn) rollBagPack.trigger(trigger, e, lootDrop, iDrop);
     }
-    public void startLootBagRollRunnable(IContainer bag, LootDrop drop, FlagPack flags, boolean triggerOnSpawn) {
+    public void startLootBagRollRunnable(IContainer bag, LootDrop drop, FlagPack flags, boolean triggerOnSpawn, int frequency) {
         this.triggerOnSpawn = triggerOnSpawn;
         Item i = (Item)e;
         FlagPack droppedFlags = new FlagPack();
@@ -144,7 +144,7 @@ public class ActiveDrop {
 
             i.setItemStack(iS);
 
-        }, 0, 10);
+        }, 0, frequency);
     }
 
     public void stopLootBagRunnable() {
