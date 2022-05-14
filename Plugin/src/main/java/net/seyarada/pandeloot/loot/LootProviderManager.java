@@ -35,7 +35,6 @@ public class LootProviderManager {
             if(provider.isPresent(id, pack, player, drop))
                 return provider.getLoot(id, pack, player, drop);
         }
-
         return new ItemDrop(IDrop.getItem(origin, id, pack, player, drop), pack);
     }
 

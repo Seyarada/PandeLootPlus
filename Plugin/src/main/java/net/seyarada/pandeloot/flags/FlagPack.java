@@ -27,7 +27,15 @@ public class FlagPack {
 
     public final HashMap<FlagTrigger, HashMap<IFlag, FlagModifiers>> flags = new HashMap<>();
     public final HashMap<FlagTrigger, HashMap<ICondition,  FlagModifiers>> conditionFlags = new HashMap<>();
-    public String stringFlags;
+    public FlagPackFactory.FlagString flagString;
+
+    public FlagPack() {
+        merge(Config.defaultFlagPack);
+    }
+
+    public FlagPack(boolean ignored) {
+        // Allows config.defaultFlagPack to generate without weird shenanigans
+    }
 
     public void trigger(FlagTrigger trigger, Entity entity, LootDrop lootDrop, IDrop iDrop) {
         if(!flags.containsKey(trigger)) return;
@@ -91,16 +99,12 @@ public class FlagPack {
     }
 
     public static FlagPack fromCompact(String line) {
-        String lineWithoutItem = line.substring(line.indexOf("{")+1).strip();
-        if(cache.containsKey(lineWithoutItem)) return cache.get(lineWithoutItem);
+        if(cache.containsKey(line)) return cache.get(line);
 
-        FlagPack pack = FlagPackFactory.getPack(lineWithoutItem);
-        pack.stringFlags = lineWithoutItem;
+        FlagPack pack = FlagPackFactory.getPack(line);
         pack.merge(Config.defaultFlagPack);
-        cache.put(lineWithoutItem, pack);
-        if(Config.debug) {
-            Logger.log("Generated flag pack %s from %s", pack, line);
-        }
+        cache.put(line, pack);
+        Logger.log("Generated flag pack %s from %s", pack, line);
         return pack;
     }
 
@@ -195,7 +199,7 @@ public class FlagPack {
                 }
                 triggerMap.put(flag, flagValues);
             }
-            if(!triggerMap.isEmpty()) flags.put(trigger, triggerMap);
+            flags.put(trigger, triggerMap);
         }
     }
 
@@ -344,6 +348,12 @@ public class FlagPack {
 
     public boolean hasFlag(IFlag flag) {
         if(!flags.containsKey(FlagTrigger.onspawn)) return false;
+        return flags.get(FlagTrigger.onspawn).containsKey(flag);
+    }
+
+    public boolean hasFlag(Class<? extends IFlag> classFlag) {
+        String id = classFlag.getDeclaredAnnotation(FlagEffect.class).id();
+        IFlag flag = FlagManager.getFromID(id);
         return flags.get(FlagTrigger.onspawn).containsKey(flag);
     }
 

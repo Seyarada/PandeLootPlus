@@ -7,6 +7,7 @@ import net.seyarada.pandeloot.config.Config;
 import net.seyarada.pandeloot.config.Pity;
 import net.seyarada.pandeloot.drops.containers.IContainer;
 import net.seyarada.pandeloot.flags.FlagManager;
+import net.seyarada.pandeloot.flags.effects.AmountFlag;
 import net.seyarada.pandeloot.flags.effects.DelayFlag;
 import net.seyarada.pandeloot.nms.NMSManager;
 import net.seyarada.pandeloot.trackers.DamageBoard;
@@ -78,9 +79,9 @@ public class LootDrop {
     public LootDrop build() {
         loadPlaceholders();
         if(baseDropList!=null && baseDropList.size()>0)
-            itemDrops = collectDrops(baseDropList);
+            itemDrops = collectDrops(baseDropList, false);
         else
-            itemDrops = collectDrops(IDrop.getAsDrop(dropStrings, p, this));
+            itemDrops = collectDrops(IDrop.getAsDrop(dropStrings, p, this), false);
         return this;
     }
 
@@ -160,22 +161,28 @@ public class LootDrop {
         return StringParser.parseText(text, this);
     }
 
-    public ArrayList<IDrop> collectDrops(List<IDrop> drops) {
+    public ArrayList<IDrop> collectDrops(List<IDrop> drops, boolean bypass) {
         ArrayList<IDrop> toDrop = new ArrayList<>();
-
-        if(Config.debug) Logger.log("Collecting Drops");
         for(IDrop drop : drops) {
-            if(Config.debug) Logger.log("Collecting %s", drop);
-            if(!drop.passesConditions(this)) {
-                if(Config.debug) Logger.log("Drop failed conditions");
+            Logger.log("Collecting %s", drop);
+            if(!bypass && !drop.passesConditions(this)) {
+                Logger.log("Drop failed conditions");
                 continue;
             }
             if(drop instanceof ItemDrop || drop instanceof EntityDrop) {
-                if(Config.debug) Logger.log("Adding drop");
                 toDrop.add(drop);
             } else if(drop instanceof IContainer itemContainer) {
-                if(Config.debug) Logger.log("Drop is a container, adding all");
-                toDrop.addAll(itemContainer.getDropList(this));
+
+                int amount = 1;
+                if(drop.getFlagPack().hasFlag(AmountFlag.class)) {
+                    amount = AmountFlag.getValueFromRanged(drop.getFlagPack().getFlag(AmountFlag.class).getString());
+                }
+
+                for (int i = 0; i < amount; i++) {
+                    ArrayList<IDrop> finalToAdd = collectDrops(itemContainer.getDropList(this), true);
+                    toDrop.addAll(finalToAdd);
+                }
+
             }
         }
 

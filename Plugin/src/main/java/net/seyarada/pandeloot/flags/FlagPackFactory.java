@@ -10,91 +10,130 @@ import java.util.HashMap;
 public class FlagPackFactory {
 
     public static FlagPack getPack(String str) {
-        int brLoc = str.indexOf("{");
-        int bfLoc = Math.max(str.lastIndexOf("}"), 0);
-        String flagsSection = str.substring(brLoc+1, bfLoc)+"}";
-        String outerSection = (str.contains("}") ? str.substring(bfLoc+1) : str.substring(bfLoc)).strip();
+        FlagString flagString = new FlagString(str);
 
-        Logger.log("Flag Section %s", flagsSection);
-        Logger.log("Outer Section %s", outerSection);
-
-        HashMap<FlagTrigger, HashMap<String, String>> unTypedPack = new HashMap<>();
+        HashMap<FlagTrigger, HashMap<String, String>> triggersWithFlags = new HashMap<>();
         FlagPack pack = new FlagPack();
+        pack.flagString = flagString;
 
-        if(!outerSection.isEmpty()) {
-            HashMap<String, String> map = new HashMap<>();
-            Arrays.stream(outerSection.split(" ")).forEach(element -> {
+        HashMap<String, String> outerFlags = new HashMap<>();
+        if(flagString.outerSection!=null && !flagString.outerSection.isBlank()) {
+            Arrays.stream(flagString.outerSection.split(" ")).forEach(element -> {
                 if(element.contains(".")) {
-                    map.put("chance", element);
+                    outerFlags.put("chance", element);
                 } else {
-                    map.put("amount", element);
+                    outerFlags.put("amount", element);
                 }
             });
-            unTypedPack.put(FlagTrigger.onspawn, map);
         }
+        triggersWithFlags.put(FlagTrigger.onspawn, outerFlags);
 
         StringBuilder builder = new StringBuilder();
-        FlagTrigger readingFor = FlagTrigger.onspawn;
-        String flagWaitingForData = null;
+        FlagTrigger currentTrigger = FlagTrigger.onspawn;
         boolean inModifiers = false;
 
-        long bracketCount = flagsSection.chars().filter(ch -> ch == '}').count();
-        long visitedBrackets = 0;
+        if(flagString.flagSection!=null) {
+            for (int i = 0; i < flagString.flagSection.length(); i++) {
+                char c = flagString.flagSection.charAt(i);
 
-        for(int i = 0; i<flagsSection.length(); i++) {
-            char c = flagsSection.charAt(i);
-
-            if(c == '}') visitedBrackets++;
-
-            // End of the flag part
-            if(visitedBrackets==bracketCount || i==flagsSection.length()-1) {
-                pack.writeRawFlagToMap(unTypedPack, readingFor, flagWaitingForData, builder.toString());
-                visitedBrackets++;
-                builder = new StringBuilder();
-                continue;
-            }
-
-            switch (c) {
-                case '<' -> inModifiers = true;
-                case '>' -> inModifiers = false;
-                case ']' -> {
-                    pack.writeRawFlagToMap(unTypedPack, readingFor, flagWaitingForData, builder.toString());
-                    builder = new StringBuilder();
-                    flagWaitingForData = null;
-                    readingFor = FlagTrigger.onspawn;
+                if(i==flagString.flagSection.length()-1 && currentTrigger==FlagTrigger.onspawn) {
+                    builder.append(c);
+                    String[] flag = builder.toString().split("=", 2);
+                    HashMap<String, String> currentFlags = triggersWithFlags.get(currentTrigger);
+                    currentFlags.put(flag[0], flag[1]);
+                    triggersWithFlags.put(currentTrigger, currentFlags);
                     continue;
                 }
-                case ';' -> {
-                    if(inModifiers) break;
 
-                    if(flagWaitingForData!=null)
-                        pack.writeRawFlagToMap(unTypedPack, readingFor, flagWaitingForData, builder.toString());
-                    builder = new StringBuilder();
-                    continue;
-                }
-                case '=' -> {
-                    if(inModifiers) break;
+                switch (c) {
+                    case '<' -> inModifiers = true;
+                    case '>' -> inModifiers = false;
+                    case ']' -> {
+                        String[] flag = builder.toString().split("=", 2);
+                        Logger.log(triggersWithFlags);
+                        HashMap<String, String> currentFlags = triggersWithFlags.get(currentTrigger);
+                        currentFlags.put(flag[0], flag[1]);
+                        triggersWithFlags.put(currentTrigger, currentFlags);
+                        Logger.log(triggersWithFlags);
 
-                    String id = builder.toString().toLowerCase();
-
-                    if(EnumUtils.isATrigger(id)) {
-                        readingFor = FlagTrigger.valueOf(id);
-                        pack.flags.put(readingFor, new HashMap<>());
-                        i++;
-                    } else {
-                        flagWaitingForData = id;
+                        builder = new StringBuilder();
+                        currentTrigger = FlagTrigger.onspawn;
+                        continue;
                     }
+                    case '[' -> {
+                        String id = builder.substring(0, builder.length() - 1).toLowerCase();
+                        if(EnumUtils.isATrigger(id)) {
+                            currentTrigger = FlagTrigger.valueOf(id);
+                            triggersWithFlags.putIfAbsent(currentTrigger, new HashMap<>());
+                        }
+                        builder = new StringBuilder();
+                        continue;
+                    }
+                    case ';' -> {
+                        if(!inModifiers) {
+                            String[] flag = builder.toString().split("=", 2);
+                            HashMap<String, String> currentFlags = triggersWithFlags.get(currentTrigger);
+                            currentFlags.put(flag[0], flag[1]);
+                            triggersWithFlags.put(currentTrigger, currentFlags);
 
-                    builder = new StringBuilder();
-                    continue;
+                            builder = new StringBuilder();
+                            continue;
+                        }
+                    }
                 }
-            }
 
-            builder.append(c);
+                builder.append(c);
+
+            }
         }
 
-        pack.parseRawFlags(unTypedPack);
+        pack.parseRawFlags(triggersWithFlags);
         return pack;
+    }
+
+    public static class FlagString {
+
+        public String flagSection;
+        public String outerSection;
+        public String item;
+        public String origin;
+
+        public FlagString(String str) {
+            int flagStart = str.indexOf("{");
+            int flagEnd = str.lastIndexOf("}");
+            int space = str.indexOf(" ");
+
+            if(flagStart!=-1 && flagEnd!=-1) {
+                flagSection = str.substring(flagStart+1, flagEnd);
+            }
+
+            int outerStart = Math.max(space, flagEnd);
+            if(outerStart!=-1) {
+                outerSection = str.substring(outerStart+1).strip();
+            }
+
+            String itemPart;
+            int itemEnd = space;
+            if(flagStart!=-1) itemEnd = flagStart;
+            if(itemEnd!=-1) {
+                itemPart = str.substring(0, itemEnd);
+                String[] splitResult = itemPart.split(":");
+                if(splitResult.length==1) item = splitResult[0];
+                else {
+                    origin = splitResult[0];
+                    item = splitResult[1];
+                }
+            } else {
+                String[] splitResult = str.split(":");
+                if(splitResult.length==1) item = splitResult[0];
+                else {
+                    origin = splitResult[0];
+                    item = splitResult[1];
+                }
+            }
+
+        }
+
     }
 
 }

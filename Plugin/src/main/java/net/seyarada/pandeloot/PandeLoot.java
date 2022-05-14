@@ -34,11 +34,12 @@ public class PandeLoot extends JavaPlugin implements Listener {
         inst = this;
         checkCompatibilities();
 
+
         ItemProviderManager.init();
         LootProviderManager.init();
 
         new FlagManager();
-        new Config();
+        Config.load();
         new NMSManager();
 
         PluginManager pluginManager = getServer().getPluginManager();

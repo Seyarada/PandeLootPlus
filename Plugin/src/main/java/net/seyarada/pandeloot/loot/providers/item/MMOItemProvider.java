@@ -19,6 +19,7 @@ public class MMOItemProvider implements ItemProvider {
 
     @Override
     public boolean isPresent(String item, FlagPack pack, Player player, LootDrop drop) {
+        if(!pack.hasFlag(TypeFlag.class)) return false;
         FlagPack.FlagModifiers miData = pack.getFlag(TypeFlag.class);
         Type type = MMOItems.plugin.getTypes().getOrThrow(miData.getString().toUpperCase().replace("-", "_"));
         return MMOItems.plugin.getTemplates().hasTemplate(type, item);

@@ -1,6 +1,7 @@
 package net.seyarada.pandeloot.drops.containers;
 
 import net.seyarada.pandeloot.Logger;
+import net.seyarada.pandeloot.config.Config;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagManager;
@@ -23,16 +24,17 @@ public class LootTable implements IContainer {
     int totalItems;
     int minItems;
     int maxItems;
-    int guaranteedItems;
-    int goalAmount;
+
+    public FlagPack flagPack = new FlagPack();
 
     public LootTable(ConfigurationSection config) {
         this.config = config;
-        guaranteedItems = Math.min(config.getInt("Guaranteed"), dropList.size());
-        totalItems = Math.min(config.getInt("TotalItems"), dropList.size());
-        minItems = Math.min(config.getInt("MinItems"), dropList.size());
-        maxItems = Math.min(config.getInt("MaxItems"), dropList.size());
-        goalAmount = Math.max(totalItems, Math.max(minItems, maxItems));
+    }
+
+    public LootTable withPack(FlagPack pack) {
+        flagPack = pack;
+        pack.merge(Config.defaultFlagPack);
+        return this;
     }
 
     @Override
@@ -40,6 +42,9 @@ public class LootTable implements IContainer {
         if (config.contains("Rewards")) {
             dropList = IDrop.getAsDrop(config.getStringList("Rewards"), null, null);
         }
+        minItems = Math.max(Math.min(config.getInt("Guaranteed"), dropList.size()), config.getInt("MinItems"));
+        totalItems = Math.min(config.getInt("TotalItems"), dropList.size());
+        maxItems = Math.min(config.getInt("MaxItems"), dropList.size());
     }
 
     @Override
@@ -51,30 +56,37 @@ public class LootTable implements IContainer {
     public List<IDrop> getDropList(LootDrop lootDrop) {
         if(lootDrop==null) return dropList;
 
-        ArrayList<IDrop> canObtain = dropList.stream()
+        ArrayList<IDrop> drops = new ArrayList<>();
+        ArrayList<IDrop> reserve = new ArrayList<>();
+
+        // Removes all the drops that the player shouldn't be able to get
+        ArrayList<IDrop> potentialDrops = dropList.stream()
                 .filter(iDrop -> iDrop.passesConditions(lootDrop, chanceFlag))
                 .collect(Collectors.toCollection(ArrayList::new));
 
-        goalAmount = Math.min(goalAmount, canObtain.size());
-        guaranteedItems = Math.min(guaranteedItems, canObtain.size());
+        maxItems = Math.min(maxItems, potentialDrops.size());
+        totalItems = Math.min(totalItems, potentialDrops.size());
+        minItems = Math.min(minItems, potentialDrops.size());
 
-        ArrayList<IDrop> toGive = new ArrayList<>();
-
-        if(goalAmount>0) {
-            for(int i = 0; i<goalAmount; i++)
-                toGive.add(doRoll(lootDrop, canObtain));
-            return toGive;
+        // Sorts drop by passing chance or not
+        for (IDrop iDrop : potentialDrops) {
+            if(iDrop.passesCondition(lootDrop, chanceFlag))
+                drops.add(iDrop);
+            else
+                reserve.add(iDrop);
         }
 
-        for(IDrop iDrop : canObtain)
-            if(iDrop.passesCondition(lootDrop, chanceFlag))
-                toGive.add(iDrop);
-        canObtain.removeAll(toGive);
+        int minGoal = Math.max(minItems, totalItems);
+        while(drops.size()<minGoal && reserve.size()>0) {
+            drops.add(doRoll(lootDrop, reserve));
+        }
 
-        while (canObtain.size()>0 && toGive.size()<guaranteedItems)
-                toGive.add(doRoll(lootDrop, canObtain));
+        int maxGoal = Math.max(maxItems, totalItems);
+        while(maxGoal>0 && drops.size()>maxGoal) {
+            drops.remove((int)( Math.random() * drops.size() ));
+        }
 
-        return toGive;
+        return drops;
     }
 
     IDrop doRoll(LootDrop lootDrop, List<IDrop> items) {
@@ -100,7 +112,7 @@ public class LootTable implements IContainer {
 
     @Override
     public FlagPack getFlagPack() {
-        return new FlagPack();
+        return flagPack;
     }
 
     @Override

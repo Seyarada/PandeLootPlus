@@ -19,7 +19,7 @@ import java.util.List;
 
 public class Config {
 
-    public static FlagPack defaultFlagPack = new FlagPack();
+    public static FlagPack defaultFlagPack = new FlagPack(true);
     public static boolean debug;
     public static boolean ignoreCitizensDamage;
 
@@ -40,7 +40,7 @@ public class Config {
 
     public static List<Storable> storables = new ArrayList<>();
 
-    public Config() {
+    public static void load() {
         storables.add(new ContainerManager());
         storables.add(new Boosts());
         storables.add(new Pity());
@@ -64,12 +64,13 @@ public class Config {
         loadPredefinedFlags(YamlConfiguration.loadConfiguration(generateFile("", "flags")));
         loadContainersToList();
 
-        storables.forEach(Storable::load);
-
         ConfigurationSection flagSection = configFile.getConfigurationSection("DefaultFlag");
         if(flagSection!=null && flagSection.getKeys(false).size()>0) {
             defaultFlagPack = FlagPack.fromExtended(flagSection);
         }
+
+        storables.forEach(Storable::load);
+
         debug = configFile.getBoolean("Settings.Debug");
         ignoreCitizensDamage = configFile.getBoolean("Settings.IgnoreCitizensDamage");
     }

@@ -4,6 +4,7 @@ import net.seyarada.pandeloot.api.LootProvider;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.drops.containers.ContainerManager;
+import net.seyarada.pandeloot.drops.containers.LootTable;
 import net.seyarada.pandeloot.flags.FlagPack;
 import org.bukkit.entity.Player;
 
@@ -11,7 +12,7 @@ public class LootTableProvider implements LootProvider {
 
     @Override
     public IDrop getLoot(String item, FlagPack pack, Player player, LootDrop drop) {
-        return ContainerManager.get(item);
+        return ((LootTable) ContainerManager.get(item)).withPack(pack);
     }
 
     @Override
