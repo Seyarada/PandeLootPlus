@@ -47,6 +47,7 @@ public class FlagManager {
         registerFlag(new FireworkFlag());
         registerFlag(new GlowFlag());
         registerFlag(new HologramFlag());
+        registerFlag(new MagnetFlag());
         registerFlag(new MessageFlag());
         registerFlag(new PityFlag());
         registerFlag(new PreventPickupFlag());

@@ -33,6 +33,7 @@ public class ActiveDrop {
     int lootbagRollerID = -1;
     int hologramRunnableID = -1;
     int voidProtectionID = -1;
+    int magnetRunnableID = -1;
     int flyingParticleRunnable = -1;
     List<Entity> holograms;
     List<Player> hologramsPlayers;
@@ -83,6 +84,35 @@ public class ActiveDrop {
             color = ChatColor.of(Color.getHSBColor(rainbowDegrees, 0.5f, 1));
 
             updateColors();
+
+        }, 0, frequency);
+    }
+
+    public void startMagnetRunnable(double force, double distanceTrigger, int frequency) {
+        magnetRunnableID = Bukkit.getScheduler().scheduleSyncRepeatingTask(PandeLoot.inst, () -> {
+            if(!e.isValid() || lootDrop.p==null ) cancel();
+
+            Location pL = lootDrop.p.getLocation().clone().add(0,1,0);
+
+            double distance = e.getLocation().distance(pL);
+            if(distance<=distanceTrigger) {
+                double distanceMod = (force>0) ? (distance*0.25)*force : 1;
+
+                Vector v = pL.toVector().subtract(e.getLocation().toVector()).normalize().multiply(force);
+                v.setX( (v.getX()*0.5)*distanceMod+v.getX()*0.5 );
+                v.setY( (v.getY()*0.5)*distanceMod+v.getY()*0.5 );
+                v.setZ( (v.getZ()*0.5)*distanceMod+v.getZ()*0.5 );
+
+                if(v.length() > 4)	{
+                    v = v.normalize().multiply(4);
+                }
+
+                if(Double.isNaN(v.getX())) v.setX(0);
+                if(Double.isNaN(v.getY())) v.setY(0);
+                if(Double.isNaN(v.getZ())) v.setZ(0);
+
+                e.setVelocity(v);
+            }
 
         }, 0, frequency);
     }
@@ -214,6 +244,7 @@ public class ActiveDrop {
         if(flyingParticleRunnable>0) Bukkit.getScheduler().cancelTask(flyingParticleRunnable);
         if(lootbagRollerID>0) Bukkit.getScheduler().cancelTask(lootbagRollerID);
         if(voidProtectionID>0) Bukkit.getScheduler().cancelTask(voidProtectionID);
+        if(magnetRunnableID>0) Bukkit.getScheduler().cancelTask(magnetRunnableID);
         if(hologramRunnableID>0) {
             Bukkit.getScheduler().cancelTask(hologramRunnableID);
             for (Player player : hologramsPlayers) {
