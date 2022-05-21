@@ -26,7 +26,7 @@ public class ContainerManager implements Storable {
         for(YamlConfiguration config : Config.containers) {
             for(String key : config.getKeys(false)) {
                 if(containersGeneric.containsKey(key)) {
-                    Logger.log(Level.WARNING, "Duplicate container key: %s", key);
+                    Logger.userWarning("Duplicate container key: %s", key);
                     continue;
                 }
                 ConfigurationSection configSection = config.getConfigurationSection(key);
@@ -34,7 +34,7 @@ public class ContainerManager implements Storable {
             }
         }
         containersGeneric.values().forEach(IContainer::load);
-        Logger.log("Loaded %o containers", loadedContainers);
+        Logger.userInfo("Loaded %o containers", loadedContainers);
     }
 
     static void loadContainer(ConfigurationSection configSection, String id) {

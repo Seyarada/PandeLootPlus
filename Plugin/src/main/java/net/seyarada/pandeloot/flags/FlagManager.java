@@ -18,7 +18,7 @@ public class FlagManager {
     public FlagManager() {
         loadFlags();
         loadConditionFlags();
-        Logger.log("Loaded %o flags", loadedFlags);
+        Logger.userInfo("Loaded %o flags", loadedFlags);
     }
 
     public static IFlag getFromID(String id) {
@@ -85,15 +85,6 @@ public class FlagManager {
         String flagID = flagEffect.id().toLowerCase();
         if(flagAlreadyRegistered(flagID)) return;
 
-        /*
-        // Auto assign flag scope
-        if(Arrays.stream(flagEffect.scope()).toList().contains(FlagScope.AUTO)) {
-            ArrayList<FlagScope> newScope = new ArrayList<>();
-            if(flag instanceof IGeneralEvent) newScope.add(FlagScope.GENERAL);
-            if(flag instanceof IItemEvent) newScope.add(FlagScope.ITEM);
-            if(flag instanceof IPlayerEvent) newScope.add(FlagScope.PLAYER);
-        }
-         */
         loadedFlags++;
 
         flags.put(flagID, flag);
@@ -103,7 +94,7 @@ public class FlagManager {
 
     boolean flagAlreadyRegistered(String id) {
         if(flags.containsKey(id)) {
-            Logger.log(Level.WARNING, "Error registering flag by ID: "+id+", flag already exists");
+            Logger.userWarning("Error registering flag by ID: "+id+", flag already exists");
             return true;
         }
         return false;

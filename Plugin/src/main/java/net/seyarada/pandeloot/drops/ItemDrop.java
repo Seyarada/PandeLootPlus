@@ -28,7 +28,7 @@ public class ItemDrop implements IDrop {
     public void run(LootDrop lootDrop) {
         Location dropLocation = lootDrop.getLocation();
         if (dropLocation == null) {
-            Logger.log("Unable to find where to drop %s", this);
+            Logger.userWarning("Unable to find where to drop %s", this);
             return;
         }
 

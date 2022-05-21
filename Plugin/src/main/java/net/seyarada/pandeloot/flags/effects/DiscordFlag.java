@@ -34,7 +34,7 @@ public class DiscordFlag implements IGeneralEvent {
 
 		TextChannel discordChannel = DiscordUtil.getJda().getTextChannelById(channel);
 		if(discordChannel==null) {
-			Logger.log(Level.WARNING, "Couldn't find discord channel by ID "+channel);
+			Logger.userWarning("Couldn't find discord channel by ID "+channel);
 			return;
 		}
 

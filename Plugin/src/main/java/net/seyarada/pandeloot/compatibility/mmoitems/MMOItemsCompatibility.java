@@ -18,23 +18,13 @@ public class MMOItemsCompatibility {
         Type type = MMOItems.plugin.getTypes().get(typeFormat);
         item = item.toUpperCase();
 
-        Logger.log(values.getString());
-        Logger.log(type);
-        Logger.log(type.getName());
-        Logger.log(type.getItem());
-        Logger.log(item);
-
         MMOItemDropItem dropItem;
         if(values.getString("unidentified")!=null)
             dropItem = new MMOItemDropItem(type, item, 1.0D, values.getDouble("unidentified"), 1, 1);
         else
             dropItem = new MMOItemDropItem(type, item, 1.0D, 0d, 1, 1);
 
-        Logger.log(dropItem);
-
         PlayerData playerData = player != null ? PlayerData.get(player) : null;
-        Logger.log(playerData);
-        Logger.log(dropItem.getId());
 
         return dropItem.getItem(playerData);
     }

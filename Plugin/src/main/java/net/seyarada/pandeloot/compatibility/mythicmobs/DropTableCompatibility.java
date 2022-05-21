@@ -86,7 +86,7 @@ public class DropTableCompatibility implements IContainer {
 
     @Override
     public ItemStack getItemStack() {
-        Logger.log(Level.WARNING, "Impossible getItemStack from DropTable: "+id);
+        Logger.userWarning("Impossible getItemStack from DropTable: "+id);
         return null;
     }
 

@@ -26,7 +26,7 @@ public class PredefinedDropsManager implements Storable {
         for(YamlConfiguration config : Config.drops) {
             for(String key : config.getKeys(false)) {
                 if(dropsGeneric.containsKey(key)) {
-                    Logger.log(Level.WARNING, "Duplicate drop key: %s", key);
+                    Logger.userWarning("Duplicate drop key: %s", key);
                     continue;
                 }
                 loadedContainers++;
@@ -35,7 +35,7 @@ public class PredefinedDropsManager implements Storable {
                 dropsGeneric.put(key, iDrop);
             }
         }
-        Logger.log("Loaded %o predefined drops", loadedContainers);
+        Logger.userInfo("Loaded %o predefined drops", loadedContainers);
     }
 
     public static IDrop get(String str) {

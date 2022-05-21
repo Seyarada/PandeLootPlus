@@ -115,7 +115,7 @@ public class FlagPack {
         pack.configReader(config);
         pack.merge(Config.defaultFlagPack);
         predefinedPacks.put(config.getName(), pack);
-        if(Config.debug) Logger.log("Generated flag pack %s from %s", pack, config.getName());
+        Logger.log("Generated flag pack %s from %s", pack, config.getName());
         return pack;
     }
 
@@ -177,7 +177,7 @@ public class FlagPack {
                 if(flagName.equals("pack")) {
                     String pack = subEntry.getValue();
                     if(!predefinedPacks.containsKey(pack))
-                        Logger.log(Level.WARNING, "Predefined pack %s not found", pack);
+                        Logger.userWarning("Predefined pack %s not found", pack);
                     else
                         merge(predefinedPacks.get(pack));
                     continue;

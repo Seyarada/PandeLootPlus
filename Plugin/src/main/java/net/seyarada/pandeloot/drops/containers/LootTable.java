@@ -117,7 +117,7 @@ public class LootTable implements IContainer {
 
     @Override
     public ItemStack getItemStack() {
-        Logger.log(Level.WARNING, "Impossible getItemStack from: "+getConfig().getName());
+        Logger.userWarning("Impossible getItemStack from: "+getConfig().getName());
         return null;
     }
 

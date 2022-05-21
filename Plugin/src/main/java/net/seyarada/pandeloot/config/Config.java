@@ -20,7 +20,7 @@ import java.util.List;
 public class Config {
 
     public static FlagPack defaultFlagPack = new FlagPack(true);
-    public static boolean debug;
+    public static boolean DEBUG;
     public static boolean ignoreCitizensDamage;
 
     public static final List<YamlConfiguration> containers = new ArrayList<>();
@@ -71,7 +71,7 @@ public class Config {
 
         storables.forEach(Storable::load);
 
-        debug = configFile.getBoolean("Settings.Debug");
+        DEBUG = configFile.getBoolean("Settings.Debug");
         ignoreCitizensDamage = configFile.getBoolean("Settings.IgnoreCitizensDamage");
     }
 
@@ -95,7 +95,7 @@ public class Config {
             FlagPack.fromExtended(section);
             i++;
         }
-        Logger.log("Loaded %o flag packs", i);
+        Logger.userInfo("Loaded %o flag packs", i);
     }
 
     public static File generateFile(String internalPath, String fileName) {

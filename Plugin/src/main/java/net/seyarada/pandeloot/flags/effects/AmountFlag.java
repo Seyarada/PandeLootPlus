@@ -33,7 +33,7 @@ public class AmountFlag implements IItemEvent {
 		try {
 			return (int) Float.parseFloat(strAmount);
 		} catch (NumberFormatException e) {
-			Logger.log(Level.WARNING, "Invalid amount for " + strAmount);
+			Logger.userWarning("Invalid amount for " + strAmount);
 			return 1;
 		}
 	}

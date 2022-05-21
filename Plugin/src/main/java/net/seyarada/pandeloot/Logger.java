@@ -17,38 +17,37 @@ public class Logger {
 
     public static void log(String msg) {
         if(isRecording) recordedLogs.add(msg);
-        else bLogger.log(Level.INFO, Constants.DECORATED_NAME +msg);
+        else quickLog(Level.INFO, msg);
     }
-
 
     public static void log(String str, Object... args) {
         String msg = String.format(str, args);
         if(isRecording) recordedLogs.add(msg);
-        else bLogger.log(Level.INFO, Constants.DECORATED_NAME +msg);
+        else quickLog(Level.INFO, msg);
     }
 
     public static void log(Object obj) {
         String msg = obj.toString();
         if(isRecording) recordedLogs.add(msg);
-        else bLogger.log(Level.INFO, Constants.DECORATED_NAME +msg);
+        else quickLog(Level.INFO, msg);
     }
 
     public static void log(Level level, String msg) {
         if(isRecording) recordedLogs.add(msg);
-        else bLogger.log(level, Constants.DECORATED_NAME +msg);
+        else quickLog(level, msg);
     }
 
 
     public static void log(Level level, String str, Object... args) {
         String msg = String.format(str, args);
         if(isRecording) recordedLogs.add(msg);
-        else bLogger.log(level, Constants.DECORATED_NAME +msg);
+        else quickLog(level, msg);
     }
 
     public static void log(Level level, Object obj) {
         String msg = obj.toString();
         if(isRecording) recordedLogs.add(msg);
-        else bLogger.log(level, Constants.DECORATED_NAME +msg);
+        else quickLog(level, msg);
     }
 
     public static void record() {
@@ -57,16 +56,38 @@ public class Logger {
 
     public static void print() {
         isRecording = false;
-        if(Config.debug) {
+        if(Config.DEBUG) {
             if(recordedLogs.size()==0) return;
             float degrees = 0;
             for(String msg : recordedLogs) {
                 ChatColor c = ChatColor.of(Color.getHSBColor(degrees, 0.5f, 1));
-                bLogger.log(Level.INFO, Constants.DECORATED_NAME +c+msg);
+                bLogger.log(Level.INFO, Constants.DECORATED_NAME + c + msg);
                 degrees += 0.05;
             }
             recordedLogs.clear();
         }
+    }
+
+    public static void quickLog(Level level, String log) {
+        if(Config.DEBUG) bLogger.log(level, Constants.DECORATED_NAME + log);
+    }
+
+    public static void userInfo(String msg) {
+        bLogger.log(Level.INFO, Constants.DECORATED_NAME + msg);
+    }
+
+    public static void userInfo(String str, Object... args) {
+        String msg = String.format(str, args);
+         bLogger.log(Level.INFO, Constants.DECORATED_NAME + msg);
+    }
+
+    public static void userWarning(String msg) {
+        bLogger.log(Level.WARNING, Constants.DECORATED_NAME + msg);
+    }
+
+    public static void userWarning(String str, Object... args) {
+        String msg = String.format(str, args);
+        bLogger.log(Level.WARNING, msg);
     }
 
 }

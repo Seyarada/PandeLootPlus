@@ -140,7 +140,7 @@ public class LootDrop {
     }
 
     public void drop() {
-        if(Config.debug) Logger.log("Doing drops for %s", p);
+        Logger.log("Doing drops for %s", p);
         for(IDrop drop : itemDrops) {
             if(!continueDrops) break;
 
@@ -148,7 +148,7 @@ public class LootDrop {
                 totalDelay += drop.getFlagPack().getFlag(delayFlag).getLong();
             }
 
-            if(Config.debug) Logger.log("Running drop %s with flags %s", drop, drop.getFlagPack());
+            Logger.log("Running drop %s with flags %s", drop, drop.getFlagPack());
             if(totalDelay>0)
                 Bukkit.getScheduler().runTaskLater(PandeLoot.inst, () -> drop.run(this), totalDelay);
             else

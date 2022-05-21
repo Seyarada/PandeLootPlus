@@ -62,8 +62,8 @@ public class DamageBoard {
             i++;
         }
 
-        if(Config.debug) Logger.log("Damage Board Results:");
-        if(Config.debug) Logger.log("  "+playersAndDamage);
+        Logger.log("Damage Board Results:");
+        Logger.log("  "+playersAndDamage);
     }
 
     public String getPercent(int rank, boolean isRatio) {

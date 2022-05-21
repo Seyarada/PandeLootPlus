@@ -16,7 +16,7 @@ public interface IContainer extends IDrop {
 
     @Override
     default void run(LootDrop lootDrop) {
-        Logger.log(Level.WARNING, "Impossible container drop from "+lootDrop+": "+getConfig().getName());
+        Logger.userWarning("Impossible container drop from "+lootDrop+": "+getConfig().getName());
     }
 
     default void load() {
