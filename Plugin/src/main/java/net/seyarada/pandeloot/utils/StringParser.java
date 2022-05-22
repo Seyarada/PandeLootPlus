@@ -31,6 +31,7 @@ public class StringParser {
         placeholderValues.put("lb", "]");
         placeholderValues.put("rs", "<");
         placeholderValues.put("ls", ">");
+        placeholderValues.put("sc", ";");
 
         SUBSTITUTOR = new StrSubstitutor(placeholderValues, "%", "%");
     }

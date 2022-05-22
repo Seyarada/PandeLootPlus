@@ -18,7 +18,7 @@ public class ItemProviderManager {
     static final HashMap<String, ItemProvider> ITEM_PROVIDERS = new HashMap<>();
 
     public static void init() {
-        new VanillaProvider().register("minecraft", "mc", "vanilla", "v");
+        new VanillaProvider().register("minecraft", "mc", "vanilla", "v", "item");
 
         if(PandeLoot.mythicEnabled) new MythicItemProvider().register("mythicmobs", "mm");
         if(PandeLoot.mmoItemsEnabled) new MMOItemProvider().register("mmoitems", "mi");

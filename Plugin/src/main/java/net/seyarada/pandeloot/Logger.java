@@ -51,6 +51,7 @@ public class Logger {
     }
 
     public static void record() {
+        recordedLogs.clear();
         isRecording = true;
     }
 

@@ -34,7 +34,7 @@ public final class EntityDrop implements IDrop {
         if(type==null) return;
         switch (type) {
             case VANILLA -> {
-                Entity e = lootDrop.getLocation().getWorld().spawnEntity(lootDrop.getLocation(), EntityType.valueOf(entityID));
+                Entity e = lootDrop.getLocation().getWorld().spawnEntity(lootDrop.getLocation(), EntityType.valueOf(entityID.toUpperCase()));
                 new ActiveDrop(this, e, lootDrop.p, pack, lootDrop);
             }
             case MYTHICMOBS -> {

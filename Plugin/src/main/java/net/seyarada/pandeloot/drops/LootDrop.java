@@ -9,6 +9,7 @@ import net.seyarada.pandeloot.drops.containers.IContainer;
 import net.seyarada.pandeloot.flags.FlagManager;
 import net.seyarada.pandeloot.flags.effects.AmountFlag;
 import net.seyarada.pandeloot.flags.effects.DelayFlag;
+import net.seyarada.pandeloot.flags.effects.SkipFlag;
 import net.seyarada.pandeloot.nms.NMSManager;
 import net.seyarada.pandeloot.trackers.DamageBoard;
 import net.seyarada.pandeloot.utils.ChatUtils;
@@ -45,8 +46,6 @@ public class LootDrop {
     public StrSubstitutor sub;
 
     List<IDrop> baseDropList;
-
-    static DelayFlag delayFlag = (DelayFlag) FlagManager.getFromID("delay");
 
     // This map is for flags to store information for following executions of such flag
     // For example, radial exploding knowing the order of the drop
@@ -141,11 +140,20 @@ public class LootDrop {
 
     public void drop() {
         Logger.log("Doing drops for %s", p);
+        int skip = 0;
         for(IDrop drop : itemDrops) {
             if(!continueDrops) break;
+            if(skip>0) {
+                skip--;
+                continue;
+            }
 
-            if(drop.getFlagPack().hasFlag(delayFlag)) {
-                totalDelay += drop.getFlagPack().getFlag(delayFlag).getLong();
+            if(drop.getFlagPack().hasFlag(DelayFlag.class)) {
+                totalDelay += drop.getFlagPack().getFlag(DelayFlag.class).getLong();
+            }
+
+            if(drop.getFlagPack().hasFlag(SkipFlag.class)) {
+                skip = drop.getFlagPack().getFlag(SkipFlag.class).getInt();
             }
 
             Logger.log("Running drop %s with flags %s", drop, drop.getFlagPack());

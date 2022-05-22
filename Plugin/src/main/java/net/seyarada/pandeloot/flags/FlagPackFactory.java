@@ -11,6 +11,10 @@ public class FlagPackFactory {
 
     public static FlagPack getPack(String str) {
         FlagString flagString = new FlagString(str);
+        Logger.log("Flag Section: %s", flagString.flagSection);
+        Logger.log("Outer Section: %s", flagString.outerSection);
+        Logger.log("Origin Section: %s", flagString.origin);
+        Logger.log("Item Section: %s", flagString.item);
 
         HashMap<FlagTrigger, HashMap<String, String>> triggersWithFlags = new HashMap<>();
         FlagPack pack = new FlagPack();
@@ -110,6 +114,11 @@ public class FlagPackFactory {
             int outerStart = Math.max(space, flagEnd);
             if(outerStart!=-1) {
                 outerSection = str.substring(outerStart+1).strip();
+                if(outerSection.contains(";")) {
+                    outerSection = outerSection.substring(0 ,outerSection.indexOf(";"));
+                }
+            } else if(str.contains(";")) {
+                str = str.substring(0 ,str.indexOf(";"));
             }
 
             String itemPart;

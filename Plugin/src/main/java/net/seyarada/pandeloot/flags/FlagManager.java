@@ -53,6 +53,7 @@ public class FlagManager {
         registerFlag(new PreventPickupFlag());
         registerFlag(new RemoveFlag());
         registerFlag(new RollBagFlag());
+        registerFlag(new SkipFlag());
         registerFlag(new SoundFlag());
         registerFlag(new StackableFlag());
         registerFlag(new StopFlag());
