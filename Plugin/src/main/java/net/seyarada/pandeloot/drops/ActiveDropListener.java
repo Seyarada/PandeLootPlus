@@ -38,14 +38,12 @@ public class ActiveDropListener implements Listener {
             if(!i.isValid()) Bukkit.getScheduler().cancelTask(id);
 
             if(i.isOnGround() && !hasLanded.get()) {
+                ActiveDrop activeDrop = ActiveDrop.get(i);
                 hasLanded.set(true);
-
-                pack.trigger(FlagTrigger.onland, i, null, null);
-
+                pack.trigger(FlagTrigger.onland, i, activeDrop.lootDrop, activeDrop.iDrop);
             } else if(!i.isOnGround()) {
                 hasLanded.set(false);
             }
-
 
         }, 0, 3);
     }

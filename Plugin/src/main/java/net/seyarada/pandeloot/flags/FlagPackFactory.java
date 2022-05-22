@@ -75,6 +75,7 @@ public class FlagPackFactory {
                     }
                     case ';' -> {
                         if(!inModifiers) {
+                            if(builder.isEmpty()) continue;
                             String[] flag = builder.toString().split("=", 2);
                             HashMap<String, String> currentFlags = triggersWithFlags.get(currentTrigger);
                             currentFlags.put(flag[0], flag[1]);
