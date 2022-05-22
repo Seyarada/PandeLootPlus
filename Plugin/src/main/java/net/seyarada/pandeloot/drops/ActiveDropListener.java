@@ -30,7 +30,7 @@ public class ActiveDropListener implements Listener {
 
     private int id;
 
-    public void checkForLandings(Entity i, FlagPack pack){
+    public void checkForLandings(Entity i, FlagPack pack) {
         AtomicBoolean hasLanded = new AtomicBoolean(false);
 
         id = Bukkit.getScheduler().scheduleSyncRepeatingTask(PandeLoot.inst, () -> {

@@ -24,7 +24,7 @@ public class MythicSkillFlag implements IGeneralEvent {
 		ArrayList<Location> locationTargets = new ArrayList<>();
 		locationTargets.add(origin);
 
-		MythicBukkit.inst().getAPIHelper().castSkill(caster, skill, caster, origin, targets, locationTargets, 1.0f);
+		MythicBukkit.inst().getAPIHelper().castSkill(caster, skill, meta.lootDrop().dropEntity, origin, targets, locationTargets, 1.0f);
 	}
 	
 }
