@@ -10,7 +10,7 @@ import org.bukkit.entity.Item;
 import java.util.Random;
 import java.util.logging.Level;
 
-@FlagEffect(id="amount", description="Changes the amount of a drop", priority = FlagPriority.LOW)
+@FlagEffect(id="amount", description="Changes the amount of a drop", priority = FlagPriority.LOWEST)
 public class AmountFlag implements IItemEvent {
 
 	@Override
