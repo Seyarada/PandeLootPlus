@@ -1,24 +1,14 @@
 package net.seyarada.pandeloot.utils;
 
-import com.google.common.collect.Sets;
-import io.lumine.mythic.api.adapters.AbstractEntity;
-import io.lumine.mythic.api.skills.SkillMetadata;
-import io.lumine.mythic.bukkit.BukkitAdapter;
-import io.lumine.mythic.bukkit.MythicBukkit;
-import io.lumine.mythic.core.mobs.ActiveMob;
-import io.lumine.mythic.core.skills.SkillMetadataImpl;
-import io.lumine.mythic.core.skills.SkillTriggers;
-import io.lumine.mythic.core.skills.placeholders.parsers.PlaceholderStringImpl;
-import me.clip.placeholderapi.PlaceholderAPI;
 import net.seyarada.pandeloot.PandeLoot;
+import net.seyarada.pandeloot.compatibility.PlaceholderAPICompatibility;
+import net.seyarada.pandeloot.compatibility.mythicmobs.MythicMobsCompatibility;
 import net.seyarada.pandeloot.drops.ItemDropMeta;
 import net.seyarada.pandeloot.drops.LootDrop;
 import org.apache.commons.lang.text.StrSubstitutor;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Optional;
 
 public class StringParser {
 
@@ -69,21 +59,11 @@ public class StringParser {
         if(drop!=null)
             text = drop.sub.replace(text);
 
-        if(PandeLoot.mythicEnabled && drop!=null && text.contains("<") && text.contains(">")) {
-            AbstractEntity mob = BukkitAdapter.adapt(drop.sourceEntity);
-            Optional<ActiveMob> optionalMob = MythicBukkit.inst().getMobManager().getActiveMob(drop.sourceEntity.getUniqueId());
-            if(optionalMob.isPresent()) {
-                ActiveMob mobCaster = optionalMob.get();
-                AbstractEntity playerTarget = BukkitAdapter.adapt(player);
-                HashSet<AbstractEntity> targets = Sets.newHashSet();
-                targets.add(playerTarget);
-                SkillMetadata meta = new SkillMetadataImpl(SkillTriggers.API, mobCaster, mob, mob.getLocation(), targets, null, 1);
-                text = new PlaceholderStringImpl(text).get(meta, playerTarget);
-            }
-        }
+        if(PandeLoot.mythicEnabled && drop!=null && text.contains("<") && text.contains(">"))
+            text = MythicMobsCompatibility.parse(text, drop, player);
 
         if(player!=null && PandeLoot.papiEnabled)
-            text = PlaceholderAPI.setPlaceholders(player, text);
+            text = PlaceholderAPICompatibility.parse(text, player);
 
         if(text.chars().filter(ch -> ch == '%').count() >= 2)
             return null;
