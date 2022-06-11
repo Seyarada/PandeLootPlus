@@ -6,6 +6,8 @@ import net.seyarada.pandeloot.config.Boosts;
 import net.seyarada.pandeloot.config.Config;
 import net.seyarada.pandeloot.config.Pity;
 import net.seyarada.pandeloot.drops.containers.IContainer;
+import net.seyarada.pandeloot.drops.containers.LootBag;
+import net.seyarada.pandeloot.drops.containers.LootTable;
 import net.seyarada.pandeloot.flags.FlagManager;
 import net.seyarada.pandeloot.flags.effects.AmountFlag;
 import net.seyarada.pandeloot.flags.effects.DelayFlag;
@@ -179,18 +181,23 @@ public class LootDrop {
             }
             if(drop instanceof ItemDrop || drop instanceof EntityDrop) {
                 toDrop.add(drop);
-            } else if(drop instanceof IContainer itemContainer) {
-
+            } else if(drop instanceof LootBag bag) {
                 int amount = 1;
                 if(drop.getFlagPack().hasFlag(AmountFlag.class)) {
                     amount = AmountFlag.getValueFromRanged(drop.getFlagPack().getFlag(AmountFlag.class).getString());
                 }
-
+                for (int i = 0; i < amount; i++) {
+                    toDrop.add(bag.getDrop(drop.getFlagPack()));
+                }
+            } else if(drop instanceof IContainer itemContainer) {
+                int amount = 1;
+                if(drop.getFlagPack().hasFlag(AmountFlag.class)) {
+                    amount = AmountFlag.getValueFromRanged(drop.getFlagPack().getFlag(AmountFlag.class).getString());
+                }
                 for (int i = 0; i < amount; i++) {
                     ArrayList<IDrop> finalToAdd = collectDrops(itemContainer.getDropList(this), true);
                     toDrop.addAll(finalToAdd);
                 }
-
             }
         }
 

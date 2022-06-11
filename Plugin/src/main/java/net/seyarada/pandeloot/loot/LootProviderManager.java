@@ -18,8 +18,8 @@ public class LootProviderManager {
     static final HashMap<String, LootProvider> LOOT_PROVIDERS = new HashMap<>();
 
     public static void init() {
-        new LootTableProvider().register("loottable", "lt", "container");
         new LootBagProvider().register("lootbag", "lb", "bag");
+        new LootTableProvider().register("loottable", "lt", "container");
         new EntityProvider().register("entity", "e");
         new PredefinedDropsProvider().register("i");
 
@@ -39,6 +39,7 @@ public class LootProviderManager {
             if(provider.isPresent(id, pack, player, drop))
                 return provider.getLoot(id, pack, player, drop);
         }
+
         return new ItemDrop(IDrop.getItem(origin, id, pack, player, drop), pack);
     }
 
