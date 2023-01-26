@@ -29,7 +29,6 @@
 
 
   <repositories>
-
     <!-- MythicMobs -->
     <repository>
       <id>nexus</id>
