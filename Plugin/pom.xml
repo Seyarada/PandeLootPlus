@@ -4,8 +4,8 @@
   <groupId>net.seyarada</groupId>
   <artifactId>pandeloot</artifactId>
   <packaging>jar</packaging>
-  <name>pandeloot</name>
-  <version>1</version> <!-- This is where I track the version -->
+  <name>PandeLoot</name>
+  <version>1</version>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,7 +24,6 @@
       <name>Lumine Snapshots</name>
       <url>https://mvn.lumine.io/repository/maven-snapshots/</url>
     </snapshotRepository>
-
   </distributionManagement>
 
 
@@ -63,7 +62,6 @@
       <id>everything</id>
       <url>https://repo.citizensnpcs.co/</url>
     </repository>
-
   </repositories>
 
 
@@ -73,8 +71,8 @@
       <artifactId>pandeloot-v1_17</artifactId>
       <version>v1_17</version>
       <type>jar</type>
-      <scope>compile</scope> <!-- The 'compile' scope will get shaded in -->
-      <optional>true</optional> <!-- Set all of these to optional, to ensure plugins building against yours don't look for them -->
+      <scope>compile</scope>
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>net.seyarada</groupId>
@@ -123,7 +121,7 @@
       <artifactId>spigot-api</artifactId>
       <version>1.17.1-R0.1-SNAPSHOT</version>
       <type>jar</type>
-      <scope>provided</scope> <!-- The 'provided' scope will NOT get shaded in -->
+      <scope>provided</scope>
       <optional>true</optional>
     </dependency>
 
@@ -239,6 +237,9 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <version>2.3.1</version>
+        <configuration>
+          <outputDirectory>/Users/aitoralbertogutierrez/Desktop/Minecraft Server/plugins</outputDirectory>
+        </configuration>
       </plugin>
 
       <plugin>

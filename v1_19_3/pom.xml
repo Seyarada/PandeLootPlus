@@ -1,10 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>net.seyarada</groupId>
   <artifactId>pandeloot-v1_19_3</artifactId>
   <packaging>jar</packaging>
-  <name>Abstraction Example Plugin implementation v1_19_3</name>
+  <name>PandeLoot v1_19_3</name>
   <version>v1_19_3</version>
 
   <properties>
@@ -20,7 +19,6 @@
   </parent>
 
   <dependencies>
-
     <!-- Spigot API -->
     <dependency>
       <groupId>org.spigotmc</groupId>
@@ -41,11 +39,10 @@
 
     <dependency>
       <groupId>net.seyarada</groupId>
-      <artifactId>pandeloot-api</artifactId> <!-- Depend on the API! -->
+      <artifactId>pandeloot-api</artifactId>
       <version>API</version>
       <type>jar</type>
     </dependency>
-
   </dependencies>
 
 

@@ -3,12 +3,10 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.seyarada</groupId>
   <artifactId>pandeloot-parent</artifactId>
-  <!-- Artifact ID doesn't matter for anything but the final product
-       At least, it doesn't matter externally to this setup -->
   <packaging>pom</packaging>
-  <!-- Packaging? POM -->
   <version>parent</version>
-  <name>pandeloot Parent</name>
+  <name>PandeLoot Parent</name>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>16</maven.compiler.source>
@@ -25,7 +23,6 @@
     <module>Plugin</module>
   </modules>
 
-  <!-- Define the repo here since multiple modules will be using it -->
   <repositories>
     <repository>
       <id>spigot-repo</id>
