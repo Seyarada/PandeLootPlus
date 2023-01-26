@@ -103,6 +103,14 @@
     </dependency>
     <dependency>
       <groupId>net.seyarada</groupId>
+      <artifactId>pandeloot-v1_19_3</artifactId>
+      <version>v1_19_3</version>
+      <type>jar</type>
+      <scope>compile</scope>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>net.seyarada</groupId>
       <artifactId>pandeloot-api</artifactId>
       <version>API</version>
       <type>jar</type>
