@@ -6,8 +6,7 @@ import net.seyarada.pandeloot.flags.FlagPack;
 import net.seyarada.pandeloot.flags.conditions.ChanceFlag;
 import net.seyarada.pandeloot.flags.enums.FlagTrigger;
 import net.seyarada.pandeloot.flags.types.ICondition;
-import net.seyarada.pandeloot.loot.ItemProviderManager;
-import net.seyarada.pandeloot.loot.LootProviderManager;
+import net.seyarada.pandeloot.loot.Providers;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -72,7 +71,7 @@ public interface IDrop {
 
         Logger.log("Getting as drop: origin;%s, id;%s, pack;%s, player;%s", origin, id, pack, player);
 
-        return LootProviderManager.get(origin, id, pack, player, drop);
+        return Providers.get(origin, id, pack, player, drop);
 
     }
 
@@ -85,7 +84,7 @@ public interface IDrop {
     }
 
     static ItemStack getItem(String origin, String item, FlagPack pack, Player player, LootDrop drop) {
-        return ItemProviderManager.get(origin, item, pack, player, drop);
+        return Providers.get(origin, item, pack, player, drop).getItemStack();
     }
 
 }

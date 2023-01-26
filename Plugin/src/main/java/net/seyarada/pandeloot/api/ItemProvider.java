@@ -2,7 +2,7 @@ package net.seyarada.pandeloot.api;
 
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagPack;
-import net.seyarada.pandeloot.loot.ItemProviderManager;
+import net.seyarada.pandeloot.loot.Providers;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -13,7 +13,7 @@ public interface ItemProvider {
 
     default void register(String... aliases) {
         for (String alias : aliases) {
-            ItemProviderManager.register(alias, this);
+            Providers.register(alias, this);
         }
     }
 

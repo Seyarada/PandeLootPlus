@@ -6,7 +6,6 @@ import net.seyarada.pandeloot.drops.LootDrop;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.List;
-import java.util.logging.Level;
 
 public interface IContainer extends IDrop {
 

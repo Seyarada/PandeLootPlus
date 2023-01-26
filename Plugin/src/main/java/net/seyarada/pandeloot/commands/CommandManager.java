@@ -42,10 +42,10 @@ public class CommandManager implements CommandExecutor {
                     i + "give" + div + "Give an item to the inventory of a player",
                     i + "drop" + div + "Drop an item to a player",
                     i + "reload" + div + "Reloads the plugin",
-                    i + "gui" + div + "Opens a GUI where you can test loot tables",
-                    ""
+                    i + "gui" + div + "Opens a GUI where you can test loot tables"
             };
             sender.sendMessage(msgList);
+            ChatUtils.sendCenteredMessage(sender, ChatColor.DARK_GRAY + Constants.PLUGIN_VERSION);
             ChatUtils.sendCenteredMessage(sender, Constants.DECORATED_NAME);
         }
         return true;

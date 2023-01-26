@@ -7,7 +7,6 @@ import net.seyarada.pandeloot.flags.effects.*;
 import net.seyarada.pandeloot.flags.types.IFlag;
 
 import java.util.HashMap;
-import java.util.logging.Level;
 
 public class FlagManager {
 

@@ -37,7 +37,7 @@ public class StringParser {
         }
     }
 
-    public static double parseAndMath(String text, LootDrop drop) {
+    public static long parseAndMath(String text, LootDrop drop) {
         if(text==null) return 0;
 
         text = parseText(text, drop);

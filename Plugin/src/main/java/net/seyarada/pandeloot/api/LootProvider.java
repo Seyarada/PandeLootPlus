@@ -3,7 +3,7 @@ package net.seyarada.pandeloot.api;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagPack;
-import net.seyarada.pandeloot.loot.LootProviderManager;
+import net.seyarada.pandeloot.loot.Providers;
 import org.bukkit.entity.Player;
 
 public interface LootProvider {
@@ -13,7 +13,7 @@ public interface LootProvider {
 
     default void register(String... aliases) {
         for (String alias : aliases) {
-            LootProviderManager.register(alias, this);
+            Providers.register(alias, this);
         }
     }
 

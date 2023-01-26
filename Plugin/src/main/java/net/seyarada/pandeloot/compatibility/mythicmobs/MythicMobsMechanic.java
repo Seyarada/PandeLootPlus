@@ -7,7 +7,6 @@ import io.lumine.mythic.api.skills.*;
 import io.lumine.mythic.api.skills.placeholders.PlaceholderString;
 import io.lumine.mythic.bukkit.BukkitAdapter;
 import io.lumine.mythic.core.config.MythicLineConfigImpl;
-import io.lumine.mythic.core.skills.SkillString;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import org.bukkit.entity.Entity;

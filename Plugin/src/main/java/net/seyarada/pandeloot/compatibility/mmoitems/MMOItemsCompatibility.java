@@ -4,7 +4,6 @@ import net.Indyuce.mmoitems.MMOItems;
 import net.Indyuce.mmoitems.api.Type;
 import net.Indyuce.mmoitems.api.droptable.item.MMOItemDropItem;
 import net.Indyuce.mmoitems.api.player.PlayerData;
-import net.seyarada.pandeloot.Logger;
 import net.seyarada.pandeloot.flags.FlagPack;
 import net.seyarada.pandeloot.flags.effects.TypeFlag;
 import org.bukkit.entity.Player;

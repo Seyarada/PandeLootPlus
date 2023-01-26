@@ -10,6 +10,7 @@ public class Constants {
     public static final net.md_5.bungee.api.ChatColor ACCENT = net.md_5.bungee.api.ChatColor.of("#d0bb94");
     public static final String PLUGIN_NAME = "PandeLoot";
     public static final String DECORATED_NAME = ACCENT +"["+ PLUGIN_NAME +"] "+ ChatColor.RESET;
+    public static final String PLUGIN_VERSION = PandeLoot.inst.getDescription().getVersion();
 
     public static final NamespacedKey KEY = new NamespacedKey(PandeLoot.inst, PLUGIN_NAME);
     public static final NamespacedKey LOOTBAG_KEY = new NamespacedKey(PandeLoot.inst, "lootbag");

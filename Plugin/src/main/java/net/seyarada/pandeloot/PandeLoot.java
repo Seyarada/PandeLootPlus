@@ -12,13 +12,9 @@ import net.seyarada.pandeloot.drops.ActiveDropListener;
 import net.seyarada.pandeloot.drops.DropEvents;
 import net.seyarada.pandeloot.flags.FlagManager;
 import net.seyarada.pandeloot.gui.ContainersGUI;
-import net.seyarada.pandeloot.loot.ItemProviderManager;
-import net.seyarada.pandeloot.loot.LootProviderManager;
 import net.seyarada.pandeloot.nms.NMSManager;
 import net.seyarada.pandeloot.nms.PlayerPacketListener;
 import net.seyarada.pandeloot.trackers.DamageTracker;
-import org.bukkit.Bukkit;
-import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -37,9 +33,6 @@ public class PandeLoot extends JavaPlugin implements Listener {
         inst = this;
         checkCompatibilities();
 
-
-        ItemProviderManager.init();
-        LootProviderManager.init();
 
         new FlagManager();
         Config.load();

@@ -7,13 +7,15 @@ import net.seyarada.pandeloot.flags.FlagEffect;
 import net.seyarada.pandeloot.flags.types.IEntityEvent;
 import net.seyarada.pandeloot.utils.ColorUtils;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
+import org.bukkit.inventory.meta.ItemMeta;
 
 @FlagEffect(id="color", description="Determines the active color of a drop")
 public class ColorFlag implements IEntityEvent {
 
 	@Override
-	public void onCallEntity(Entity item, ItemDropMeta meta) {
-		ActiveDrop activeDrop = ActiveDrop.get(item);
+	public void onCallEntity(Entity entity, ItemDropMeta meta) {
+		ActiveDrop activeDrop = ActiveDrop.get(entity);
 
 		String colorString = meta.getString();
 		switch (colorString.toUpperCase()) {
@@ -21,6 +23,15 @@ public class ColorFlag implements IEntityEvent {
 			case "RAINBOW" -> {
 				activeDrop.startRainbowRunnable(meta.getIntOrDefault("frequency", 3));
 				return;
+			}
+			case "MATCH", "DISPLAY" -> {
+				if(entity instanceof Item item) {
+					ItemMeta itemMeta = item.getItemStack().getItemMeta();
+					if(itemMeta!=null && itemMeta.hasDisplayName()) {
+						String colorSymbol = itemMeta.getDisplayName().substring(1, 2);
+						colorString = ColorUtils.findStringColor(colorSymbol);
+					} else return;
+				} else return;
 			}
 		}
 

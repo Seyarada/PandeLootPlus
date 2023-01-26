@@ -7,8 +7,6 @@ import net.seyarada.pandeloot.config.Config;
 import net.seyarada.pandeloot.config.Pity;
 import net.seyarada.pandeloot.drops.containers.IContainer;
 import net.seyarada.pandeloot.drops.containers.LootBag;
-import net.seyarada.pandeloot.drops.containers.LootTable;
-import net.seyarada.pandeloot.flags.FlagManager;
 import net.seyarada.pandeloot.flags.effects.AmountFlag;
 import net.seyarada.pandeloot.flags.effects.DelayFlag;
 import net.seyarada.pandeloot.flags.effects.SkipFlag;

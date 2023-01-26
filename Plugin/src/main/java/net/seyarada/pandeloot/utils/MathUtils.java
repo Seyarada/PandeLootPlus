@@ -56,7 +56,7 @@ public class MathUtils {
         return dx * dx + dz * dz;
     }
 
-    public static double eval(final String str) {
+    public static long eval(final String str) {
         return new Object() {
             int pos = -1, ch;
 
@@ -73,9 +73,9 @@ public class MathUtils {
                 return false;
             }
 
-            double parse() {
+            long parse() {
                 nextChar();
-                double x = parseExpression();
+                long x = parseExpression();
                 if (pos < str.length()) throw new RuntimeException("Unexpected: " + (char)ch);
                 return x;
             }
@@ -86,8 +86,8 @@ public class MathUtils {
             // factor = `+` factor | `-` factor | `(` expression `)`
             //        | number | functionName factor | factor `^` factor
 
-            double parseExpression() {
-                double x = parseTerm();
+            long parseExpression() {
+                long x = parseTerm();
                 for (;;) {
                     if      (eat('+')) x += parseTerm(); // addition
                     else if (eat('-')) x -= parseTerm(); // subtraction
@@ -95,8 +95,8 @@ public class MathUtils {
                 }
             }
 
-            double parseTerm() {
-                double x = parseFactor();
+            long parseTerm() {
+                long x = parseFactor();
                 for (;;) {
                     if      (eat('*')) x *= parseFactor(); // multiplication
                     else if (eat('/')) x /= parseFactor(); // division
@@ -104,34 +104,34 @@ public class MathUtils {
                 }
             }
 
-            double parseFactor() {
+            long parseFactor() {
                 if (eat('+')) return parseFactor(); // unary plus
                 if (eat('-')) return -parseFactor(); // unary minus
 
-                double x;
+                long x;
                 int startPos = this.pos;
                 if (eat('(')) { // parentheses
                     x = parseExpression();
                     eat(')');
                 } else if ((ch >= '0' && ch <= '9') || ch == '.') { // numbers
                     while ((ch >= '0' && ch <= '9') || ch == '.') nextChar();
-                    x = Double.parseDouble(str.substring(startPos, this.pos));
+                    x = Long.parseLong(str.substring(startPos, this.pos));
                 } else if (ch >= 'a' && ch <= 'z') { // functions
                     while (ch >= 'a' && ch <= 'z') nextChar();
                     String func = str.substring(startPos, this.pos);
                     x = parseFactor();
                     x = switch (func) {
-                        case "sqrt" -> Math.sqrt(x);
-                        case "sin" -> Math.sin(Math.toRadians(x));
-                        case "cos" -> Math.cos(Math.toRadians(x));
-                        case "tan" -> Math.tan(Math.toRadians(x));
+                        case "sqrt" -> (long) Math.sqrt(x);
+                        case "sin" -> (long) Math.sin(Math.toRadians(x));
+                        case "cos" -> (long) Math.cos(Math.toRadians(x));
+                        case "tan" -> (long) Math.tan(Math.toRadians(x));
                         default -> throw new RuntimeException("Unknown function: " + func);
                     };
                 } else {
                     throw new RuntimeException("Unexpected: " + (char)ch);
                 }
 
-                if (eat('^')) x = Math.pow(x, parseFactor()); // exponentiation
+                if (eat('^')) x = (long) Math.pow(x, parseFactor()); // exponentiation
 
                 return x;
             }

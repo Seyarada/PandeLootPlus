@@ -1,7 +1,6 @@
 package net.seyarada.pandeloot.trackers;
 
 import net.seyarada.pandeloot.Logger;
-import net.seyarada.pandeloot.config.Config;
 import net.seyarada.pandeloot.utils.MathUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;

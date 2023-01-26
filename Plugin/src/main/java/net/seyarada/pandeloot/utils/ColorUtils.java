@@ -97,4 +97,25 @@ public class ColorUtils {
         toUseBoard.getTeam(teamName).addEntry(item.getUniqueId().toString());
     }
 
+    public static String findStringColor(String color) {
+        return switch (color) {
+            case "0" -> "BLACK";
+            case "1" -> "DARK_BLUE";
+            case "2" -> "DARK_GREEN";
+            case "3" -> "DARK_AQUA";
+            case "4" -> "DARK_RED";
+            case "5" -> "DARK_PURPLE";
+            case "6" -> "GOLD";
+            case "7" -> "GRAY";
+            case "8" -> "DARK_GRAY";
+            case "9" -> "BLUE";
+            case "a" -> "GREEN";
+            case "b" -> "AQUA";
+            case "c" -> "RED";
+            case "d" -> "LIGHT_PURPLE";
+            case "e" -> "YELLOW";
+            default -> "WHITE";
+        };
+    }
+
 }

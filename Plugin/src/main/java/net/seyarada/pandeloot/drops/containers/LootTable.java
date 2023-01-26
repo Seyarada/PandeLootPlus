@@ -12,7 +12,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 public class LootTable implements IContainer {
@@ -33,7 +32,7 @@ public class LootTable implements IContainer {
 
     public LootTable withPack(FlagPack pack) {
         flagPack = pack;
-        pack.merge(Config.defaultFlagPack);
+        pack.merge(Config.DEFAULT_FLAGS);
         return this;
     }
 

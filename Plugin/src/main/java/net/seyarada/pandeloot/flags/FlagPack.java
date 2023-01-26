@@ -18,11 +18,9 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 
 public class FlagPack {
 
-    public static HashMap<String, FlagPack> cache = new HashMap<>();
     public static final HashMap<String, FlagPack> predefinedPacks = new HashMap<>();
 
     public final HashMap<FlagTrigger, HashMap<IFlag, FlagModifiers>> flags = new HashMap<>();
@@ -30,7 +28,7 @@ public class FlagPack {
     public FlagPackFactory.FlagString flagString;
 
     public FlagPack() {
-        merge(Config.defaultFlagPack);
+        merge(Config.DEFAULT_FLAGS);
     }
 
     public FlagPack(boolean ignored) {
@@ -99,11 +97,8 @@ public class FlagPack {
     }
 
     public static FlagPack fromCompact(String line) {
-        if(cache.containsKey(line)) return cache.get(line);
-
         FlagPack pack = FlagPackFactory.getPack(line);
-        pack.merge(Config.defaultFlagPack);
-        cache.put(line, pack);
+        pack.merge(Config.DEFAULT_FLAGS);
         Logger.log("Generated flag pack %s from %s", pack, line);
         return pack;
     }
@@ -113,7 +108,7 @@ public class FlagPack {
 
         FlagPack pack = new FlagPack();
         pack.configReader(config);
-        pack.merge(Config.defaultFlagPack);
+        pack.merge(Config.DEFAULT_FLAGS);
         predefinedPacks.put(config.getName(), pack);
         Logger.log("Generated flag pack %s from %s", pack, config.getName());
         return pack;

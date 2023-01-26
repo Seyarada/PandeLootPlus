@@ -6,7 +6,6 @@ import net.seyarada.pandeloot.nms.NMSManager;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -68,15 +67,6 @@ public class ItemUtils {
             //meta.getPersistentDataContainer().set(NamespacedKey.fromString("debug"), PersistentDataType.STRING, UUID.randomUUID().toString());
             iS.setItemMeta(meta);
         }
-    }
-
-    public static FlagPack getFlags(Item item) {
-        ItemMeta meta = item.getItemStack().getItemMeta();
-        if(meta==null) {
-            return null;
-        }
-        String str = meta.getPersistentDataContainer().get(Constants.KEY, PersistentDataType.STRING);
-        return FlagPack.cache.get(str);
     }
 
     public static ItemStack createItem(Material material, String name, String... lore) {

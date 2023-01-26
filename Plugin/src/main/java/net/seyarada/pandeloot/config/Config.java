@@ -19,7 +19,7 @@ import java.util.List;
 
 public class Config {
 
-    public static FlagPack defaultFlagPack = new FlagPack(true);
+    public static FlagPack DEFAULT_FLAGS = new FlagPack(true);
     public static boolean DEBUG;
     public static boolean ignoreCitizensDamage;
 
@@ -66,7 +66,7 @@ public class Config {
 
         ConfigurationSection flagSection = configFile.getConfigurationSection("DefaultFlag");
         if(flagSection!=null && flagSection.getKeys(false).size()>0) {
-            defaultFlagPack = FlagPack.fromExtended(flagSection);
+            DEFAULT_FLAGS = FlagPack.fromExtended(flagSection);
         }
 
         storables.forEach(Storable::load);

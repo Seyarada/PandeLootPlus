@@ -10,7 +10,6 @@ import net.seyarada.pandeloot.flags.FlagEffect;
 import net.seyarada.pandeloot.flags.types.IGeneralEvent;
 
 import java.awt.*;
-import java.util.logging.Level;
 
 @FlagEffect(id="discord", description="Link for DiscordSRV")
 public class DiscordFlag implements IGeneralEvent {
@@ -48,7 +47,8 @@ public class DiscordFlag implements IGeneralEvent {
 			if(footer!=null) builder.setFooter(footer);
 			if(image!=null) builder.setImage(image);
 
-			if(useAvatar && meta.lootDrop()!=null && meta.lootDrop().p!=null) builder.setThumbnail(URL+meta.lootDrop().p.getUniqueId());
+			if(useAvatar && meta.lootDrop()!=null && meta.lootDrop().p!=null)
+				builder.setThumbnail(URL + meta.lootDrop().p.getUniqueId());
 			if(thumbnail!=null) builder.setThumbnail(thumbnail);
 
 			builder.setDescription(msg);

@@ -8,7 +8,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
 
 public class ContainerManager implements Storable {
 
