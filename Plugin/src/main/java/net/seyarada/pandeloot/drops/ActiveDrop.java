@@ -207,7 +207,7 @@ public class ActiveDrop {
                 }
             }
 
-        }, 0, 3);
+        }, 0, 1);
     }
 
     static final Vector noVelocity = new Vector(0,0,0);

@@ -5,7 +5,7 @@
   <artifactId>pandeloot</artifactId>
   <packaging>jar</packaging>
   <name>PandeLoot</name>
-  <version>1</version>
+  <version>1.0.0</version>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -72,7 +72,6 @@
       <version>v1_17</version>
       <type>jar</type>
       <scope>compile</scope>
-      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>net.seyarada</groupId>
@@ -80,7 +79,6 @@
       <version>v1_18</version>
       <type>jar</type>
       <scope>compile</scope>
-      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>net.seyarada</groupId>
@@ -88,7 +86,6 @@
       <version>v1_18_2</version>
       <type>jar</type>
       <scope>compile</scope>
-      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>net.seyarada</groupId>
@@ -96,7 +93,13 @@
       <version>v1_19</version>
       <type>jar</type>
       <scope>compile</scope>
-      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>net.seyarada</groupId>
+      <artifactId>pandeloot-v1_19_2</artifactId>
+      <version>v1_19_2</version>
+      <type>jar</type>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>net.seyarada</groupId>
@@ -104,15 +107,12 @@
       <version>v1_19_3</version>
       <type>jar</type>
       <scope>compile</scope>
-      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>net.seyarada</groupId>
       <artifactId>pandeloot-api</artifactId>
       <version>API</version>
       <type>jar</type>
-      <scope>compile</scope>
-      <optional>true</optional>
     </dependency>
 
     <!-- Spigot API -->

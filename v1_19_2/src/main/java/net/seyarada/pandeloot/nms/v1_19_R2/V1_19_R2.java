@@ -142,7 +142,7 @@ public class V1_19_R2 implements NMSMethods {
     @Override
     public void injectPlayer(Player player) {
         ServerPlayer ply = ((CraftPlayer) player).getHandle();
-        net.seyarada.pandeloot.nms.v1_19_R2.ChannelHandler_V1_19_R2 cdh = new net.seyarada.pandeloot.nms.v1_19_R2.ChannelHandler_V1_19_R2(ply);
+        ChannelHandler_V1_19_R2 cdh = new ChannelHandler_V1_19_R2(ply);
 
         ChannelPipeline pipeline = ply.connection.getConnection().channel.pipeline();
         for (String name : pipeline.toMap().keySet()) {
