@@ -44,7 +44,7 @@ public class Providers {
     public static IDrop get(String origin, String id, FlagPack pack, Player player, LootDrop drop) {
         // Sees if PandeLoot knows any item provider from that origin
         if(origin!=null && ITEM_PROVIDERS.containsKey(origin))
-            return new ItemDrop(IDrop.getItem(origin, id, pack, player, drop), pack);
+            return new ItemDrop(ITEM_PROVIDERS.get(origin).getItem(id, pack, player, drop), pack);
 
         // Sees if PandeLoot knows any entity/generic provider from that origin
         if(origin!=null && LOOT_PROVIDERS.containsKey(origin))
