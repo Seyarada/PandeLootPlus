@@ -22,7 +22,6 @@ public class HologramFlag implements IEntityEvent {
 
 	@Override
 	public void onCallEntity(Entity entity, ItemDropMeta meta) {
-
 		switch (meta.getString().toLowerCase()) {
 			case "displaycustom" -> {
 				if(entity instanceof Item item) {
@@ -75,7 +74,14 @@ public class HologramFlag implements IEntityEvent {
 	}
 
 	public void attachedHologram(Entity e, LootDrop drop, List<String> text) {
-		text.forEach(t -> t = drop.substitutor(t));
+
+		if(text.size()==1 && text.get(0).length()<16) {
+			e.setCustomName(text.get(0));
+			e.setCustomNameVisible(true);
+			return;
+		}
+
+		text.forEach(drop::substitutor);
 		List<Entity> bukkitArmorStands = NMSManager.get().hologram(0, e.getLocation(), drop.p, text, PandeLoot.inst);
 		ActiveDrop.get(e).startHologramRunnable(e, bukkitArmorStands, Collections.singletonList(drop.p));
 	}

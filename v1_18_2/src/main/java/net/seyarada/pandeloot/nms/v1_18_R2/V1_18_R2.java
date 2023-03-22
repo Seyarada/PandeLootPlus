@@ -164,13 +164,9 @@ public class V1_18_R2 implements NMSMethods {
     public void updateHologramPosition(double x, double y, double z, Entity hologram, Player player) {
         if (player == null) return;
         ArmorStand stand = ((CraftArmorStand) hologram).getHandle();
-        //ArmorStand bArmorStand = (((ArmorStand) stand.getBukkitEntity()));
-        int id = stand.getId();
         stand.setPos(x, y, z);
-        ClientboundSetEntityDataPacket metadata = new ClientboundSetEntityDataPacket(id, stand.getEntityData(), true);
         Connection connection = ((CraftPlayer) player).getHandle().connection.getConnection();
         connection.send(new ClientboundTeleportEntityPacket(stand));
-        connection.send(metadata);
     }
 
     @Override
