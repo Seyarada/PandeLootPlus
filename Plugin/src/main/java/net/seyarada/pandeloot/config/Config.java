@@ -132,6 +132,9 @@ public class Config {
                 final String subDisplay = subConfig.getString("Display");
                 if(subDisplay!=null && !subDisplay.equalsIgnoreCase(display)) continue;
 
+                final String subDisplayContains = subConfig.getString("DisplayContains");
+                if(subDisplayContains!=null && display!=null && !subDisplayContains.contains(display)) continue;
+
                 final String subWorld = subConfig.getString("World");
                 if(subWorld!=null && !subWorld.equalsIgnoreCase(world)) continue;
 
