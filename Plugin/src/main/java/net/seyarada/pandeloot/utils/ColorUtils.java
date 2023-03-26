@@ -118,4 +118,14 @@ public class ColorUtils {
         };
     }
 
+    public static String hsbToAnsi(float hue, float saturation, float brightness) {
+        int hsb = java.awt.Color.HSBtoRGB(hue, saturation, brightness);
+        int red = (hsb >> 16) & 0xFF;
+        int green = (hsb >> 8) & 0xFF;
+        int blue = hsb & 0xFF;
+
+        int ansiCode = 16 + (36 * (red / 51)) + (6 * (green / 51)) + (blue / 51);
+        return "\u001b[38;5;" + ansiCode + "m";
+    }
+
 }

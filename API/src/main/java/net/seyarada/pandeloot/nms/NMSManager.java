@@ -10,9 +10,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public final class NMSManager {
 
-    public static final net.md_5.bungee.api.ChatColor ACCENT = net.md_5.bungee.api.ChatColor.of("#d0bb94");
+    public static final String CONSOLE_ACCENT = "\u001b[38;5;180m";
+    public static final String CONSOLE_ACCENT_RESET = "\u001b[0m";
     public static final String PLUGIN_NAME = "PandeLoot";
-    public static final String DECORATED_NAME = ACCENT +"["+ PLUGIN_NAME +"] "+ ChatColor.RESET;
+    public static final String DECORATED_NAME = CONSOLE_ACCENT +"["+ PLUGIN_NAME +"] "+ CONSOLE_ACCENT_RESET;
 
     static final Map<Integer, List<UUID>> hiddenItems = new ConcurrentHashMap<>();
     static NMSMethods nms;

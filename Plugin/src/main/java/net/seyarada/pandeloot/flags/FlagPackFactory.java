@@ -43,6 +43,10 @@ public class FlagPackFactory {
                 if(i==flagString.flagSection.length()-1 && currentTrigger==FlagTrigger.onspawn) {
                     builder.append(c);
                     String[] flag = builder.toString().split("=", 2);
+                    if(flag.length==1) {
+                        Logger.userWarning("A flag hasn't been assigned a value! %s from %s", flag[0], str);
+                        continue;
+                    }
                     HashMap<String, String> currentFlags = triggersWithFlags.get(currentTrigger);
                     currentFlags.put(flag[0], flag[1]);
                     triggersWithFlags.put(currentTrigger, currentFlags);

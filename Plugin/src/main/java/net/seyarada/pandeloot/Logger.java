@@ -2,6 +2,7 @@ package net.seyarada.pandeloot;
 
 import net.md_5.bungee.api.ChatColor;
 import net.seyarada.pandeloot.config.Config;
+import net.seyarada.pandeloot.utils.ColorUtils;
 import org.bukkit.Bukkit;
 
 import java.awt.*;
@@ -61,8 +62,8 @@ public class Logger {
             if(recordedLogs.size()==0) return;
             float degrees = 0;
             for(String msg : recordedLogs) {
-                ChatColor c = ChatColor.of(Color.getHSBColor(degrees, 0.5f, 1));
-                bLogger.log(Level.INFO, Constants.DECORATED_NAME + c + msg);
+                String c = ColorUtils.hsbToAnsi(degrees, 0.5f, 1);
+                bLogger.log(Level.INFO, Constants.CONSOLE_DECORATED_NAME + c + msg);
                 degrees += 0.05;
             }
             recordedLogs.clear();
@@ -70,25 +71,25 @@ public class Logger {
     }
 
     public static void quickLog(Level level, String log) {
-        if(Config.DEBUG) bLogger.log(level, Constants.DECORATED_NAME + log);
+        if(Config.DEBUG) bLogger.log(level, Constants.CONSOLE_DECORATED_NAME + log);
     }
 
     public static void userInfo(String msg) {
-        bLogger.log(Level.INFO, Constants.DECORATED_NAME + msg);
+        bLogger.log(Level.INFO, Constants.CONSOLE_DECORATED_NAME + msg);
     }
 
     public static void userInfo(String str, Object... args) {
         String msg = String.format(str, args);
-         bLogger.log(Level.INFO, Constants.DECORATED_NAME + msg);
+         bLogger.log(Level.INFO, Constants.CONSOLE_DECORATED_NAME + msg);
     }
 
     public static void userWarning(String msg) {
-        bLogger.log(Level.WARNING, Constants.DECORATED_NAME + msg);
+        bLogger.log(Level.WARNING, Constants.CONSOLE_DECORATED_NAME + msg);
     }
 
     public static void userWarning(String str, Object... args) {
         String msg = String.format(str, args);
-        bLogger.log(Level.WARNING, msg);
+        bLogger.log(Level.WARNING, Constants.CONSOLE_DECORATED_NAME + msg);
     }
 
 }
