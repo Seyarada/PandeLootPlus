@@ -15,14 +15,6 @@ public class CommandFlag implements IGeneralEvent {
 	public void onCallGeneral(ItemDropMeta meta) {
 		if(meta.getString()!=null) {
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), meta.getString());
-		} else {
-			String sB =
-					"Tried to execute an empty command!" + System.lineSeparator() +
-					"Information: " + System.lineSeparator() +
-					"- FlagPack > " + meta.iDrop().getFlagPack() + System.lineSeparator() +
-					"- Player > " + meta.lootDrop().p + System.lineSeparator() +
-					"- Command > " + Collections.singletonList(meta.values());
-			Logger.userWarning(sB);
 		}
 	}
 

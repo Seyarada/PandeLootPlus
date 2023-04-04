@@ -1,5 +1,6 @@
 package net.seyarada.pandeloot.flags.conditions;
 
+import net.seyarada.pandeloot.Logger;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagEffect;
@@ -14,16 +15,16 @@ public class ChanceFlag implements ICondition {
 
     @Override
     public boolean onCheck(FlagPack.FlagModifiers values, LootDrop lootDrop, IDrop itemDrop) {
-        return Math.random()<=MathUtils.eval(lootDrop.substitutor(values.getString()));
+        return Math.random()<=MathUtils.evalDouble(lootDrop.substitutor(values.getString()));
     }
 
     public static double getChance(FlagPack.FlagModifiers values, LootDrop lootDrop) {
-        return MathUtils.eval(lootDrop.substitutor(values.getString()));
+        return MathUtils.evalDouble(lootDrop.substitutor(values.getString()));
     }
 
     @Override
     public boolean onCheckNoLootDrop(FlagPack.FlagModifiers values, Entity entity, Player player) {
-        return Math.random()<=MathUtils.eval(values.getString());
+        return Math.random()<=MathUtils.evalDouble(values.getString());
     }
 
 }
