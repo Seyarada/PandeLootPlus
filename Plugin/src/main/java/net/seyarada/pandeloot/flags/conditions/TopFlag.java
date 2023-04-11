@@ -16,8 +16,8 @@ public class TopFlag implements ICondition {
 
     @Override
     public boolean onCheck(FlagPack.FlagModifiers values, LootDrop lootDrop, IDrop itemDrop) {
-        if(lootDrop.p==null) return true;
-        if(lootDrop.damageBoard==null) return true;
+        if(lootDrop.p==null) return false;
+        if(lootDrop.damageBoard==null) return false;
 
         DamageBoard dB = lootDrop.damageBoard;
         UUID uuid = lootDrop.p.getUniqueId();
@@ -29,7 +29,9 @@ public class TopFlag implements ICondition {
         }
 
         int intTop = Integer.parseInt(values.getString())-1;
-        return intTop < 0 || dB.playerRanks.size() > intTop && dB.playerRanks.get(intTop) == uuid;
+        if(intTop<0) return false;
+
+        return dB.playerRanks.size() > intTop && dB.playerRanks.get(intTop) == uuid;
     }
 
     @Override
