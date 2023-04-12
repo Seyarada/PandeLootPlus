@@ -130,6 +130,7 @@ public class LootDrop {
                 double playerDamage = damageBoard.playerDamages.get(playerRank);
                 placeholderValues.put("player.rank", String.valueOf(playerRank+1));
                 placeholderValues.put("player.damage", MathUtils.dd.format(playerDamage));
+                placeholderValues.put("player.dmg", MathUtils.dd.format(playerDamage));
                 placeholderValues.put("player.percent", damageBoard.getPercent(playerRank, false));
                 placeholderValues.put("player.ratio", damageBoard.getPercent(playerRank, true));
             }
