@@ -1,7 +1,7 @@
 package net.seyarada.pandeloot.utils;
 
 import net.seyarada.pandeloot.PandeLoot;
-import net.seyarada.pandeloot.compatibility.PlaceholderAPICompatibility;
+import net.seyarada.pandeloot.compatibility.papi.PlaceholderAPICompatibility;
 import net.seyarada.pandeloot.compatibility.mythicmobs.MythicMobsCompatibility;
 import net.seyarada.pandeloot.drops.ItemDropMeta;
 import net.seyarada.pandeloot.drops.LootDrop;

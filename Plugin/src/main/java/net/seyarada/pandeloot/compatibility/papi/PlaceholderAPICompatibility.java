@@ -1,4 +1,4 @@
-package net.seyarada.pandeloot.compatibility;
+package net.seyarada.pandeloot.compatibility.papi;
 
 import org.bukkit.entity.Player;
 

@@ -1,11 +1,13 @@
 package net.seyarada.pandeloot;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.seyarada.pandeloot.commands.AutoCompletion;
 import net.seyarada.pandeloot.commands.CommandManager;
 import net.seyarada.pandeloot.compatibility.VaultCompatibility;
 import net.seyarada.pandeloot.compatibility.citizens.CitizensCompatibility;
 import net.seyarada.pandeloot.compatibility.mmocore.MMOCoreCompatibility;
 import net.seyarada.pandeloot.compatibility.mythicmobs.MythicMobsListener;
+import net.seyarada.pandeloot.compatibility.papi.PAPIExtension;
 import net.seyarada.pandeloot.config.Config;
 import net.seyarada.pandeloot.config.Storable;
 import net.seyarada.pandeloot.drops.ActiveDropListener;
@@ -80,6 +82,7 @@ public class PandeLoot extends JavaPlugin implements Listener {
 
         if(pluginManager.getPlugin("PlaceholderAPI")!=null) {
             papiEnabled = true;
+            new PAPIExtension().register();
             Logger.userInfo("Loaded PAPI support");
         }
 
