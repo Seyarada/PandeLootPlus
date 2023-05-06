@@ -22,6 +22,7 @@ public class StringParser {
         placeholderValues.put("rs", "<");
         placeholderValues.put("ls", ">");
         placeholderValues.put("sc", ";");
+        placeholderValues.put("cl", ":");
 
         SUBSTITUTOR = new StrSubstitutor(placeholderValues, "%", "%");
     }
