@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 public class LootTable implements IContainer {
 
-    public ArrayList<IDrop> dropList = new ArrayList<>();
+    public List<String> dropList = new ArrayList<>();
     public final ConfigurationSection config;
     static ChanceFlag chanceFlag = (ChanceFlag) FlagManager.getFromID("chance");
 
@@ -39,7 +39,7 @@ public class LootTable implements IContainer {
     @Override
     public void load() {
         if (config.contains("Rewards")) {
-            dropList = IDrop.getAsDrop(config.getStringList("Rewards"), null, null);
+            dropList = config.getStringList("Rewards");
         }
         minItems = Math.max(Math.min(config.getInt("Guaranteed"), dropList.size()), config.getInt("MinItems"));
         totalItems = Math.min(config.getInt("TotalItems"), dropList.size());
@@ -53,13 +53,16 @@ public class LootTable implements IContainer {
 
     @Override
     public List<IDrop> getDropList(LootDrop lootDrop) {
-        if(lootDrop==null) return dropList;
+        if(lootDrop==null) {
+            return new ArrayList<>(IDrop.getAsDrop(dropList, null, null));
+        }
 
         ArrayList<IDrop> drops = new ArrayList<>();
         ArrayList<IDrop> reserve = new ArrayList<>();
 
         // Removes all the drops that the player shouldn't be able to get
-        ArrayList<IDrop> potentialDrops = dropList.stream()
+        ArrayList<IDrop> potentialDrops = new ArrayList<>(dropList).stream()
+                .map(str -> IDrop.getAsDrop(str, lootDrop.p, lootDrop))
                 .filter(iDrop -> iDrop.passesConditions(lootDrop, chanceFlag))
                 .collect(Collectors.toCollection(ArrayList::new));
 
