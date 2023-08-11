@@ -1,6 +1,6 @@
 package net.seyarada.pandeloot.flags.effects;
 
-import net.seyarada.pandeloot.drops.ActiveDrop;
+import net.seyarada.pandeloot.drops.active.ItemActive;
 import net.seyarada.pandeloot.drops.ItemDropMeta;
 import net.seyarada.pandeloot.flags.FlagEffect;
 import net.seyarada.pandeloot.flags.types.IEntityEvent;
@@ -11,7 +11,7 @@ public class VoidProtectionFlag implements IEntityEvent {
 
 	@Override
 	public void onCallEntity(Entity item, ItemDropMeta meta) {
-		ActiveDrop activeDrop = ActiveDrop.get(item);
+		ItemActive activeDrop = ItemActive.get(item);
 		int frequency = meta.getIntOrDefault("frequency", 20);
 		activeDrop.startVoidProtectionRunnable(meta.getDouble(), frequency);
 	}

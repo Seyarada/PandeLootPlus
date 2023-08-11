@@ -1,5 +1,7 @@
 package net.seyarada.pandeloot.utils;
 
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 import net.seyarada.pandeloot.Constants;
 import net.seyarada.pandeloot.flags.FlagPack;
 import net.seyarada.pandeloot.nms.NMSManager;
@@ -8,11 +10,14 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class ItemUtils {
 
@@ -43,7 +48,26 @@ public class ItemUtils {
     }
 
     public static ItemStack getCustomTextureHead(ItemStack head, String value) {
-        return NMSManager.get().getCustomTextureHead(head, value);
+        SkullMeta meta = (SkullMeta) head.getItemMeta();
+
+        if(value==null) {
+            meta.setOwner("PandemoniumHK");
+            head.setItemMeta(meta);
+            return head;
+        }
+
+        GameProfile profile = new GameProfile(UUID.randomUUID(), "");
+        profile.getProperties().put("textures", new Property("textures", value));
+        Field profileField;
+        try {
+            profileField = meta.getClass().getDeclaredField("profile");
+            profileField.setAccessible(true);
+            profileField.set(meta, profile);
+        } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
+            e.printStackTrace();
+        }
+        head.setItemMeta(meta);
+        return head;
     }
 
     public static void writeData(ItemStack iS, NamespacedKey key, String data) {

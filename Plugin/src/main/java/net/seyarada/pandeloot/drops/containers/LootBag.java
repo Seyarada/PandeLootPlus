@@ -1,7 +1,7 @@
 package net.seyarada.pandeloot.drops.containers;
 
 import net.seyarada.pandeloot.Constants;
-import net.seyarada.pandeloot.drops.ActiveDrop;
+import net.seyarada.pandeloot.drops.active.ItemActive;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.ItemDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
@@ -62,7 +62,7 @@ public final class LootBag extends LootTable {
             iS = item.getItemStack();
             data = iS.getItemMeta().getPersistentDataContainer();
 
-            ActiveDrop aDrop = ActiveDrop.get(item);
+            ItemActive aDrop = ItemActive.get(item);
 
             boolean isLocked = data.has(Constants.LOCK_LOOTBAG, PersistentDataType.STRING);
             String id = null;

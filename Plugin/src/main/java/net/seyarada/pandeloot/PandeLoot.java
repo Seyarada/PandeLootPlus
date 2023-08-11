@@ -1,6 +1,5 @@
 package net.seyarada.pandeloot;
 
-import me.clip.placeholderapi.PlaceholderAPI;
 import net.seyarada.pandeloot.commands.AutoCompletion;
 import net.seyarada.pandeloot.commands.CommandManager;
 import net.seyarada.pandeloot.compatibility.VaultCompatibility;
@@ -10,7 +9,7 @@ import net.seyarada.pandeloot.compatibility.mythicmobs.MythicMobsListener;
 import net.seyarada.pandeloot.compatibility.papi.PAPIExtension;
 import net.seyarada.pandeloot.config.Config;
 import net.seyarada.pandeloot.config.Storable;
-import net.seyarada.pandeloot.drops.ActiveDropListener;
+import net.seyarada.pandeloot.drops.active.ActiveDropListener;
 import net.seyarada.pandeloot.drops.DropEvents;
 import net.seyarada.pandeloot.flags.FlagManager;
 import net.seyarada.pandeloot.gui.ContainersGUI;

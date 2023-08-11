@@ -1,6 +1,5 @@
 package net.seyarada.pandeloot.flags.conditions;
 
-import net.seyarada.pandeloot.Logger;
 import net.seyarada.pandeloot.drops.IDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagEffect;

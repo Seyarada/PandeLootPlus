@@ -1,7 +1,7 @@
 package net.seyarada.pandeloot.flags.effects;
 
 import net.md_5.bungee.api.ChatColor;
-import net.seyarada.pandeloot.drops.ActiveDrop;
+import net.seyarada.pandeloot.drops.active.ItemActive;
 import net.seyarada.pandeloot.drops.ItemDropMeta;
 import net.seyarada.pandeloot.flags.FlagEffect;
 import net.seyarada.pandeloot.flags.types.IEntityEvent;
@@ -15,7 +15,7 @@ public class ColorFlag implements IEntityEvent {
 
 	@Override
 	public void onCallEntity(Entity entity, ItemDropMeta meta) {
-		ActiveDrop activeDrop = ActiveDrop.get(entity);
+		ItemActive activeDrop = ItemActive.get(entity);
 
 		String colorString = meta.getString();
 		switch (colorString.toUpperCase()) {

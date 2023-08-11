@@ -3,7 +3,6 @@ package net.seyarada.pandeloot.compatibility.papi;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.seyarada.pandeloot.trackers.DamageBoard;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;

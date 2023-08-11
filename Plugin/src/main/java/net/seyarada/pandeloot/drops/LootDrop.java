@@ -215,7 +215,12 @@ public class LootDrop {
             }
         });
 
-        NMSManager.get().hologram(400, loc, this.p, lines, PandeLoot.inst);
+        List<Entity> holograms = NMSManager.get().hologram(loc, this.p, lines, PandeLoot.inst);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(PandeLoot.inst, () -> {
+            for (Entity hologram : holograms) {
+                NMSManager.get().destroyEntity(hologram.getEntityId(), this.p);
+            }
+        }, 400);
     }
 
     public void displayScoreMessage() {

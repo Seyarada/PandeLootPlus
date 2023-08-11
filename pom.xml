@@ -11,16 +11,19 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>16</maven.compiler.source>
     <maven.compiler.target>16</maven.compiler.target>
+    <project.root>${project.basedir}</project.root>
   </properties>
 
   <modules>
     <module>API</module>
+    <!--
     <module>v1_17</module>
     <module>v1_18</module>
     <module>v1_18_2</module>
     <module>v1_19</module>
     <module>v1_19_2</module>
     <module>v1_19_3</module>
+    -->
     <module>v1_20</module>
     <module>Plugin</module>
   </modules>
