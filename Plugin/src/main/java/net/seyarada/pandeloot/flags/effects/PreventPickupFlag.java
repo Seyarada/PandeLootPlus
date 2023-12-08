@@ -1,6 +1,6 @@
 package net.seyarada.pandeloot.flags.effects;
 
-import net.seyarada.pandeloot.drops.active.ItemActive;
+import net.seyarada.pandeloot.drops.ActiveDrop;
 import net.seyarada.pandeloot.drops.ItemDropMeta;
 import net.seyarada.pandeloot.flags.FlagEffect;
 import net.seyarada.pandeloot.flags.types.IItemEvent;
@@ -11,7 +11,7 @@ public class PreventPickupFlag implements IItemEvent {
 
 	@Override
 	public void onCallItem(Item item, ItemDropMeta meta) {
-		ItemActive.get(item).canBePickedUp = !meta.getBoolean();
+		ActiveDrop.get(item).canBePickedUp = !meta.getBoolean();
 	}
 
 }

@@ -1,7 +1,7 @@
 package net.seyarada.pandeloot.flags.effects;
 
 import net.seyarada.pandeloot.PandeLoot;
-import net.seyarada.pandeloot.drops.active.ItemActive;
+import net.seyarada.pandeloot.drops.ActiveDrop;
 import net.seyarada.pandeloot.drops.ItemDropMeta;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagEffect;
@@ -82,8 +82,8 @@ public class HologramFlag implements IEntityEvent {
 		}
 
 		text.forEach(drop::substitutor);
-		List<Entity> bukkitArmorStands = NMSManager.get().hologram(e.getLocation(), drop.p, text, PandeLoot.inst);
-		ItemActive.get(e).startHologramRunnable(e, bukkitArmorStands, Collections.singletonList(drop.p));
+		List<Entity> bukkitArmorStands = NMSManager.get().hologram(0, e.getLocation(), drop.p, text, PandeLoot.inst);
+		ActiveDrop.get(e).startHologramRunnable(e, bukkitArmorStands, Collections.singletonList(drop.p));
 	}
 
 }

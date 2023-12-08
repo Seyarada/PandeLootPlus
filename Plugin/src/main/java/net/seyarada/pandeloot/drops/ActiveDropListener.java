@@ -1,8 +1,7 @@
-package net.seyarada.pandeloot.drops.active;
+package net.seyarada.pandeloot.drops;
 
 import net.seyarada.pandeloot.Constants;
 import net.seyarada.pandeloot.PandeLoot;
-import net.seyarada.pandeloot.drops.active.ItemActive;
 import net.seyarada.pandeloot.drops.containers.LootBag;
 import net.seyarada.pandeloot.flags.FlagPack;
 import net.seyarada.pandeloot.flags.enums.FlagTrigger;
@@ -31,15 +30,33 @@ public class ActiveDropListener implements Listener {
 
     private int id;
 
+    public void checkForLandings(Entity i, FlagPack pack) {
+        AtomicBoolean hasLanded = new AtomicBoolean(false);
+
+        id = Bukkit.getScheduler().scheduleSyncRepeatingTask(PandeLoot.inst, () -> {
+
+            if(!i.isValid()) Bukkit.getScheduler().cancelTask(id);
+
+            if(i.isOnGround() && !hasLanded.get()) {
+                ActiveDrop activeDrop = ActiveDrop.get(i);
+                hasLanded.set(true);
+                pack.trigger(FlagTrigger.onland, i, activeDrop.lootDrop, activeDrop.iDrop);
+            } else if(!i.isOnGround()) {
+                hasLanded.set(false);
+            }
+
+        }, 0, 3);
+    }
+
     @EventHandler
     public void onPickup(EntityPickupItemEvent e) {
         if( !(e.getEntity() instanceof Player player) ) return;
 
         Item i = e.getItem();
-        BaseActive activeDrop = ItemActive.get(i);
-        if(!(activeDrop instanceof LootBagActive lootBag)) return;
+        ActiveDrop activeDrop = ActiveDrop.get(i);
+        if(activeDrop==null) return;
 
-        if(!lootBag.canBePickedUp) {
+        if(!activeDrop.canBePickedUp) {
             e.setCancelled(true);
             return;
         }
@@ -53,12 +70,12 @@ public class ActiveDropListener implements Listener {
         boolean isLocked = data.has(Constants.LOCK_LOOTBAG, PersistentDataType.STRING);
 
         if(isLocked) {
-            lootBag.triggerRollBag(FlagTrigger.onspawn);
-            lootBag.stopTask(BaseActive.BukkitTask.LOOTBAG_ROLLER);
+            activeDrop.triggerRollBag(FlagTrigger.onspawn);
+            activeDrop.stopLootBagRunnable();
             ItemUtils.removeData(i.getItemStack(), Constants.LOCK_LOOTBAG);
         }
 
-        FlagPack pack = lootBag.flags;
+        FlagPack pack = activeDrop.flags;
         if(pack==null) return;
         if(!pack.flags.containsKey(FlagTrigger.onpickup)) return;
 
@@ -71,7 +88,7 @@ public class ActiveDropListener implements Listener {
         }
 
         if(!i.isValid()) i = null;
-        pack.trigger(FlagTrigger.onpickup, i, lootBag.lootDrop, lootBag.iDrop);
+        pack.trigger(FlagTrigger.onpickup, i, activeDrop.lootDrop, activeDrop.iDrop);
     }
 
     @EventHandler
@@ -85,8 +102,8 @@ public class ActiveDropListener implements Listener {
 
     @EventHandler
     public void onItemMerge(ItemMergeEvent e) {
-        ItemActive aE = ItemActive.get(e.getEntity());
-        ItemActive aT = ItemActive.get(e.getTarget());
+        ActiveDrop aE = ActiveDrop.get(e.getEntity());
+        ActiveDrop aT = ActiveDrop.get(e.getTarget());
         if(aE!=null || aT!=null) {
             e.setCancelled(true);
         }

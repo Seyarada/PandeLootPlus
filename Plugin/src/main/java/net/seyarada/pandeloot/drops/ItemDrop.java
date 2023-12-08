@@ -1,7 +1,6 @@
 package net.seyarada.pandeloot.drops;
 
 import net.seyarada.pandeloot.Logger;
-import net.seyarada.pandeloot.drops.active.ItemActive;
 import net.seyarada.pandeloot.flags.FlagPack;
 import net.seyarada.pandeloot.flags.enums.FlagTrigger;
 import org.bukkit.Location;
@@ -39,10 +38,10 @@ public class ItemDrop implements IDrop {
                 for(Map.Entry<NamespacedKey, String> entry : data.entrySet()) {
                     i.getPersistentDataContainer().set(entry.getKey(), PersistentDataType.STRING, entry.getValue());
                 }
-                new ItemActive(this, i, lootDrop.p, pack, lootDrop);
+                new ActiveDrop(this, i, lootDrop.p, pack, lootDrop);
             });
         } else {
-            new ItemActive(this, null, lootDrop.p, pack, lootDrop);
+            new ActiveDrop(this, null, lootDrop.p, pack, lootDrop);
         }
 
 

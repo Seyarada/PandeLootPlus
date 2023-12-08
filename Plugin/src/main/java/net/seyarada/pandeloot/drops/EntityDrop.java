@@ -1,7 +1,6 @@
 package net.seyarada.pandeloot.drops;
 
 import io.lumine.mythic.bukkit.MythicBukkit;
-import net.seyarada.pandeloot.drops.active.ItemActive;
 import net.seyarada.pandeloot.flags.FlagPack;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -31,16 +30,16 @@ public final class EntityDrop implements IDrop {
 
     @Override
     public void run(LootDrop lootDrop) {
-        if(entity!=null) new ItemActive(this, entity, lootDrop.p, pack, lootDrop);
+        if(entity!=null) new ActiveDrop(this, entity, lootDrop.p, pack, lootDrop);
         if(type==null) return;
         switch (type) {
             case VANILLA -> {
                 Entity e = lootDrop.getLocation().getWorld().spawnEntity(lootDrop.getLocation(), EntityType.valueOf(entityID.toUpperCase()));
-                new ItemActive(this, e, lootDrop.p, pack, lootDrop);
+                new ActiveDrop(this, e, lootDrop.p, pack, lootDrop);
             }
             case MYTHICMOBS -> {
                 Entity e = MythicBukkit.inst().getMobManager().spawnMob(entityID, lootDrop.getLocation()).getEntity().getBukkitEntity();
-                new ItemActive(this, e, lootDrop.p, pack, lootDrop);
+                new ActiveDrop(this, e, lootDrop.p, pack, lootDrop);
             }
         }
     }

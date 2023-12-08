@@ -1,7 +1,7 @@
 package net.seyarada.pandeloot.flags.effects;
 
 import net.seyarada.pandeloot.PandeLoot;
-import net.seyarada.pandeloot.drops.active.ItemActive;
+import net.seyarada.pandeloot.drops.ActiveDrop;
 import net.seyarada.pandeloot.drops.ItemDropMeta;
 import net.seyarada.pandeloot.flags.FlagEffect;
 import net.seyarada.pandeloot.flags.types.IEntityEvent;
@@ -18,9 +18,9 @@ public class MagnetFlag implements IEntityEvent {
 
 		if(delay>0) {
 			Bukkit.getScheduler().runTaskLater(PandeLoot.inst, () -> {
-				ItemActive.get(item).startMagnetRunnable(meta.getDouble()/10, distanceTrigger, meta.getIntOrDefault("frequency", 1));
+				ActiveDrop.get(item).startMagnetRunnable(meta.getDouble()/10, distanceTrigger, meta.getIntOrDefault("frequency", 1));
 			}, delay);
-		} else ItemActive.get(item).startMagnetRunnable(meta.getDouble()/10, distanceTrigger, meta.getIntOrDefault("frequency", 1));
+		} else ActiveDrop.get(item).startMagnetRunnable(meta.getDouble()/10, distanceTrigger, meta.getIntOrDefault("frequency", 1));
 	}
 
 }

@@ -1,9 +1,11 @@
 package net.seyarada.pandeloot;
 
+import net.md_5.bungee.api.ChatColor;
 import net.seyarada.pandeloot.config.Config;
 import net.seyarada.pandeloot.utils.ColorUtils;
 import org.bukkit.Bukkit;
 
+import java.awt.*;
 import java.util.LinkedList;
 import java.util.logging.Level;
 
