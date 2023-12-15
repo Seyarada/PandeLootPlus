@@ -7,6 +7,7 @@ import net.seyarada.pandeloot.drops.ItemDrop;
 import net.seyarada.pandeloot.drops.LootDrop;
 import net.seyarada.pandeloot.flags.FlagPack;
 import net.seyarada.pandeloot.flags.enums.FlagTrigger;
+import net.seyarada.pandeloot.nms.NMSManager;
 import net.seyarada.pandeloot.utils.ItemUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -74,7 +75,8 @@ public final class LootBag extends LootTable {
             }
 
             if(!isLocked) {
-                if(!data.has(Constants.LOOTBAG_KEY, PersistentDataType.STRING))
+                if(!data.has(Constants.LOOTBAG_KEY, PersistentDataType.STRING) ||
+                        NMSManager.isHiddenFor(i.getEntityId(), e.getPlayer().getUniqueId()))
                     continue;
                 id = data.get(Constants.LOOTBAG_KEY, PersistentDataType.STRING);
             }
