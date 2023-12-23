@@ -22,12 +22,14 @@ public class PlayerPacketListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onItemPickup(EntityPickupItemEvent e) {
-        NMSManager.removeHiddenItem(e.getItem().getEntityId());
+        if(NMSHelper.isOlderThanPlayerTrackEntityEvent())
+            NMSManager.removeHiddenItem(e.getItem().getEntityId());
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onItemDespawn(ItemDespawnEvent e) {
-        NMSManager.removeHiddenItem(e.getEntity().getEntityId());
+        if(NMSHelper.isOlderThanPlayerTrackEntityEvent())
+            NMSManager.removeHiddenItem(e.getEntity().getEntityId());
     }
 
 }

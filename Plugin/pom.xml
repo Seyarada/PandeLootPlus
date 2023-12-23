@@ -117,6 +117,20 @@
     </dependency>
     <dependency>
       <groupId>net.seyarada</groupId>
+      <artifactId>pandeloot-v1_20_2</artifactId>
+      <version>v1_20_2</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>net.seyarada</groupId>
+      <artifactId>pandeloot-v1_20_3</artifactId>
+      <version>v1_20_3</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>net.seyarada</groupId>
       <artifactId>pandeloot-api</artifactId>
       <version>API</version>
       <type>jar</type>
@@ -128,6 +142,15 @@
       <artifactId>spigot-api</artifactId>
       <version>1.17.1-R0.1-SNAPSHOT</version>
       <type>jar</type>
+      <scope>provided</scope>
+      <optional>true</optional>
+    </dependency>
+
+    <!-- Paper API -->
+    <dependency>
+      <groupId>io.papermc.paper</groupId>
+      <artifactId>paper-api</artifactId>
+      <version>1.20.1-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
       <optional>true</optional>
     </dependency>

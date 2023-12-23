@@ -1,5 +1,6 @@
 package net.seyarada.pandeloot.drops;
 
+import io.papermc.paper.event.player.PlayerTrackEntityEvent;
 import net.seyarada.pandeloot.Constants;
 import net.seyarada.pandeloot.PandeLoot;
 import net.seyarada.pandeloot.drops.containers.LootBag;
@@ -106,6 +107,16 @@ public class ActiveDropListener implements Listener {
         ActiveDrop aT = ActiveDrop.get(e.getTarget());
         if(aE!=null || aT!=null) {
             e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerTrackEntityEvent(PlayerTrackEntityEvent event) {
+        ActiveDrop maybeTracked = ActiveDrop.get(event.getEntity());
+        if(maybeTracked==null) return;
+
+        if(maybeTracked.p.getUniqueId() != event.getPlayer().getUniqueId()) {
+            event.setCancelled(true);
         }
     }
 

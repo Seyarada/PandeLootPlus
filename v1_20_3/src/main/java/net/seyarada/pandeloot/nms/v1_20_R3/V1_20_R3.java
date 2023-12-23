@@ -1,28 +1,26 @@
-package net.seyarada.pandeloot.nms.v1_20_R1;
+package net.seyarada.pandeloot.nms.v1_20_R3;
 
 import com.google.gson.JsonObject;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelPipeline;
+import com.mojang.math.Transformation;
 import net.minecraft.advancements.*;
-import net.minecraft.advancements.critereon.SerializationContext;
+import net.minecraft.advancements.critereon.CriterionValidator;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.game.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.entity.Display;
 import net.minecraft.world.entity.EntityType;
 import net.seyarada.pandeloot.nms.NMSMethods;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_20_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_20_R1.entity.CraftTextDisplay;
-import org.bukkit.craftbukkit.v1_20_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_20_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_20_R3.entity.CraftTextDisplay;
+import org.bukkit.craftbukkit.v1_20_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -33,7 +31,7 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class V1_20_R1 implements NMSMethods {
+public class V1_20_R3 implements NMSMethods {
 
     @Override
     public List<Entity> hologram(int duration, Location location, Player player, List<String> text, JavaPlugin plugin) {
@@ -57,12 +55,12 @@ public class V1_20_R1 implements NMSMethods {
             }
             lY += 0.22;
 
-            final Display.TextDisplay displayEntity = new Display.TextDisplay(EntityType.TEXT_DISPLAY, wS);
+            Display.TextDisplay displayEntity = new Display.TextDisplay(EntityType.TEXT_DISPLAY, wS);
             displayEntity.setPos(lX, lY, lZ);
             displayEntity.setCustomName(Component.literal(msg));
             displayEntity.setCustomNameVisible(true);
-            displayEntity.setInterpolationDuration(20);
-            displayEntity.setInterpolationDelay(0);
+            ((CraftTextDisplay) displayEntity.getBukkitEntity()).setInterpolationDuration(20);
+            ((CraftTextDisplay) displayEntity.getBukkitEntity()).setInterpolationDelay(0);
             holograms.add(displayEntity);
             int id = displayEntity.getId();
             ClientboundAddEntityPacket packetPlayOutSpawnEntity = new ClientboundAddEntityPacket(displayEntity, 1);
@@ -93,41 +91,28 @@ public class V1_20_R1 implements NMSMethods {
     @Override
     public void displayToast(Player player, String title, String frame, org.bukkit.inventory.ItemStack icon) {
         ResourceLocation minecraftKey = new ResourceLocation("pandeloot", "notification");
-        HashMap<String, Criterion> criteria = new HashMap<>();
+        HashMap<String, Criterion<?>> criteria = new HashMap<>();
 
-        criteria.put("for_free", new Criterion(new CriterionTriggerInstance() {
-            public ResourceLocation getCriterion() {
-                return new ResourceLocation("minecraft", "impossible");
-            }
-
-            @Override  // Not needed
-            public JsonObject serializeToJson(SerializationContext serializationContext) {
-                return null;
-            }
-        }));
-
-        ArrayList<String[]> fixed = new ArrayList<>();
-        fixed.add(new String[]{"for_free"});
-
-        String[][] requirements = fixed.toArray(new String[fixed.size()][]);
+        criteria.put("for_free", new Criterion(CriteriaTriggers.TICK, criterionValidator -> {}));
 
         MutableComponent chatTitle = Component.translatable(title);
         //IChatBaseComponent chatDescription = new ChatMessage(description);
-        FrameType advancementFrame = FrameType.valueOf(frame.toUpperCase());
+        AdvancementType advancementFrame = AdvancementType.valueOf(frame.toUpperCase());
         net.minecraft.world.item.ItemStack craftIcon = CraftItemStack.asNMSCopy(icon);
 
         DisplayInfo display = new DisplayInfo(craftIcon, chatTitle, null, null, advancementFrame, true, true, true);
-        AdvancementRewards reward = new AdvancementRewards(0, new ResourceLocation[0], new ResourceLocation[0], null);
-        Advancement advancement = new Advancement(minecraftKey, null, display, reward, criteria, requirements, false);
+        AdvancementRewards reward = new AdvancementRewards(0, List.of(new ResourceLocation[0]), List.of(new ResourceLocation[0]), null);
+        Advancement advancement = new Advancement(Optional.empty(), Optional.of(display), reward, criteria, AdvancementRequirements.EMPTY, true);
 
         HashMap<ResourceLocation, AdvancementProgress> progressMap = new HashMap<>();
         AdvancementProgress progress = new AdvancementProgress();
-        progress.update(criteria, requirements);
+        progress.update(AdvancementRequirements.EMPTY);
         progress.getCriterion("for_free").grant(); // NMS: Criterion progress
         progressMap.put(minecraftKey, progress);
+        AdvancementHolder holder = new AdvancementHolder(minecraftKey, advancement);
 
         ClientboundUpdateAdvancementsPacket packet
-                = new ClientboundUpdateAdvancementsPacket(false, Collections.singletonList(advancement), new HashSet<>(), progressMap);
+                = new ClientboundUpdateAdvancementsPacket(false, Collections.singletonList(holder), new HashSet<>(), progressMap);
         ((CraftPlayer) player).getHandle().connection.send(packet);
 
         // Remove the advancement
@@ -139,27 +124,10 @@ public class V1_20_R1 implements NMSMethods {
     }
 
     @Override
-    public void injectPlayer(Player player) {
-        ServerPlayer ply = ((CraftPlayer) player).getHandle();
-        ChannelHandler_V1_20_R1 cdh = new ChannelHandler_V1_20_R1(ply);
-
-        ChannelPipeline pipeline = getConnectionWithReflection(player).channel.pipeline();
-        for (String name : pipeline.toMap().keySet()) {
-            if (pipeline.get(name) instanceof net.minecraft.network.Connection) {
-                pipeline.addBefore(name, "pande_loot_packet_handler", cdh);
-                break;
-            }
-        }
-    }
+    public void injectPlayer(Player player) {}
 
     @Override
-    public void removePlayer(Player player) {
-        Channel channel = getConnectionWithReflection(player).channel;
-        channel.eventLoop().submit(() -> {
-            channel.pipeline().remove("pande_loot_packet_handler");
-            return null;
-        });
-    }
+    public void removePlayer(Player player) {}
 
     @Override
     public void updateHologramPosition(double x, double y, double z, Entity hologram, Player player) {

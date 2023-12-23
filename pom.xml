@@ -22,6 +22,8 @@
     <module>v1_19_2</module>
     <module>v1_19_3</module>
     <module>v1_20</module>
+    <module>v1_20_2</module>
+    <module>v1_20_3</module>
     <module>Plugin</module>
   </modules>
 
@@ -29,6 +31,14 @@
     <repository>
       <id>spigot-repo</id>
       <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+    </repository>
+    <repository>
+      <id>central</id>
+      <url>https://repo.maven.apache.org/maven2</url>
+    </repository>
+    <repository>
+      <id>papermc</id>
+      <url>https://repo.papermc.io/repository/maven-public/</url>
     </repository>
   </repositories>
 
