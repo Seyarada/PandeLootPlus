@@ -1,7 +1,6 @@
 package net.seyarada.pandeloot.nms;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 
 import java.util.List;
 import java.util.Map;
@@ -19,13 +18,9 @@ public final class NMSManager {
     static NMSMethods nms;
 
     static {
-        String packageName = Bukkit.getServer().getClass().getPackage().getName();
-        // Get full package string of CraftServer.
-        // org.bukkit.craftbukkit.version
-        String version = packageName.substring(packageName.lastIndexOf('.') + 1);
-        // Get the last element of the package
-
         try {
+            String version = getNMSVersion();
+
             final Class<?> clazz = Class.forName("net.seyarada.pandeloot.nms." + version + "." + version.toUpperCase());
             // Check if we have a NMSHandler class at that location.
             if (NMSMethods.class.isAssignableFrom(clazz)) { // Make sure it actually implements NMS
@@ -36,6 +31,24 @@ public final class NMSManager {
             e.printStackTrace();
             Bukkit.getLogger().severe(DECORATED_NAME + "Could not find support for this CraftBukkit version");
         }
+    }
+
+    public static String getNMSVersion() {
+        String mcVersion = Bukkit.getBukkitVersion().substring(0, Bukkit.getBukkitVersion().indexOf('-'));
+        return switch (mcVersion){ // blame paper
+            case "1.17.1" -> "v1_17_R1";
+            case "1.18", "1.18.1" -> "v1_18_R1";
+            case "1.18.2" -> "v1_18_R2";
+            case "1.19", "1.19.1", "1.19.2" -> "v1_19_R1";
+            case "1.19.3" -> "v1_19_R2";
+            case "1.19.4" -> "v1_19_R3";
+            case "1.20", "1.20.1" -> "v1_20_R1";
+            case "1.20.2" -> "v1_20_R2";
+            case "1.20.3", "1.20.4" -> "v1_20_R3";
+            case "1.21", "1.21.1" -> "v1_21_R1";
+
+            default -> throw new RuntimeException("Unknown NMS version for MC " + mcVersion);
+        };
     }
 
 
